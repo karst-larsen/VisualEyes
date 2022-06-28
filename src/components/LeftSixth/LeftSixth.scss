@@ -1,0 +1,52 @@
+@keyframes long-box-motion {
+    0% {
+        top: 0;
+    }
+    50% {
+        top: 0.25rem
+    }
+    100% {
+        top: 0;
+    }
+}
+
+.sixth {
+    display: flex;
+    align-items: center;
+    position: relative;
+    left: 0;
+}
+
+.long-box {
+    position: relative;
+    display: flex;
+    &__box-1 {
+        position: relative;
+        // animation: long-box-motion 2.8s ease-in-out infinite;
+        height: 10rem;
+        width: 1.5rem;
+        border: 2px solid black;
+        margin-right: 1rem;
+        z-index: 6;
+    }
+    &__box-2 {
+        position: relative;
+        // animation: long-box-motion 3.7s ease-in-out infinite;
+        height: 12.5rem;
+        width: 1.5rem;
+        border: 2px solid black;
+        margin-right: 1rem;
+        background-color: black;
+        z-index: 7;
+    }
+    &__box-3 {
+        position: relative;
+        // animation: long-box-motion 4.5s ease-in-out infinite;
+        height: 15rem;
+        width: 1.5rem;
+        border: 2px solid black;
+        margin-right: 4rem;
+        background-color: white;
+        z-index: 8;
+    }
+}

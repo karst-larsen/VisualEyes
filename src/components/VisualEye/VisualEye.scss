@@ -1,0 +1,132 @@
+@keyframes spiral {
+    0% {
+        transform: rotate(0deg)
+    }
+    100% {
+        transform: rotate(-180deg)
+    }
+}
+
+@keyframes motion {
+    0% {
+        transform: translateY(0)
+    }
+    50% {
+        transform: translateY(0.5rem)
+    }
+    100% {
+        transform: translateY(0)
+    }
+}
+
+@keyframes spiralMotion {
+    0% {
+        transform: rotate(-180deg)
+    }
+    100% {
+        transform: rotate(180deg)
+    }
+}
+
+@keyframes eyeSpiral {
+    0% {
+        transform: scale(0.5, 0.5)
+    }
+
+    50% {
+        transform: scale(2, 2)
+    }
+
+    100% {
+        transform: scale(0.5, 0.5)
+    }
+}
+
+@keyframes eyePulse {
+    0% {
+        transform: scale(0.8, 0.8)
+    }
+    10% {
+        transform: scale(1.02, 1.02)
+    }
+    
+    75% {
+        transform: scale(1.01, 1.01)
+    }
+    100% {
+        transform: scale(0.8, 0.8)
+    }
+}
+
+// @keyframes blink {
+//     0% {
+//         opacity: 1
+//     }
+//     49% {
+//         opacity: 1
+//     }
+//     50% {
+//         opacity: 0
+//     }
+//     99% {
+//         opacity: 0
+//     }
+// }
+
+.visual-eye {
+    display: flex;
+    position: relative;
+    animation: blink 0.46875s ease-in-out infinite;
+    height: auto;
+    width: 15rem;
+    height: 12rem;
+    margin-top: 3rem;
+    // animation: motion 8s ease-in infinite;
+    &__spiral {
+        position: relative;
+        top: -0.5rem;
+        // right: 2rem;
+        left: 0.7rem;
+        height: 13.75rem;
+        z-index: 1;
+        animation: spiralMotion 8s linear infinite;
+    }
+
+    &__eye {
+        position: relative;
+        right: 13rem;
+        // left: 12rem;
+        top: -0.5rem;
+        height: 14rem;
+        z-index: 3;
+    }
+
+    &__mask {
+        position: relative;
+        right: 22rem;
+        top: -1rem;
+        height: 15rem;
+        z-index: 2;
+        animation: motion 8s ease-in infinite;
+    }
+
+    &__transparent-eye {
+        opacity: 0.05;
+        position: relative;
+        right: 27rem;
+        top: -1.5rem;
+        z-index: 4;
+        height: 15rem;
+        animation: eyeSpiral 7.5s linear infinite;
+    }
+
+    &__transparent-eye--two {
+        opacity: 0.5;
+        position: relative;
+        right: 42.25rem;
+        top: -1.25rem;
+        height: 15rem;
+        z-index: 5;
+        animation: eyePulse 0.46875s linear infinite;
+    }
+}

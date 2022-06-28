@@ -1,0 +1,47 @@
+@keyframes long-box-motion {
+    0% {
+        top: 0;
+    }
+    50% {
+        top: 0.25rem
+    }
+    100% {
+        top: 0;
+    }
+}
+
+.sixth {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-top: 2rem;
+}
+
+.long-box {
+    display: flex;
+    &__box-6 {
+        position: relative;
+        // animation: long-box-motion 3.5s ease-in-out infinite;
+        height: 10rem;
+        width: 1.5rem;
+        border: 2px solid black;
+        margin-left: 1rem;
+    }
+    &__box-5 {
+        position: relative;
+        // animation: long-box-motion 3.8s ease-in-out infinite;
+        height: 12.5rem;
+        width: 1.5rem;
+        border: 2px solid black;
+        margin-left: 1rem;
+    }
+    &__box-4 {
+        position: relative;
+        // animation: long-box-motion 4.5s ease-in-out infinite;
+        // background-color: black;
+        height: 15rem;
+        width: 1.5rem;
+        border: 2px solid black;
+        margin-left: 4rem;
+    }
+}
