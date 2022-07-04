@@ -11,42 +11,64 @@
 }
 
 .sixth {
+    border: 1px solid black;
     display: flex;
     align-items: center;
     position: relative;
     left: 0;
+    margin: 0 5rem 0 5rem ;
 }
 
 .long-box {
     position: relative;
     display: flex;
+    background-color: white;
+    
+    &__box-0 {
+        position: relative;
+        animation: long-box-motion 2.8s ease-in-out infinite;
+        height: 10.5rem;
+        width: 1.5rem;
+        border: 4px solid black;
+        margin-right: 1rem;
+        z-index: 6;
+
+    }
     &__box-1 {
         position: relative;
-        // animation: long-box-motion 2.8s ease-in-out infinite;
-        height: 10rem;
-        width: 1.5rem;
-        border: 2px solid black;
+        animation: long-box-motion 2.8s ease-in-out infinite;
+        height: 15.5rem;
+        width: 2rem;
+        border: 4px solid black;
         margin-right: 1rem;
         z-index: 6;
     }
     &__box-2 {
         position: relative;
-        // animation: long-box-motion 3.7s ease-in-out infinite;
-        height: 12.5rem;
-        width: 1.5rem;
-        border: 2px solid black;
+        animation: long-box-motion 3.7s ease-in-out infinite;
+        height: 20.5rem;
+        width: 2.5rem;
+        border: 4px solid black;
         margin-right: 1rem;
-        background-color: black;
         z-index: 7;
     }
     &__box-3 {
         position: relative;
-        // animation: long-box-motion 4.5s ease-in-out infinite;
-        height: 15rem;
-        width: 1.5rem;
-        border: 2px solid black;
+        animation: long-box-motion 4.5s ease-in-out infinite;
+        height: 25rem;
+        width: 3rem;
+        border: 4px solid black;
         margin-right: 4rem;
         background-color: white;
         z-index: 8;
+    }
+    
+    &--blue {
+        background-color: blue;
+    }
+    
+    &--regular {
+        background-color: white;
+        // transition: all 0s linear;
     }
 }

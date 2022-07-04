@@ -28,50 +28,57 @@
     }
 }
 
+@keyframes spiralMotionActive {
+    0% {
+        transform: rotate(-180deg)
+    }
+    100% {
+        transform: rotate(180deg)
+    }
+}
+
 @keyframes eyeSpiral {
     0% {
-        transform: scale(0.5, 0.5)
+        transform: scale(0.5, 0.5);
+        opacity: 0;
     }
 
     50% {
-        transform: scale(2, 2)
+        transform: scale(2, 2);
+        opacity: 0.05;
+    }
+
+    75% {
+        transform: scale(1.5, 1.5) rotate(0deg);
+        opacity: 0.05;
+        
     }
 
     100% {
-        transform: scale(0.5, 0.5)
+        transform: scale(0.3, 0.3) rotate(180deg);
+        opacity: 0;
     }
 }
 
 @keyframes eyePulse {
     0% {
-        transform: scale(0.8, 0.8)
+        transform: scale(0.8, 0.8);
+        opacity: 0
     }
     10% {
-        transform: scale(1.02, 1.02)
+        transform: scale(1.0, 1.0);
+        opacity: 0
     }
     
     75% {
-        transform: scale(1.01, 1.01)
+        transform: scale(0.9, 0.9);
+        opacity: 0.7;
     }
     100% {
-        transform: scale(0.8, 0.8)
+        transform: scale(0.8, 0.8);
+        opacity: 0;
     }
 }
-
-// @keyframes blink {
-//     0% {
-//         opacity: 1
-//     }
-//     49% {
-//         opacity: 1
-//     }
-//     50% {
-//         opacity: 0
-//     }
-//     99% {
-//         opacity: 0
-//     }
-// }
 
 .visual-eye {
     display: flex;
@@ -80,53 +87,59 @@
     height: auto;
     width: 15rem;
     height: 12rem;
-    margin-top: 3rem;
-    // animation: motion 8s ease-in infinite;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+    animation: motion 8s ease-in infinite;
     &__spiral {
         position: relative;
-        top: -0.5rem;
+        top: -3rem;
         // right: 2rem;
-        left: 0.7rem;
-        height: 13.75rem;
+        left: -2rem;
+        height: 18.75rem;
         z-index: 1;
-        animation: spiralMotion 8s linear infinite;
+        animation: spiralMotion 10s linear infinite forwards;
+
+        &--active {
+            animation: spiralMotion 5s linear infinite;
+        }
     }
 
     &__eye {
         position: relative;
-        right: 13rem;
+        right: 21rem;
         // left: 12rem;
-        top: -0.5rem;
-        height: 14rem;
+        top: -3.5rem;
+        height: 20rem;
         z-index: 3;
     }
 
-    &__mask {
-        position: relative;
-        right: 22rem;
-        top: -1rem;
-        height: 15rem;
-        z-index: 2;
-        animation: motion 8s ease-in infinite;
-    }
-
     &__transparent-eye {
-        opacity: 0.05;
+        visibility: hidden;
+        opacity: 0.01;
         position: relative;
-        right: 27rem;
-        top: -1.5rem;
+        right: 42rem;
+        top: -6.5rem;
         z-index: 4;
-        height: 15rem;
-        animation: eyeSpiral 7.5s linear infinite;
+        height: 24rem;
+
+        &--active {
+            visibility: visible;
+            animation: eyeSpiral 30s ease-in-out infinite;
+        }
     }
 
-    &__transparent-eye--two {
-        opacity: 0.5;
+    &__transparent-eye-pulse {
+        visibility: hidden;
+        opacity: 0.2;
         position: relative;
-        right: 42.25rem;
-        top: -1.25rem;
-        height: 15rem;
+        right: 66rem;
+        top: -4.5rem;
+        height: 22rem;
         z-index: 5;
-        animation: eyePulse 0.46875s linear infinite;
+
+        // &--active {
+        //     visibility: visible;
+        //     animation: eyePulse 0.00875s linear infinite;
+        // }
     }
 }

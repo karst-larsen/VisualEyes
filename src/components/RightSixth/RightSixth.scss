@@ -14,34 +14,50 @@
     display: flex;
     align-items: center;
     position: relative;
-    margin-top: 2rem;
+    // margin-top: 2rem;
 }
 
 .long-box {
     display: flex;
+    &__box-7 {
+        position: relative;
+        animation: long-box-motion 3.5s ease-in-out infinite;
+        height: 10.5rem;
+        width: 1.5rem;
+        border: 4px solid black;
+        margin-left: 1rem;
+    }
     &__box-6 {
         position: relative;
-        // animation: long-box-motion 3.5s ease-in-out infinite;
-        height: 10rem;
-        width: 1.5rem;
-        border: 2px solid black;
+        animation: long-box-motion 3.5s ease-in-out infinite;
+        height: 15.5rem;
+        width: 2rem;
+        border: 4px solid black;
         margin-left: 1rem;
     }
     &__box-5 {
         position: relative;
-        // animation: long-box-motion 3.8s ease-in-out infinite;
-        height: 12.5rem;
-        width: 1.5rem;
-        border: 2px solid black;
+        animation: long-box-motion 3.8s ease-in-out infinite;
+        height: 20.5rem;
+        width: 2.5rem;
+        border: 4px solid black;
         margin-left: 1rem;
     }
     &__box-4 {
         position: relative;
-        // animation: long-box-motion 4.5s ease-in-out infinite;
+        animation: long-box-motion 4.5s ease-in-out infinite;
         // background-color: black;
-        height: 15rem;
-        width: 1.5rem;
-        border: 2px solid black;
+        height: 25rem;
+        width: 3rem;
+        border: 4px solid black;
         margin-left: 4rem;
+    }
+
+    &--blue {
+        background-color: blue;
+    }
+    &--regular {
+        background-color: white;
+        transition: all 0.75s ease-out 0.2s;
     }
 }
