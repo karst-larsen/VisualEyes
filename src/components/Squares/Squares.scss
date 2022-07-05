@@ -30,7 +30,11 @@
     &__square-5, &__square-6, &__square-7, &__square-8 {
         background-color: #EEE;
         padding: 2.5rem;
-        margin: 0 1rem;
+        // margin: 0 1rem;
+
+        @media screen and (min-width: 900px) {
+            margin: 0 1rem;
+        }
     }
 
     &--30 {
@@ -105,16 +109,14 @@
 
 .squares-container {
     margin: 0 auto;
-    max-width: 45%;
+    max-width: 60%;
     flex-wrap: wrap;
     position: relative;
     height: 12rem;
-    // margin-top: 2rem;
     margin-bottom: 1rem;
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    // border: .125rem solid black;
     transition: all 1s;
 
     &--active {
@@ -123,12 +125,12 @@
 
     &--inactive {
         background: white;
-        transition: all 1s;
+        transition: all 2s;
     }
 
     @media screen and (min-width: 1080px) {
-        max-width: 90%;
+        max-width: 100%;
         height: 8rem;
-        transition: all 0.5s;
+        transition: all 0.5s ease-out;
     }
 }

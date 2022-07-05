@@ -100,9 +100,18 @@
     animation: blink 0.46875s ease-in-out infinite;
     width: 15rem;
     height: 12rem;
-    margin-top: 10rem;
-    margin-bottom: 10rem;
-    // animation: motion 8s ease-in-out infinite;
+    // margin-top: 4rem;
+    // margin-bottom: 4rem;
+    transform: scale(0.8, 0.8);
+    transition: all 0.5s;
+    
+    @media screen and (min-width: 900px) {
+        margin-top: 10rem;
+        margin-bottom: 10rem;
+        transform: scale(1, 1);
+        transition: all 0.5s;
+    }
+
     &__spiral {
         position: relative;
         top: -3rem;
@@ -139,7 +148,7 @@
         visibility: hidden;
         opacity: 0.01;
         position: relative;
-        right: 42rem;
+        right: 42.5rem;
         top: -6.5rem;
         z-index: 4;
         height: 24rem;

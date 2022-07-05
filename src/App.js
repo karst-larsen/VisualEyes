@@ -15,9 +15,11 @@ import stopButton from './assets/images/icons/stop-button.svg'
 import kickSound from './assets/sounds/kick/kick (16).wav'
 import clapSound from './assets/sounds/clap/clap(1).wav'
 import hiHatSound from './assets/sounds/hihat/hihat(1).WAV'
-import openHatSound from './assets/sounds/openhat/cymbal(1).wav'
+import openHatSound from './assets/sounds/openhat/hi hat (36).wav'
 import kickIcon from './assets/images/icons/Kick.svg'
 import clapIcon from './assets/images/icons/Clap.svg'
+import hiHatIcon from './assets/images/icons/HiHat.svg'
+import openHatIcon from './assets/images/icons/OpenHat.svg'
 import './assets/fonts/gadimon-font/Gadimon-ZV2rK.ttf'
 
 class App extends Component {
@@ -346,7 +348,7 @@ class App extends Component {
           </ul>
           </div>
           <div className="sequencer__icon-box">
-            <img src={kickIcon} alt='kick icon' className="sequencer__icon" />
+            <img src={hiHatIcon} alt='kick icon' className="sequencer__icon" />
           <ul className="sequencer__drum-map">
             {this.state.hiHatSequencer.map((hiHat, hiHatIndex) => {
               return <li className={`sequencer__note ${hiHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === hiHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.hiHatSequence(e, hiHatIndex, hiHat)}}>•</li>
@@ -354,7 +356,7 @@ class App extends Component {
           </ul>
           </div>
           <div className="sequencer__icon-box">
-            <img src={kickIcon} alt='kick icon' className="sequencer__icon" />
+            <img src={openHatIcon} alt='kick icon' className="sequencer__icon" />
           <ul className="sequencer__drum-map">
             {this.state.openHatSequencer.map((openHat, openHatIndex) => {
               return <li className={`sequencer__note ${openHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === openHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.openHatSequence(e, openHatIndex, openHat)}}>•</li>
@@ -401,6 +403,9 @@ class App extends Component {
           })}
           </ul>
           </div>
+        </div>
+        <div className="footer">
+        <span className="footer__logo">VisualEyes</span>
         </div>
       </div>
     );
