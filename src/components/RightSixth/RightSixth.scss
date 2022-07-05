@@ -25,6 +25,7 @@
         width: 1.5rem;
         // border: 4px solid black;
         margin-left: 1rem;
+        z-index: 10;
     }
     &__box-6 {
         position: relative;
@@ -33,6 +34,7 @@
         width: 2rem;
         // border: 4px solid black;
         margin-left: 1rem;
+        z-index: 11;
     }
     &__box-5 {
         position: relative;
@@ -41,6 +43,7 @@
         width: 2.5rem;
         // border: 4px solid black;
         margin-left: 1rem;
+        z-index: 12;
     }
     &__box-4 {
         position: relative;
@@ -49,7 +52,8 @@
         height: 25rem;
         width: 3rem;
         // border: 4px solid black;
-        margin-left: 4rem;
+        margin-left: 2rem;
+        z-index: 13;
     }
     &--30 {
         background-color: hsl(30, 100%, 55%)

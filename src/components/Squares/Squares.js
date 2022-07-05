@@ -1,6 +1,7 @@
 import './Squares.scss'
 
-function Squares({notes, timeNode}) {
+function Squares({notes, timeNode, claps}) {
+
 
     let testContainer = []
 
@@ -70,7 +71,7 @@ function Squares({notes, timeNode}) {
 
 
     return (
-        <div className="squares-container">
+        <div className={`squares-container`}>
             <div className={`squares squares__square-1 ${filteredContainer[0]?.id === timeNode || filteredContainer[8]?.id === timeNode || filteredContainer[16]?.id === timeNode || filteredContainer[24]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}` : 'squares--regular'}`}></div>
             <div className={`squares squares__square-2 ${filteredContainer[1]?.id === timeNode || filteredContainer[9]?.id === timeNode || filteredContainer[17]?.id === timeNode || filteredContainer[25]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}` : 'squares--regular'}`}></div>
             <div className={`squares squares__square-3 ${filteredContainer[2]?.id === timeNode || filteredContainer[10]?.id === timeNode || filteredContainer[18]?.id === timeNode || filteredContainer[26]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}` : 'squares--regular'}`}></div>

@@ -21,9 +21,9 @@ let synthOne = new Tone.Synth({
     },
     envelope: {
       attack: 0, 
-      decay: 0.1, 
+      decay: 0.4, 
       sustain: 0.1, 
-      release: 0.5
+      release: 0.4
     },
     resonance: 0.5,
     volume: -5

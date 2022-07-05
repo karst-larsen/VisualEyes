@@ -12,7 +12,7 @@ import { drumSequencer, clapSequencer, hiHatSequencer, openHatSequencer } from '
 import pianoIcon from './assets/images/icons/pianoIcon.svg'
 import playButton from './assets/images/icons/play-button.svg'
 import stopButton from './assets/images/icons/stop-button.svg'
-import kickSound from './assets/sounds/kick/kick(1).WAV'
+import kickSound from './assets/sounds/kick/kick (16).wav'
 import clapSound from './assets/sounds/clap/clap(1).wav'
 import hiHatSound from './assets/sounds/hihat/hihat(1).WAV'
 import openHatSound from './assets/sounds/openhat/cymbal(1).wav'
@@ -79,7 +79,7 @@ class App extends Component {
       drumSampler,
       isActive: false,
       tempo: 120,
-      selectedTimeNode: null
+      selectedTimeNode: null,
     }
   }
 
@@ -145,8 +145,8 @@ class App extends Component {
         Tone.getDestination();
         this.configLoop();
         this.setState({
-          started: !this.state.started,
-          playing: !this.state.playing
+          started: true,
+          playing: true
         })
       })
     }
@@ -304,6 +304,7 @@ class App extends Component {
   
   
   render() {
+
     return (
       <div className="App">
         <header className="App-header">
@@ -312,14 +313,14 @@ class App extends Component {
           <span className="App-header__logo">VisualEyes</span>
         </header>
 
-        <section className="visual-container">
+        <section className={`visual-container`}>
           <div className="visual-container__middle">
         <LeftSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode}/>
-        <VisualEye playing={this.state.playing} />
+        <VisualEye playing={this.state.playing} steps={this.state.kickDrumArray} timeNode={this.state.selectedTimeNode} openHatArray={this.state.openHatArray}/>
         <RightSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode}/>
           </div>
           <div className="visual-container__bottom">
-        <Squares notes={this.state.bassSynthArray} timeNode={this.state.selectedTimeNode}/>
+        <Squares notes={this.state.bassSynthArray} timeNode={this.state.selectedTimeNode} claps={this.state.clapArray} />
           </div>
         </section>
         <div className="sequencer">
