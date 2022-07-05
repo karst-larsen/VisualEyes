@@ -1,31 +1,49 @@
+@font-face {
+  font-family: "Gadimon";
+  src: local(Gadimon),
+  url('./assets/fonts/gadimon-font/Gadimon-ZV2rK.ttf') format('truetype');
+  font-weight: 400;
+}
+
+
 * {
   margin: 0;
   box-sizing: border-box;
 }
-
-
 
 .App {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // height: 100vh;
-  // flex-direction: column;
 
   &-header {
+    position: fixed;
+    top: 0;
     display: flex;
     align-items: center;
     border-bottom: 2px solid black;
     width: 100%;
-    height: 5rem;
+    height: 4rem;
     padding: 0 1rem;
     background-color: white;
-    z-index: 5;
+    z-index: 999;
 
     &__button {
       cursor: pointer;
       margin-right: 1rem;
+    }
+
+    &__logo {
+      font-size: 3rem;
+      color: white;
+      text-shadow: 2px 2px #000,
+      -2px -2px #000,
+      3px 3px #000,
+      -1px -3px #000,
+      1px 1px 5px #000;
+      font-family: "Gadimon", sans-serif;
+      font-weight: 400;
     }
   }
 }
@@ -155,11 +173,12 @@
 }
 
 .visual-container {
+  margin-top: 4rem;
   &__middle {
-    border: 1px solid black;
+    // border: 1px solid black;
     display: flex;
     margin: 0 auto;
-    margin-bottom: 3rem;
+    // margin-bottom: 3rem;
     
   }
 

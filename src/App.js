@@ -18,6 +18,7 @@ import hiHatSound from './assets/sounds/hihat/hihat(1).WAV'
 import openHatSound from './assets/sounds/openhat/cymbal(1).wav'
 import kickIcon from './assets/images/icons/Kick.svg'
 import clapIcon from './assets/images/icons/Clap.svg'
+import './assets/fonts/gadimon-font/Gadimon-ZV2rK.ttf'
 
 class App extends Component {
   constructor() {
@@ -77,7 +78,7 @@ class App extends Component {
       sequenceTimer: sequenceTimer(),
       drumSampler,
       isActive: false,
-      tempo: 128,
+      tempo: 120,
       selectedTimeNode: null
     }
   }
@@ -87,7 +88,7 @@ class App extends Component {
     Tone.Transport.scheduleRepeat(time => {
       this.setState({
         selectedTimeNode: Tone.Transport.getTicksAtTime(time) / 48
-      }, () => console.log(this.state.selectedTimeNode))
+      })
     }, "16n")
   }
 
@@ -169,10 +170,6 @@ class App extends Component {
       updatedDrumSequence[kickIndex] = kick.note
       kick.isActive = true
     }
-    
-    console.log(kick.isActive)
-
-    console.log(updatedDrumSequence)
 
     this.setState({
       kickDrumArray: updatedDrumSequence
@@ -312,6 +309,7 @@ class App extends Component {
         <header className="App-header">
           <img src={playButton} alt='play button' className="App-header__button" onMouseDown={this.configPlayButton} />
           <img src={stopButton} alt='stop button' className="App-header__button" onMouseDown={this.stopPlay} />
+          <span className="App-header__logo">VisualEyes</span>
         </header>
 
         <section className="visual-container">
@@ -321,8 +319,7 @@ class App extends Component {
         <RightSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode}/>
           </div>
           <div className="visual-container__bottom">
-        <Squares />
-        <Squares />
+        <Squares notes={this.state.bassSynthArray} timeNode={this.state.selectedTimeNode}/>
           </div>
         </section>
         <div className="sequencer">

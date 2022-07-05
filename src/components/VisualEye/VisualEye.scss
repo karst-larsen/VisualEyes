@@ -97,10 +97,10 @@
         left: -2rem;
         height: 18.75rem;
         z-index: 1;
-        animation: spiralMotion 10s linear infinite forwards;
+        animation: spiralMotion 5s linear infinite forwards;
 
         &--active {
-            animation: spiralMotion 5s linear infinite;
+            // animation: spiralMotion 5s linear infinite;
         }
     }
 
@@ -137,9 +137,9 @@
         height: 22rem;
         z-index: 5;
 
-        // &--active {
-        //     visibility: visible;
-        //     animation: eyePulse 0.00875s linear infinite;
-        // }
+        &--active {
+            visibility: visible;
+            animation: eyePulse 0.00875s linear infinite;
+        }
     }
 }
