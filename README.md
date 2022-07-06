@@ -15,7 +15,7 @@ Visualize your music production with VisualEyes - an interactive step sequencer 
 - Two monophonic sawtooth synthesizer sequencers 🤖
 - Colour-coordinated sequence inputs 🌈
 - Smooth transition between responsive modes 📱
-- Tempo control between 90 - 160 BPM 💿
+- Tempo control between 60 - 180 BPM 💿
 
 ## Run Locally
 

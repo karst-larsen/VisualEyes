@@ -319,7 +319,7 @@ class App extends Component {
           <img src={playButton} alt='play button' className="App-header__button" onMouseDown={this.configPlayButton} />
           <img src={stopButton} alt='stop button' className="App-header__button" onMouseDown={this.stopPlay} />
           <span className="App-header__logo">VisualEyes</span>
-          <div className="App-header__tempo-box"><span className="App-header__tempo">Tempo: {this.state.tempo}</span> <input className="App-header__tempo-range" type="range" min="90" max="160" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></div>
+          <div className="App-header__tempo-box"><span className="App-header__tempo">Tempo: {this.state.tempo}</span> <input className="App-header__tempo-range" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></div>
         </header>
 
         <section className={`visual-container`}>
