@@ -6,18 +6,6 @@ import './VisualEye.scss'
 
 function VisualEye({steps, playing, timeNode, openHatArray})  {
 
-    // state = {
-    //     playing: this.props.playing
-    // }
-
-    // componentDidUpdate(prevProps, prevState){
-    //     if (prevProps.playing !== this.props.playing) {
-    //         this.setState({
-    //             playing: this.props.playing
-    //         })
-    //     }
-    // }
-
     let hatContainer = []
 
     for (let i = 0; i < openHatArray.length; i++) {
@@ -31,9 +19,11 @@ function VisualEye({steps, playing, timeNode, openHatArray})  {
         }
     }
 
-    let filteredHatContainer = hatContainer.filter(step => {
-        return step !== null;
-    })
+    //For future added functionality
+
+    // let filteredHatContainer = hatContainer.filter(step => {
+    //     return step !== null;
+    // })
 
 
     let testContainer = []
@@ -49,13 +39,11 @@ function VisualEye({steps, playing, timeNode, openHatArray})  {
         }
     }
 
-    let filteredContainer = testContainer.filter(steps => {
-        return steps !== null
-    })
+    //For future added functionality
 
-    console.log(timeNode)
-
-
+    // let filteredContainer = testContainer.filter(steps => {
+    //     return steps !== null
+    // })
 
 
     return (

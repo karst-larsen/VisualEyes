@@ -5,6 +5,12 @@
   font-weight: 400;
 }
 
+@font-face {
+  font-family: "Open Sans";
+  src: url('./assets/fonts/open-sans/OpenSans-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 400;
+}
+
 
 * {
   margin: 0;
@@ -22,7 +28,7 @@
     top: 0;
     display: flex;
     align-items: center;
-    border-bottom: 2px solid black;
+    box-shadow: 0px 4px 8px #EEE;
     width: 100%;
     height: 4rem;
     padding: 0 2rem;
@@ -47,6 +53,47 @@
       font-family: "Gadimon", sans-serif;
       font-weight: 400;
     }
+
+    &__tempo-box {
+      position: fixed;
+      text-align: right;
+      bottom: 1.75rem;
+      right: 0rem;
+      height: 3rem;
+      width: 9rem;
+      padding-right: 2rem;
+      background-color: white;
+      border-radius: 25px 0 0 25px;
+      box-shadow: 0px 4px 8px #eee;
+    }
+
+    &__tempo {
+      font-family: 'Open Sans';
+      font-size: 12px;
+      margin-left: 1.75rem;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    &__tempo-range {
+      display: block;
+      -webkit-appearance: none;
+      width: 6rem;
+      height: 0.3rem;
+      background: #EEE;
+      border-radius: 10px;
+      margin-left: 1rem;
+
+    }
+    &__tempo-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background: #999;
+      cursor: pointer;
+    }
   }
 }
 
@@ -60,26 +107,20 @@
   padding: 0;
   &__note {
     width: 100%;
-    // padding: 0.5rem;
-    // margin: 0.25rem;
     border: 1px solid black;
     cursor: pointer;
   
   &--active {
     background-color: black;
     color: white;
+    }
   }
-  }
-  
 }
 
 .sequencer {
-  // align-self: flex-start;
   width: 70%;
   display: flex;
-  // justify-content: center;
   flex-direction: column;
-  margin-left: -3rem;
   margin-bottom: 1rem;
   min-width: 34.5625rem;
   overflow-x: scroll;
@@ -96,8 +137,6 @@
 
   &__time-node {
     display: inline-block;
-    // opacity: 0;
-    // flex-grow: 1;
     background-color: white;
     border: 1px solid black;
     border-radius: 50%;
@@ -106,7 +145,6 @@
     font-size: 2rem;
     text-align: center;
     transition: background-color 0.2s;
-    
     
     &--selected {
       background-color: black;
@@ -141,7 +179,6 @@
     flex-direction: row;
     padding: 0;
     align-items: center;
-    // padding-left: 3.375rem;
     list-style: none;
     width: 100%;
     justify-content: space-around;
@@ -149,7 +186,6 @@
   
   &__icon-box {
     display: flex;
-    // margin-bottom: 1rem;
   }
 
   &__icon {
@@ -188,13 +224,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 800px;
+    margin-top: 2rem;
+    height: 750px;
     
     @media screen and (min-width: 900px) {
       margin: 2rem auto 0 auto;
       flex-direction: row;
-      height: 550px;
+      height: 500px;
       margin-top: 3rem;
+      transition: all 1s ease-in-out;
     }
   
   }

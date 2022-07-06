@@ -97,24 +97,27 @@
 .visual-eye {
     display: flex;
     position: relative;
+    align-items: center;
     animation: blink 0.46875s ease-in-out infinite;
     width: 15rem;
     height: 12rem;
+    top: 2.5rem;
     // margin-top: 4rem;
     // margin-bottom: 4rem;
     transform: scale(0.8, 0.8);
-    transition: all 0.5s;
+    transition: all 1s ease-in-out;
     
     @media screen and (min-width: 900px) {
         margin-top: 10rem;
         margin-bottom: 10rem;
+        top: 4rem;
         transform: scale(1, 1);
-        transition: all 0.5s;
+        transition: all 1s ease-in-out;
     }
 
     &__spiral {
         position: relative;
-        top: -3rem;
+        top: -3.5rem;
         left: -2rem;
         height: 19rem;
         z-index: 1;
@@ -149,7 +152,7 @@
         opacity: 0.01;
         position: relative;
         right: 42.5rem;
-        top: -6.5rem;
+        top: -4rem;
         z-index: 4;
         height: 24rem;
 
@@ -164,7 +167,7 @@
         opacity: 0;
         position: relative;
         right: 66rem;
-        top: -4.5rem;
+        top: -4rem;
         height: 22rem;
         z-index: 5;
 

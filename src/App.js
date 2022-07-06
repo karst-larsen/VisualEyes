@@ -7,7 +7,7 @@ import RightSixth from  './components/RightSixth/RightSixth'
 import Squares from './components/Squares/Squares'
 import { synthOne, synthTwo } from './utils/Synths'
 import { sequenceTimer } from './utils/SequenceTimer'
-import { leadSynthNotes, bassSynthNotes } from './assets/NoteData/SynthOneNotes'
+import { leadSynthNotes, bassSynthNotes } from './utils/SynthOneNotes'
 import { drumSequencer, clapSequencer, hiHatSequencer, openHatSequencer } from './components/DrumSequencer/DrumSequencer'
 import pianoIcon from './assets/images/icons/pianoIcon.svg'
 import playButton from './assets/images/icons/play-button.svg'
@@ -20,7 +20,6 @@ import kickIcon from './assets/images/icons/Kick.svg'
 import clapIcon from './assets/images/icons/Clap.svg'
 import hiHatIcon from './assets/images/icons/HiHat.svg'
 import openHatIcon from './assets/images/icons/OpenHat.svg'
-import './assets/fonts/gadimon-font/Gadimon-ZV2rK.ttf'
 
 class App extends Component {
   constructor() {
@@ -304,6 +303,13 @@ class App extends Component {
     })
   }
   
+  changeTempo = (e) => {
+    this.setState({
+      tempo: e.target.value
+    }, () => {
+      Tone.Transport.bpm.value = this.state.tempo
+    })
+  }
   
   render() {
 
@@ -313,6 +319,7 @@ class App extends Component {
           <img src={playButton} alt='play button' className="App-header__button" onMouseDown={this.configPlayButton} />
           <img src={stopButton} alt='stop button' className="App-header__button" onMouseDown={this.stopPlay} />
           <span className="App-header__logo">VisualEyes</span>
+          <div className="App-header__tempo-box"><span className="App-header__tempo">Tempo: {this.state.tempo}</span> <input className="App-header__tempo-range" type="range" min="90" max="160" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></div>
         </header>
 
         <section className={`visual-container`}>
@@ -328,14 +335,14 @@ class App extends Component {
         <div className="sequencer">
           <ul className="sequencer__time">
             {this.state.sequenceTimer.map((timer, timerIndex) => {
-              return <li className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''} `}>{timer}</li>
+              return <li key={timerIndex} className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''} `}>{timer}</li>
             })}
           </ul>
             <div className="sequencer__icon-box">
             <img src={kickIcon} alt='kick icon' className="sequencer__icon" />
           <ul className="sequencer__drum-map">
             {this.state.kickSequencer.map((kick, kickIndex) => {
-              return <li className={`sequencer__note ${kick.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === kickIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.drumSequence(e, kickIndex, kick)}}>•</li>
+              return <li key={kickIndex} className={`sequencer__note ${kick.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === kickIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.drumSequence(e, kickIndex, kick)}}>•</li>
             })}
           </ul>
           </div>
@@ -343,7 +350,7 @@ class App extends Component {
             <img src={clapIcon} alt='clap icon' className="sequencer__icon" />
           <ul className="sequencer__drum-map">
             {this.state.clapSequencer.map((clap, clapIndex) => {
-              return <li className={`sequencer__note ${clap.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === clapIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.clapSequence(e, clapIndex, clap)}}>•</li>
+              return <li key={clapIndex} className={`sequencer__note ${clap.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === clapIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.clapSequence(e, clapIndex, clap)}}>•</li>
             })}
           </ul>
           </div>
@@ -351,7 +358,7 @@ class App extends Component {
             <img src={hiHatIcon} alt='kick icon' className="sequencer__icon" />
           <ul className="sequencer__drum-map">
             {this.state.hiHatSequencer.map((hiHat, hiHatIndex) => {
-              return <li className={`sequencer__note ${hiHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === hiHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.hiHatSequence(e, hiHatIndex, hiHat)}}>•</li>
+              return <li  key={hiHatIndex} className={`sequencer__note ${hiHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === hiHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.hiHatSequence(e, hiHatIndex, hiHat)}}>•</li>
             })}
           </ul>
           </div>
@@ -359,7 +366,7 @@ class App extends Component {
             <img src={openHatIcon} alt='kick icon' className="sequencer__icon" />
           <ul className="sequencer__drum-map">
             {this.state.openHatSequencer.map((openHat, openHatIndex) => {
-              return <li className={`sequencer__note ${openHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === openHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.openHatSequence(e, openHatIndex, openHat)}}>•</li>
+              return <li  key={openHatIndex} className={`sequencer__note ${openHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === openHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.openHatSequence(e, openHatIndex, openHat)}}>•</li>
             })}
           </ul>
           </div>
@@ -367,7 +374,7 @@ class App extends Component {
         <div className="sequencer">
           <ul className="sequencer__time">
             {this.state.sequenceTimer.map((timer, timerIndex) => {
-              return <li className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''} `}>{timer}</li>
+              return <li key={timerIndex}className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''} `}>{timer}</li>
             })}
           </ul>
           <div className="sequencer__piano-sequence">
@@ -377,6 +384,7 @@ class App extends Component {
               return column.map((noteArray, noteArrayId) => {
                 return noteArray.map((note, noteId) => {
                   return <li 
+                  key={noteId}
                   className={`sequencer__note ${note.isActive ? 'sequencer__note--active' : ''} 
                   ${this.state.selectedTimeNode === columnId ? 'sequencer__note--selected' : ''}`} 
                   onMouseDown={(e) => this.leadArrayMelody(e, column, columnId, noteArrayId, note)}
@@ -390,7 +398,7 @@ class App extends Component {
         <div className="sequencer">
         <ul className="sequencer__time">
             {this.state.sequenceTimer.map((timer, timerIndex) => {
-              return <li className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''}`}>{timer}</li>
+              return <li key={timerIndex} className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''}`}>{timer}</li>
             })}
           </ul>
           <div className="sequencer__piano-sequence">
@@ -398,7 +406,7 @@ class App extends Component {
           <ul className="sequencer__map">        
             {this.state.bassSynthSequencer.map((column, columnId) => {
               return column.map((noteArray, noteArrayId) => {
-                return noteArray.map((note, noteId) => <li className={`sequencer__note ${note.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === columnId ? 'sequencer__note--selected' : ''}`} onMouseDown={(e) => this.bassArrayMelody(e, column, columnId, noteArrayId, note)}>•</li>)
+                return noteArray.map((note, noteId) => <li key={noteId} className={`sequencer__note ${note.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === columnId ? 'sequencer__note--selected' : ''}`} onMouseDown={(e) => this.bassArrayMelody(e, column, columnId, noteArrayId, note)}>•</li>)
               })
           })}
           </ul>
