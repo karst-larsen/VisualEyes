@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+![Logo](https://ibb.co/NCHnyz3)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# VisualEyes
 
-## Available Scripts
+Visualize your music production with VisualEyes - an interactive step sequencer that pairs visual effects to user inputs
 
-In the project directory, you can run:
+## Screenshots
 
-### `npm start`
+![App Screenshot](https://ibb.co/ZB8VN22)
+![App Screenshot](https://ibb.co/Y7FNJBj)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- 4-piece drum sequencer 🥁
+- Two monophonic sawtooth synthesizer sequencers 🤖
+- Colour-coordinated sequence inputs 🌈
+- Smooth transition between responsive modes 📱
+- Tempo control between 90 - 160 BPM 💿
 
-### `npm test`
+## Run Locally
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Clone the project
 
-### `npm run build`
+```bash
+  git clone git@github.com:karst-larsen/VisualEyes.git
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Go to the project directory
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+  cd my-project
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Install dependencies
 
-### `npm run eject`
+```bash
+  npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Start the server
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+  npm run start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Lessons Learned
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+What did you learn while building this project? What challenges did you face and how did you overcome them?
 
-## Learn More
+- During project development, I came across Tone.js, a Web Audio framework that allows for in-browser music utilities such as synthesizers, effects, synchronized clocks, etc. This framework was unfamiliar to me, but in seeing the capabilities of Tone.js, I went through the documentation and learned how to use it to implement it into this project. There was definitely a learning curve and conflicting resources for how to use its methods. After much trial and error, I managed to get the framework to work as intended.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Learning Tone.js really helped me grow as a developer. In the short timeframe that I was given to create this project, I realized that exposure, iteration, and ultimately experimentation are key aspects to learning new frameworks. I hope to delve into new JavaScript frameworks in the near future! 🚀
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## FAQ
 
-### Code Splitting
+#### What is a sequencer?
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+A sequencer is a digital audio recording tool that arranges music loops that the user programs in a "sequence". Each sequence has a series of steps, typically in a multiple of 4 (4, 8, 16, 32, 64, etc.). Sequencers allow for automation and iteration off of previously inputted data.
 
-### Analyzing the Bundle Size
+#### How do I use this thing?
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Once the application is loaded, you'll see hundreds of little "steps" that can be clicked. Once clicked, a step will turn black, meaning that it is active. By pressing the play button on the top left of the screen, the sequencer will begin to loop, and selected notes will play.
 
-### Making a Progressive Web App
+## Feedback
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you have any feedback, please reach out to my channels!
+github.com/karst-larsen
+linkedin.com/karsten-larsen
