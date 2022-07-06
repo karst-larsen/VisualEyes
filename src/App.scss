@@ -1,0 +1,263 @@
+@font-face {
+  font-family: "Gadimon";
+  src: local(Gadimon),
+  url('./assets/fonts/gadimon-font/Gadimon-ZV2rK.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url('./assets/fonts/open-sans/OpenSans-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 400;
+}
+
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &-header {
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 4px 8px #EEE;
+    width: 100%;
+    height: 4rem;
+    padding: 0 2rem;
+    background-color: white;
+    z-index: 999;
+
+    &__button {
+      cursor: pointer;
+      margin-right: 1rem;
+    }
+
+    &__logo {
+      cursor: pointer;
+      margin-left: auto;
+      font-size: 3rem;
+      color: white;
+      text-shadow: 2px 2px #000,
+      -2px -2px #000,
+      3px 3px #000,
+      -1px -3px #000,
+      1px 1px 5px #000;
+      font-family: "Gadimon", sans-serif;
+      font-weight: 400;
+    }
+
+    &__tempo-box {
+      position: fixed;
+      text-align: right;
+      bottom: 1.75rem;
+      right: 0rem;
+      height: 3rem;
+      width: 9rem;
+      padding-right: 2rem;
+      background-color: white;
+      border-radius: 25px 0 0 25px;
+      box-shadow: 0px 4px 8px #eee;
+    }
+
+    &__tempo {
+      font-family: 'Open Sans';
+      font-size: 12px;
+      margin-left: 1.75rem;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    &__tempo-range {
+      display: block;
+      -webkit-appearance: none;
+      width: 6rem;
+      height: 0.3rem;
+      background: #EEE;
+      border-radius: 10px;
+      margin-left: 1rem;
+
+    }
+    &__tempo-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background: #999;
+      cursor: pointer;
+    }
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  list-style: none;
+  height: 50rem;
+  overflow-y: scroll;
+  padding: 0;
+  &__note {
+    width: 100%;
+    border: 1px solid black;
+    cursor: pointer;
+  
+  &--active {
+    background-color: black;
+    color: white;
+    }
+  }
+}
+
+.sequencer {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  min-width: 34.5625rem;
+  overflow-x: scroll;
+  
+  &__time {
+    min-width: 34.5625rem;
+    overflow-x: scroll;
+    display: flex;
+    list-style: none;
+    padding: 0 0 0 2.5rem;
+    justify-content: space-around;
+    margin: 0 0 1rem 0;
+  }
+
+  &__time-node {
+    display: inline-block;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    font-size: 2rem;
+    text-align: center;
+    transition: background-color 0.2s;
+    
+    &--selected {
+      background-color: black;
+    }
+  }
+
+  &__piano-sequence {
+    display: flex;
+    height: 300px;
+    margin-bottom: 1rem;
+  }
+
+  &__piano {
+    height: 100%;
+    margin-right: 0.35rem;
+    position: relative; 
+  }
+
+  &__map {
+    overflow-x: scroll;
+    display: flex;
+    align-items: center;
+    flex-direction: column-reverse;
+    list-style: none;
+    padding: 0 0 2px 0;
+    height: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  &__drum-map {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    align-items: center;
+    list-style: none;
+    width: 100%;
+    justify-content: space-around;
+  }
+  
+  &__icon-box {
+    display: flex;
+  }
+
+  &__icon {
+    width: 2rem;
+    margin-right: 0.5rem;
+  }
+  
+  &__note {
+    user-select: none;
+    text-align: center;
+    padding-bottom: 1rem;
+    cursor: pointer;
+    border: 1px solid black;
+    width: 1rem;
+    height: 1.04rem;
+    margin: 3px 0;
+    border-radius: 8px;
+    padding: 0;
+
+    &--active {
+      background-color: black;
+      color: white;
+    }
+
+    &--selected {
+      background-color: rgba(251, 255, 185, 1);
+      color: black;
+      transition: 0.1s linear;
+    }
+  }
+}
+
+.visual-container {
+  &__middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    height: 750px;
+    
+    @media screen and (min-width: 900px) {
+      margin: 2rem auto 0 auto;
+      flex-direction: row;
+      height: 500px;
+      margin-top: 3rem;
+      transition: all 1s ease-in-out;
+    }
+  
+  }
+
+  &__bottom {
+    margin-bottom: 3rem;
+  }
+}
+
+button {
+  height: 1rem;
+}
+
+.footer {
+  &__logo {
+    font-size: 2rem;
+      color: white;
+      text-shadow: 2px 2px #000,
+      -2px -2px #000,
+      3px 3px #000,
+      -1px -3px #000,
+      1px 1px 5px #000;
+      font-family: "Gadimon", sans-serif;
+      font-weight: 400;
+      padding-bottom: 2rem;
+  }
+}

@@ -28,105 +28,159 @@
     }
 }
 
+@keyframes spiralMotionActive {
+    0% {
+        transform: rotate(-180deg)
+    }
+    100% {
+        transform: rotate(180deg)
+    }
+}
+
 @keyframes eyeSpiral {
     0% {
-        transform: scale(0.5, 0.5)
+        transform: scale(0.5, 0.5);
+        opacity: 0;
     }
 
     50% {
-        transform: scale(2, 2)
+        transform: scale(2, 2);
+        opacity: 0.05;
+    }
+
+    75% {
+        transform: scale(1.5, 1.5) rotate(0deg);
+        opacity: 0.05;
+        
     }
 
     100% {
-        transform: scale(0.5, 0.5)
+        transform: scale(0.3, 0.3) rotate(180deg);
+        opacity: 0;
     }
 }
 
 @keyframes eyePulse {
     0% {
-        transform: scale(0.8, 0.8)
+        transform: scale(0.8, 0.8);
+        opacity: 0
     }
     10% {
-        transform: scale(1.02, 1.02)
+        transform: scale(1.2, 1.2);
+        opacity: 0
     }
     
     75% {
-        transform: scale(1.01, 1.01)
+        transform: scale(0.9, 0.9);
+        opacity: 0.7;
     }
     100% {
-        transform: scale(0.8, 0.8)
+        transform: scale(0.8, 0.8);
+        opacity: 0;
     }
 }
 
-// @keyframes blink {
-//     0% {
-//         opacity: 1
-//     }
-//     49% {
-//         opacity: 1
-//     }
-//     50% {
-//         opacity: 0
-//     }
-//     99% {
-//         opacity: 0
-//     }
-// }
+@keyframes shake {
+    0% {
+        right: 0.1rem
+    }
+
+    50% {
+        right: -0.1rem
+    }
+
+    100% {
+        right: 0.1rem;
+    }
+}
 
 .visual-eye {
     display: flex;
     position: relative;
+    align-items: center;
     animation: blink 0.46875s ease-in-out infinite;
-    height: auto;
     width: 15rem;
     height: 12rem;
-    margin-top: 3rem;
-    // animation: motion 8s ease-in infinite;
+    top: 2.5rem;
+    // margin-top: 4rem;
+    // margin-bottom: 4rem;
+    transform: scale(0.8, 0.8);
+    transition: all 1s ease-in-out;
+    
+    @media screen and (min-width: 900px) {
+        margin-top: 10rem;
+        margin-bottom: 10rem;
+        top: 4rem;
+        transform: scale(1, 1);
+        transition: all 1s ease-in-out;
+    }
+
     &__spiral {
         position: relative;
-        top: -0.5rem;
-        // right: 2rem;
-        left: 0.7rem;
-        height: 13.75rem;
+        top: -3.5rem;
+        left: -2rem;
+        height: 19rem;
         z-index: 1;
-        animation: spiralMotion 8s linear infinite;
+        animation: spiralMotion 8s linear infinite forwards;
+
+        &--active {
+            filter: drop-shadow(1px 1px 1px blue) drop-shadow(-1px -1px 1px red);
+            transition: all 0.3s ease-out;
+        }
+
+        &--inactive {
+            transition: all 5s ease-in;
+        }
+
     }
 
     &__eye {
         position: relative;
-        right: 13rem;
+        right: 21rem;
         // left: 12rem;
-        top: -0.5rem;
-        height: 14rem;
+        top: -3.5rem;
+        height: 20rem;
         z-index: 3;
-    }
 
-    &__mask {
-        position: relative;
-        right: 22rem;
-        top: -1rem;
-        height: 15rem;
-        z-index: 2;
-        animation: motion 8s ease-in infinite;
     }
-
+    &--active {
+        animation: shake 0.005s linear infinite;
+    }
+    
     &__transparent-eye {
-        opacity: 0.05;
+        visibility: hidden;
+        opacity: 0.01;
         position: relative;
-        right: 27rem;
-        top: -1.5rem;
+        right: 42.5rem;
+        top: -4rem;
         z-index: 4;
-        height: 15rem;
-        animation: eyeSpiral 7.5s linear infinite;
+        height: 24rem;
+
+        &--active {
+            visibility: visible;
+            animation: eyeSpiral 30s ease-in-out infinite;
+        }
     }
 
-    &__transparent-eye--two {
-        opacity: 0.5;
+    &__transparent-eye-pulse {
+        // visibility: hidden;
+        opacity: 0;
         position: relative;
-        right: 42.25rem;
-        top: -1.25rem;
-        height: 15rem;
+        right: 66rem;
+        top: -4rem;
+        height: 22rem;
         z-index: 5;
-        animation: eyePulse 0.46875s linear infinite;
+
+        &--active {
+            visibility: visible;
+            opacity: 0.05;
+            animation: eyePulse 0.00875s ease-in-out infinite;
+            transition: all 0.0875s linear;
+        }
+
+        &--inactive {
+            opacity: 0;
+            transition: all 0.0875s linear;
+        }
     }
 }

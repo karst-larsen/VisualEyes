@@ -11,7 +11,6 @@
         transform: scale(1, 1);
         background-color: #EEE;
     }
-    
 
     98% {
         background-color: #EEE;
@@ -22,48 +21,124 @@
         background-color: #F259FF;
         transform: scale(1.2, 1.2)
     }
-
-
 }
 
 .squares {
-    position: absolute;
-    &__square-1, &__square-2, &__square-3, &__square-4 {
-        // width: 80px;
-        // height: 80px;
+    height: 4rem;
+    // margin: 0 1rem;
+    &__square-1, &__square-2, &__square-3, &__square-4,
+    &__square-5, &__square-6, &__square-7, &__square-8 {
         background-color: #EEE;
-        padding: 2rem;
-    }
-    &__square-1 {
-        left: 5%;
-        animation: pulse 1.875s ease-in-out infinite;
-    }
-    &__square-2 {
-        left: 30%;
-        animation: pulse 1.875s ease-in-out infinite;
-        animation-delay: 0.46875s
+        padding: 2.4rem;
+        margin: 0 1rem;
+
+        @media screen and (min-width: 900px) {
+            margin: 0 1rem;
+        }
     }
 
-    &__square-3 {
-        left: 55%;
-        animation: pulse 1.875s ease-in-out infinite;
-        animation-delay: 0.9375s;
+    &--30 {
+        background-color: hsl(25, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(25, 100%, 45%);  
     }
-    &__square-4 {
-        left: 80%;
-        animation: pulse 1.875s ease-in-out infinite;
-        animation-delay: 1.40625s;
+    
+    &--60 {
+        background-color: hsl(55, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(55, 100%, 45%);  
     }
+    
+    &--90 {
+        background-color: hsl(85, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(85, 100%, 45%); 
+    }
+    &--120 {
+        background-color: hsl(115, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(115, 100%, 45%)
+    }
+    &--150 {
+        background-color: hsl(145, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(145, 100%, 45%)
+    }
+    &--180 {
+        background-color: hsl(175, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(175, 100%, 45%)
+    }
+    &--210 {
+        background-color: hsl(205, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(205, 100%, 45%)
+    }
+    &--240 {
+        background-color: hsl(235, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(235, 100%, 45%)
+    }
+    &--270 {
+        background-color: hsl(265, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(265, 100%, 45%)
+    }
+    &--300 {
+        background-color: hsl(295, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(295, 100%, 45%)
+    }
+    &--330 {
+        background-color: hsl(325, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(325, 100%, 45%)
+    }
+    &--359 {
+        background-color: hsl(355, 100%, 45%);
+        transform: scale(1.1, 1.1);
+        box-shadow: 0px 0px 5px hsl(355, 100%, 45%)
+    }
+
+    &--regular {
+        background-color: #EEE;
+        transition: all 0.1s ease-out 0.1s;
+    }
+    
 }
 
 .squares-container {
     margin: 0 auto;
-    max-width: 25rem;
+    max-width: 90%;
+    flex-wrap: wrap;
     position: relative;
-    height: 80px;
-    margin-top: 48px;
+    height: 12rem;
+    margin-bottom: 1rem;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     width: 100%;
-    // border: .125rem solid black;
+    // transition: all 1s;
+
+    &--active {
+        background: linear-gradient(90deg, rgba(238,238,238,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 50%, rgba(238,238,238,1) 100%);
+    }
+
+    &--inactive {
+        background: white;
+        transition: all 2s;
+    }
+
+    @media screen and (min-width: 630px) {
+        max-width: 70%;
+    }
+
+    @media screen and (min-width: 900px) {
+        max-width: 50%;
+    }
+
+    @media screen and (min-width: 1080px) {
+        max-width: 100%;
+        height: 8rem;
+        transition: all 0.5s ease-out;
+    }
 }
