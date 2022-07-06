@@ -64,5 +64,6 @@ Once the application is loaded, you'll see hundreds of little "steps" that can b
 ## Feedback
 
 If you have any feedback, please reach out to my channels!
-github.com/karst-larsen
-linkedin.com/karsten-larsen
+
+- github.com/karst-larsen
+- linkedin.com/karsten-larsen
