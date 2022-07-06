@@ -17,6 +17,12 @@ Visualize your music production with VisualEyes - an interactive step sequencer 
 - Smooth transition between responsive modes 📱
 - Tempo control between 60 - 180 BPM 💿
 
+## Run Live
+
+Check out my app on Vercel!
+
+https://visual-eyes-pi.vercel.app/
+
 ## Run Locally
 
 Clone the project
