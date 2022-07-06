@@ -1,4 +1,4 @@
-![Logo](https://ibb.co/NCHnyz3)
+![Logo](https://i.ibb.co/7C6N1Fz/Visual-Eyes-Banner.png)
 
 # VisualEyes
 
@@ -6,8 +6,8 @@ Visualize your music production with VisualEyes - an interactive step sequencer 
 
 ## Screenshots
 
-![App Screenshot](https://ibb.co/ZB8VN22)
-![App Screenshot](https://ibb.co/Y7FNJBj)
+![App Screenshot](https://i.ibb.co/5r862KK/Visual-Eyes-SS1.png)
+![App Screenshot](https://i.ibb.co/yncNKFs/Visual-Eyes-SS2.png)
 
 ## Features
 
@@ -47,7 +47,7 @@ Start the server
 
 What did you learn while building this project? What challenges did you face and how did you overcome them?
 
-- During project development, I came across Tone.js, a Web Audio framework that allows for in-browser music utilities such as synthesizers, effects, synchronized clocks, etc. This framework was unfamiliar to me, but in seeing the capabilities of Tone.js, I went through the documentation and learned how to use it to implement it into this project. There was definitely a learning curve and conflicting resources for how to use its methods. After much trial and error, I managed to get the framework to work as intended.
+During project development, I came across Tone.js, a Web Audio framework that allows for in-browser music utilities such as synthesizers, effects, synchronized clocks, etc. This framework was unfamiliar to me, but in seeing the capabilities of Tone.js, I went through the documentation and learned how to use it to implement it into this project. There was definitely a learning curve and conflicting resources for how to use its methods. After much trial and error, I managed to get the framework to work as intended.
 
 Learning Tone.js really helped me grow as a developer. In the short timeframe that I was given to create this project, I realized that exposure, iteration, and ultimately experimentation are key aspects to learning new frameworks. I hope to delve into new JavaScript frameworks in the near future! 🚀
 
