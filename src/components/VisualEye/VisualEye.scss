@@ -102,8 +102,6 @@
     width: 15rem;
     height: 12rem;
     top: 2.5rem;
-    // margin-top: 4rem;
-    // margin-bottom: 4rem;
     transform: scale(0.8, 0.8);
     transition: all 1s ease-in-out;
     
@@ -137,7 +135,6 @@
     &__eye {
         position: relative;
         right: 21rem;
-        // left: 12rem;
         top: -3.5rem;
         height: 20rem;
         z-index: 3;
@@ -163,7 +160,6 @@
     }
 
     &__transparent-eye-pulse {
-        // visibility: hidden;
         opacity: 0;
         position: relative;
         right: 66rem;

@@ -24,15 +24,16 @@
 }
 
 .squares {
+    
+    
     height: 4rem;
-    // margin: 0 1rem;
     &__square-1, &__square-2, &__square-3, &__square-4,
     &__square-5, &__square-6, &__square-7, &__square-8 {
         background-color: #EEE;
         padding: 2.4rem;
-        margin: 0 1rem;
+        margin: 0 0.5rem;
 
-        @media screen and (min-width: 900px) {
+        @media screen and (min-width: 660px) {
             margin: 0 1rem;
         }
     }
@@ -108,16 +109,19 @@
 }
 
 .squares-container {
+    transform: scale(0.8, 0.8);
+    
     margin: 0 auto;
-    max-width: 90%;
+    margin-top: -7rem;
+    max-width: 100%;
     flex-wrap: wrap;
     position: relative;
     height: 12rem;
     margin-bottom: 1rem;
     display: flex;
     justify-content: space-evenly;
-    width: 100%;
-    // transition: all 1s;
+    // width: 100%;
+    transition: all 1s ease-in-out;
 
     &--active {
         background: linear-gradient(90deg, rgba(238,238,238,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 50%, rgba(238,238,238,1) 100%);
@@ -128,8 +132,11 @@
         transition: all 2s;
     }
 
-    @media screen and (min-width: 630px) {
+    @media screen and (min-width: 660px) {
+        transform: scale(1, 1);
         max-width: 70%;
+        margin-top: 0;
+        transition: all 1s ease-in-out
     }
 
     @media screen and (min-width: 900px) {
