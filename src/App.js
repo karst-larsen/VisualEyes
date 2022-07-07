@@ -20,6 +20,7 @@ import kickIcon from './assets/images/icons/Kick.svg'
 import clapIcon from './assets/images/icons/Clap.svg'
 import hiHatIcon from './assets/images/icons/HiHat.svg'
 import openHatIcon from './assets/images/icons/OpenHat.svg'
+import settingsIcon from './assets/images/icons/SettingsIcon.svg'
 
 class App extends Component {
   constructor() {
@@ -37,6 +38,8 @@ class App extends Component {
       hiHat: hiHatSound,
       openHat: openHatSound,
     }).toDestination()
+
+    
 
     let kickSequence = new Tone.Sequence((time, note) => {
       this.state.drumSampler.player(note).start(time)
@@ -81,6 +84,25 @@ class App extends Component {
       isActive: false,
       tempo: 120,
       selectedTimeNode: null,
+      synthOneADSR: {
+        attack: 0,
+        decay: 0.1, 
+        sustain: 0.1,
+        release: 1
+      },
+      synthOneOscillator: {
+        type: 'sawtooth'
+      },
+      synthTwoOscillator: {
+        type: 'sawtooth'
+      },
+      synthTwoADSR: {
+        attack: 0,
+        decay: 0.1, 
+        sustain: 0.1,
+        release: 1
+      },
+      isSettingsOpen: false
     }
   }
 
@@ -310,19 +332,89 @@ class App extends Component {
       Tone.Transport.bpm.value = this.state.tempo
     })
   }
+
+  editEnvelope = (e, synth) => {
+    if (synth === 'synthOne') {
+
+      let updatedSynthOneADSR = {
+        ...this.state.synthOneADSR
+      }
+
+      updatedSynthOneADSR[e.target.name] = Number(e.target.value);
+
+      this.setState({
+        synthOneADSR: updatedSynthOneADSR
+      })
+    } else if (synth === 'synthTwo') {
+
+      let updatedSynthTwoADSR = {
+        ...this.state.synthTwoADSR
+      }
+
+      updatedSynthTwoADSR[e.target.name] = Number(e.target.value)
+
+      this.setState({
+        synthTwoADSR: updatedSynthTwoADSR
+    })
+  }}
+
+  openSettings = () => {
+    this.setState({
+      isSettingsOpen: !this.state.isSettingsOpen
+    })
+  }
+
+  changeOscillator = (type) => {
+    let updatedOscillator = {
+      type: `${type}`
+    }
+    this.setState({
+      synthOneOscillator: updatedOscillator
+    },() => {
+      synthOne.set({
+        oscillator: this.state.synthOneOscillator
+      })
+    })
+  }
   
   render() {
+    console.log(this.state.synthOneADSR)
+    synthOne.set({
+      envelope: this.state.synthOneADSR,
+      ocsillator: this.state.synthOneOscillator
+    })
+    synthTwo.set({
+      envelope: this.state.synthTwoADSR,
+      oscillator: this.state.synthTwoOscillator
+    })
 
     return (
       <div className="App">
         <header className="App-header">
           <img src={playButton} alt='play button' className="App-header__button" onMouseDown={this.configPlayButton} />
           <img src={stopButton} alt='stop button' className="App-header__button" onMouseDown={this.stopPlay} />
+          {/* <button onClick={() => this.changeOscillator('sawtooth')}>Square</button> */}
           <span className="App-header__logo">VisualEyes</span>
-          <div className="App-header__tempo-box"><span className="App-header__tempo">Tempo: {this.state.tempo}</span> <input className="App-header__tempo-range" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></div>
+          {/* <div className="App-header__tempo-box"><span className="App-header__tempo">Tempo: {this.state.tempo}</span> <input className="App-header__tempo-range" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></div> */}
         </header>
 
         <section className={`visual-container`}>
+          <div className={`visual-container__settings ${this.state.isSettingsOpen ? 'visual-container__settings--open' : ''}`}>
+            <div onClick={this.openSettings} className={`visual-container__settings-button ${this.state.isSettingsOpen ? 'visual-container__settings-button--open' : ''}`}>
+              <img src={settingsIcon} alt="settings" className="visual-container__settings-icon" />
+            </div>
+            <label className={`visual-container__label ${ this.state.isSettingsOpen ? 'visual-container__label--active' : ''}`}>Lead Synth Release<input className="visual-container__settings-input" type="range" min="0.1" max="10" step="0.1" value={this.state.synthOneADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthOne')} /></label>
+            <label className={`visual-container__label ${ this.state.isSettingsOpen ? 'visual-container__label--active' : ''}`}>Bass Synth Release<input className="visual-container__settings-input" type="range" min="0.1" max="10" step="0.1" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} /></label>
+            <label className={`visual-container__label ${ this.state.isSettingsOpen ? 'visual-container__label--active' : ''}`}> Tempo: {this.state.tempo}
+            <input className="visual-container__settings-input" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></label>
+            {/* <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthOne')} /> */}
+            {/* <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthOneADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+            {/* <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthOne')} /> */}
+            {/* <input type="range" min="1" max="10" value={this.state.synthTwoADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, synthTwo)} /> */}
+            {/* <input type="range" min="1" max="10" value={this.state.synthTwoADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+            <input type="range" min="1" max="10" value={this.state.synthTwoADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+            <input type="range" min="1" max="10" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} /> */}
+          </div>
           <div className="visual-container__middle">
         <LeftSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode}/>
         <VisualEye playing={this.state.playing} steps={this.state.kickDrumArray} timeNode={this.state.selectedTimeNode} openHatArray={this.state.openHatArray}/>
