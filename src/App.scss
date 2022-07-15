@@ -263,22 +263,24 @@
   }
   &__settings-input {
     -webkit-appearance: none;
-      width: 90%;
-      height: 0.3rem;
-      margin: 1rem 0;
-      background: #EEE;
+    // border: 1px solid black;
+    transform: rotateZ(-90deg);
+    width: 90%;
+    height: 0.3rem;
+    margin: 1rem 0;
+    background: #EEE;
     cursor: pointer;
   }
   &__settings-input::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
+    width: 0.5rem;
+    height: 1.5rem;
+    // border-radius: 50%;
     background: #999;
     cursor: pointer;
   }
-
+  
   &__settings-button {
     z-index: 50;
     display: flex;
@@ -301,22 +303,50 @@
       // transition: all 0.5s ease-in-out;
     }
   }
-
+  
   &__settings-icon {
     width: 70%;
     height: 100%;
     padding: 1rem 0.5rem;
-
+    
     &:hover {
       animation: rotate 2s linear infinite;
-
+      
     }
   }
 
+  &__envelopes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin: 0 auto;
+  }
+  
+  &__envelope-label {
+    font-family: "Open Sans";
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  &__envelope {
+    width: 25%;
+    text-align: center;
+  }
+  
+  &__ADSR {
+      display: flex;
+      width: 80%;
+      margin-bottom: 5rem;
+  }
+  
   &__label {
     display: none;
     font-family: 'Open Sans';
     flex-direction: column;
+    // border: 1px solid black;
     align-items: center;
     text-align: left;
     width: 100%;

@@ -26,10 +26,10 @@ class App extends Component {
   constructor() {
     super(); 
     const sequenceOne = new Tone.Sequence((time, note) => {
-      synthOne.triggerAttackRelease(note, 0, time)
+      synthOne.triggerAttackRelease(note, 0.1, time)
     }, [], '16n')
     const sequenceTwo = new Tone.Sequence((time, note) => {
-      synthTwo.triggerAttackRelease(note, 0, time)
+      synthTwo.triggerAttackRelease(note, 0.1, time)
     }, [], '16n')
 
     const drumSampler = new Tone.Players({
@@ -38,8 +38,6 @@ class App extends Component {
       hiHat: hiHatSound,
       openHat: openHatSound,
     }).toDestination()
-
-    
 
     let kickSequence = new Tone.Sequence((time, note) => {
       this.state.drumSampler.player(note).start(time)
@@ -84,14 +82,14 @@ class App extends Component {
       isActive: false,
       tempo: 120,
       selectedTimeNode: null,
+      synthOneOscillator: {
+        type: 'sawtooth',
+      },
       synthOneADSR: {
         attack: 0,
-        decay: 0.1, 
-        sustain: 0.1,
+        decay: 0.5, 
+        sustain: 0.5,
         release: 1
-      },
-      synthOneOscillator: {
-        type: 'sawtooth'
       },
       synthTwoOscillator: {
         type: 'sawtooth'
@@ -130,7 +128,6 @@ class App extends Component {
   }
 
   //Starts loop sequence
-
   startLoop = (sequence) => {
     sequence.start()
   }
@@ -159,8 +156,6 @@ class App extends Component {
 
     this.timerSequence();
   } 
-
-
 
   configPlayButton = () => {
     if (!this.state.started) {
@@ -214,7 +209,6 @@ class App extends Component {
       clap.isActive = true
     }
     
-
     this.setState({
       clapArray: updatedDrumSequence
     }, () => {
@@ -280,7 +274,6 @@ class App extends Component {
         updatedLeadArray[columnId] = note.note
       }
       
-  
       this.setState({
         leadSynthArray: updatedLeadArray
       }, () => {
@@ -289,7 +282,6 @@ class App extends Component {
         })
       })
       this.handleNoteClick(note, column)
-  
   }
 
   bassArrayMelody = (e, column, columnId, noteArrayId, note) => {
@@ -344,6 +336,8 @@ class App extends Component {
 
       this.setState({
         synthOneADSR: updatedSynthOneADSR
+      }, () => {
+        console.log(updatedSynthOneADSR.attack)
       })
     } else if (synth === 'synthTwo') {
 
@@ -378,14 +372,13 @@ class App extends Component {
   }
   
   render() {
-    console.log(this.state.synthOneADSR)
     synthOne.set({
+      oscillator: this.state.synthOneOscillator,
       envelope: this.state.synthOneADSR,
-      ocsillator: this.state.synthOneOscillator
     })
     synthTwo.set({
+      oscillator: this.state.synthTwoOscillator,
       envelope: this.state.synthTwoADSR,
-      oscillator: this.state.synthTwoOscillator
     })
 
     return (
@@ -403,22 +396,34 @@ class App extends Component {
             <div onClick={this.openSettings} className={`visual-container__settings-button ${this.state.isSettingsOpen ? 'visual-container__settings-button--open' : ''}`}>
               <img src={settingsIcon} alt="settings" className="visual-container__settings-icon" />
             </div>
-            <label className={`visual-container__label ${ this.state.isSettingsOpen ? 'visual-container__label--active' : ''}`}>Lead Synth Release<input className="visual-container__settings-input" type="range" min="0.1" max="10" step="0.1" value={this.state.synthOneADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthOne')} /></label>
-            <label className={`visual-container__label ${ this.state.isSettingsOpen ? 'visual-container__label--active' : ''}`}>Bass Synth Release<input className="visual-container__settings-input" type="range" min="0.1" max="10" step="0.1" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} /></label>
-            <label className={`visual-container__label ${ this.state.isSettingsOpen ? 'visual-container__label--active' : ''}`}> Tempo: {this.state.tempo}
-            <input className="visual-container__settings-input" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></label>
-            {/* <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthOne')} /> */}
-            {/* <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthOneADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-            {/* <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthOne')} /> */}
-            {/* <input type="range" min="1" max="10" value={this.state.synthTwoADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, synthTwo)} /> */}
-            {/* <input type="range" min="1" max="10" value={this.state.synthTwoADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-            <input type="range" min="1" max="10" value={this.state.synthTwoADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-            <input type="range" min="1" max="10" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} /> */}
+              {/* <div className="visual-container__envelopes">
+                <div className="visual-container__envelope-label">
+                  <span className="visual-container__envelope">A</span>
+                  <span className="visual-container__envelope">D</span>
+                  <span className="visual-container__envelope">S</span>
+                  <span className="visual-container__envelope">R</span>
+                </div>
+                <div className="visual-container__ADSR">
+                  <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthOneADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                  <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                  <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                  <input className="visual-container__settings-input" type="range" min="0.1" max="3" step="0.1" value={this.state.synthOneADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                </div>
+              </div> */}
+            <div className="visual-container__ADSR">
+           <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthTwoADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+           <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthTwoADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+           <input className="visual-container__settings-input" type="range" min="0.1" max="1" step ="0.1" value={this.state.synthTwoADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+           <input className="visual-container__settings-input" type="range" min="0.1" max="3" step="0.1" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+           </div>
+            {/* <label className={`visual-container__label ${ this.state.isSettingsOpen ? 'visual-container__label--active' : ''}`}> Tempo: {this.state.tempo}
+            <input className="visual-container__settings-input" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></label> */}
+            {/* <input type="range" min="1" max="10" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} /> */}
           </div>
           <div className="visual-container__middle">
-        <LeftSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode}/>
+        <LeftSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack}/>
         <VisualEye playing={this.state.playing} steps={this.state.kickDrumArray} timeNode={this.state.selectedTimeNode} openHatArray={this.state.openHatArray}/>
-        <RightSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode}/>
+        <RightSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack} />
           </div>
           <div className="visual-container__bottom">
         <Squares notes={this.state.bassSynthArray} timeNode={this.state.selectedTimeNode} claps={this.state.clapArray} />
@@ -486,6 +491,20 @@ class App extends Component {
             })}
           </ul>
           </div>
+          <div className="visual-container__envelopes">
+                <div className="visual-container__envelope-label">
+                  <span className="visual-container__envelope">A</span>
+                  <span className="visual-container__envelope">D</span>
+                  <span className="visual-container__envelope">S</span>
+                  <span className="visual-container__envelope">R</span>
+                </div>
+                <div className="visual-container__ADSR">
+                  <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthOneADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                  <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                  <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                  <input className="visual-container__settings-input" type="range" min="0.1" max="3" step="0.1" value={this.state.synthOneADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                </div>
+              </div>
         </div>
         <div className="sequencer">
         <ul className="sequencer__time">
