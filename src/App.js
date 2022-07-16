@@ -426,7 +426,7 @@ class App extends Component {
         <RightSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack} />
           </div>
           <div className="visual-container__bottom">
-        <Squares notes={this.state.bassSynthArray} timeNode={this.state.selectedTimeNode} claps={this.state.clapArray} />
+        <Squares notes={this.state.bassSynthArray} timeNode={this.state.selectedTimeNode} bassRelease={this.state.synthTwoADSR.release} bassAttack={this.state.synthTwoADSR.attack} />
           </div>
         </section>
         <div className="sequencer">
@@ -522,6 +522,20 @@ class App extends Component {
           })}
           </ul>
           </div>
+          <div className="visual-container__envelopes">
+                <div className="visual-container__envelope-label">
+                  <span className="visual-container__envelope">A</span>
+                  <span className="visual-container__envelope">D</span>
+                  <span className="visual-container__envelope">S</span>
+                  <span className="visual-container__envelope">R</span>
+                </div>
+          <div className="visual-container__ADSR">
+           <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthTwoADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+           <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthTwoADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+           <input className="visual-container__settings-input" type="range" min="0.1" max="1" step ="0.1" value={this.state.synthTwoADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+           <input className="visual-container__settings-input" type="range" min="0.1" max="5" step="0.1" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+           </div>
+           </div>
         </div>
         <div className="footer">
         <span className="footer__logo">VisualEyes</span>
