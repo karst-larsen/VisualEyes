@@ -1,6 +1,27 @@
 import './LeftSixth.scss'
 
-function LeftSixth({notes, timeNode}) {
+function LeftSixth({notes, timeNode, leadRelease, leadAttack}) {
+
+    let releaseSpeed = ''
+
+    if (leadRelease < 0.5) {
+        releaseSpeed = '--short-release'
+     } else if (leadRelease >= 0.5 && leadRelease < 2) {
+         releaseSpeed = '--medium-release'
+     } else {
+         releaseSpeed = '--long-release'
+     }
+ 
+
+   let attackSpeed = ''
+
+    if (leadAttack < 0.03) {
+        attackSpeed = ''
+    } else if (leadAttack >= 0.03 && leadAttack < 0.07) {
+        attackSpeed = '--medium-attack'
+    } else {
+        attackSpeed = '--high-attack'
+    }
 
     let testContainer = []
 
@@ -71,10 +92,14 @@ function LeftSixth({notes, timeNode}) {
 
      return (
         <div className="sixth">
-            <div className={`long-box__box-0 ${filteredContainer[0]?.id === timeNode || filteredContainer[8]?.id === timeNode || filteredContainer[16]?.id === timeNode || filteredContainer[24]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}` : 'long-box--regular'}`}></div>
-            <div className={`long-box__box-1 ${filteredContainer[1]?.id === timeNode || filteredContainer[9]?.id === timeNode || filteredContainer[17]?.id === timeNode || filteredContainer[25]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}` : 'long-box--regular'}`}></div>
-            <div className={`long-box__box-2 ${filteredContainer[2]?.id === timeNode || filteredContainer[10]?.id === timeNode || filteredContainer[18]?.id === timeNode || filteredContainer[26]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}` : 'long-box--regular'}`}></div>
-            <div className={`long-box__box-3 ${filteredContainer[3]?.id === timeNode || filteredContainer[11]?.id === timeNode || filteredContainer[19]?.id === timeNode || filteredContainer[27]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}` : 'long-box--regular'}`}></div>
+            <div className={`long-box__box-0 ${filteredContainer[0]?.id === timeNode || filteredContainer[8]?.id === timeNode || filteredContainer[16]?.id === timeNode || filteredContainer[24]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}`: 
+            `long-box${releaseSpeed}`}`}></div>
+            <div className={`long-box__box-1 ${filteredContainer[1]?.id === timeNode || filteredContainer[9]?.id === timeNode || filteredContainer[17]?.id === timeNode || filteredContainer[25]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}`: 
+            `long-box${releaseSpeed}`}`}></div>
+            <div className={`long-box__box-2 ${filteredContainer[2]?.id === timeNode || filteredContainer[10]?.id === timeNode || filteredContainer[18]?.id === timeNode || filteredContainer[26]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}`: 
+            `long-box${releaseSpeed}`}`}></div>
+            <div className={`long-box__box-3 ${filteredContainer[3]?.id === timeNode || filteredContainer[11]?.id === timeNode || filteredContainer[19]?.id === timeNode || filteredContainer[27]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}`: 
+            `long-box${releaseSpeed}`}`}></div>
             
         </div>
     );

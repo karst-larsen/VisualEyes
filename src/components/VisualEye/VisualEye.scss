@@ -119,7 +119,7 @@
         left: -2rem;
         height: 19rem;
         z-index: 1;
-        animation: spiralMotion 8s linear infinite forwards;
+        animation: spiralMotion 12s linear infinite forwards;
 
         &--active {
             filter: drop-shadow(1px 1px 1px blue) drop-shadow(-1px -1px 1px red);

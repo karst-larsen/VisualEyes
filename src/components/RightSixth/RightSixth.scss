@@ -33,17 +33,15 @@
         animation: long-box-motion 3.5s ease-in-out infinite;
         height: 10.5rem;
         width: 1.5rem;
-        // border: 4px solid black;
         margin-left: 1rem;
         z-index: 10;
-        animation: idle 0.75s ease-in-out 0.8s;
+        animation: idle 0.75s ease-in-out 0.7s;
     }
     &__box-6 {
         position: relative;
         animation: long-box-motion 3.5s ease-in-out infinite;
         height: 15.5rem;
         width: 2rem;
-        // border: 4px solid black;
         margin-left: 1rem;
         z-index: 11;
         animation: idle 0.75s ease-in-out 0.7s;
@@ -53,7 +51,6 @@
         animation: long-box-motion 3.8s ease-in-out infinite;
         height: 20.5rem;
         width: 2.5rem;
-        // border: 4px solid black;
         margin-left: 1rem;
         z-index: 12;
         animation: idle 0.75s ease-in-out 0.6s;
@@ -61,10 +58,8 @@
     &__box-4 {
         position: relative;
         animation: long-box-motion 4.5s ease-in-out infinite;
-        // background-color: black;
         height: 25rem;
         width: 3rem;
-        // border: 4px solid black;
         margin-left: -9rem;
         z-index: 13;
         animation: idle 0.75s ease-in-out 0.50s;
@@ -75,46 +70,226 @@
         }
     }
     &--30 {
-        background-color: hsl(30, 100%, 55%)
+        background-color: hsl(30, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+        &--medium-attack {
+            background-color: hsl(30, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(30, 100%, 55%);
+            transform: scale(1, 1.1);
+            transition: all 0.1s ease-in;   
+        }
+        &--high-attack {
+            background-color: hsl(30, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(30, 100%, 55%);
+            transform: scale(1, 1.1);
+            transition: all 0.1s ease-in;   
+        }
     }
 
     &--60 {
-        background-color: hsl(60, 100%, 55%)
+        background-color: hsl(60, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+
+        &--medium-attack {
+            background-color: hsl(60, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(60, 100%, 55%);
+            transform: scale(1, 1.1);
+            transition: all 0.1s ease-in;   
+        }
+        &--high-attack {
+            background-color: hsl(60, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(60, 100%, 55%);
+            transform: scale(1, 1.1);
+            transition: all 0.1s ease-in;   
+        }
     }
 
     &--90 {
-        background-color: hsl(90, 100%, 55%)
+        background-color: hsl(90, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+        &--medium-attack {
+            background-color: hsl(90, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(90, 100%, 55%);
+            transform: scale(1, 1.1);
+            transition: all 0.1s ease-in; 
+            }
+        &--high-attack {
+            background-color: hsl(90, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(90, 100%, 55%);
+            transform: scale(1, 1.1);
+            transition: all 0.1s ease-in; 
+            }
+        
     }
     &--120 {
-        background-color: hsl(120, 100%, 55%)
+        background-color: hsl(120, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+        &--medium-attack {
+            background-color: hsl(120, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(120, 100%, 55%);
+            transform: scale(1, 1.1);
+            transition: all 0.1s ease-in;
+            }
+        &--high-attack {
+            background-color: hsl(120, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(120, 100%, 55%);
+            transform: scale(1, 1.1);
+            transition: all 0.1s ease-in;
+            }
     }
     &--150 {
-        background-color: hsl(150, 100%, 55%)
+        background-color: hsl(150, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+        &--medium-attack {
+            background-color: hsl(150, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(150, 100%, 55%);
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;  
+            }
+        &--high-attack {
+            background-color: hsl(150, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(150, 100%, 55%);
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;  
+            }
     }
     &--180 {
-        background-color: hsl(180, 100%, 55%)
+        background-color: hsl(180, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+        &--medium-attack {
+            background-color: hsl(180, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(180, 100%, 55%); 
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in; 
+            }
+        &--high-attack {
+            background-color: hsl(180, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(180, 100%, 55%); 
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in; 
+            }
     }
     &--210 {
-        background-color: hsl(210, 100%, 55%)
+        background-color: hsl(210, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+        &--medium-attack {
+            background-color: hsl(210, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(210, 100%, 55%); 
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in; 
+            }
+        &--high-attack {
+            background-color: hsl(210, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(210, 100%, 55%); 
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in; 
+            }
     }
     &--240 {
-        background-color: hsl(240, 100%, 55%)
+        background-color: hsl(240, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+        &--medium-attack {
+            background-color: hsl(240, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(240, 100%, 55%);  
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+            }
+        &--high-attack {
+            background-color: hsl(240, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(240, 100%, 55%);  
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+            }
     }
     &--270 {
-        background-color: hsl(270, 100%, 55%)
+        background-color: hsl(270, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+        &--medium-attack {
+            background-color: hsl(270, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(270, 100%, 55%);
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+            }
+        &--high-attack {
+            background-color: hsl(270, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(270, 100%, 55%);
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+            }
     }
     &--300 {
-        background-color: hsl(300, 100%, 55%)
+        background-color: hsl(300, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+        &--medium-attack {
+            background-color: hsl(300, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(300, 100%, 55%);
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+            }
+        &--high-attack {
+            background-color: hsl(300, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(300, 100%, 55%);
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+            }
     }
     &--330 {
-        background-color: hsl(330, 100%, 55%)
+        background-color: hsl(330, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+        &--medium-attack {
+            background-color: hsl(330, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(330, 100%, 55%);  
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+            }
+        &--high-attack {
+            background-color: hsl(330, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(330, 100%, 55%);  
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+            }
     }
     &--359 {
-        background-color: hsl(360, 100%, 55%)
+        background-color: hsl(360, 100%, 55%);
+        transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+        &--medium-attack {
+            background-color: hsl(360, 100%, 55%);
+            box-shadow: 0px 0px 0.3rem 0.3rem hsl(360, 100%, 55%); 
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+            }
+        &--high-attack {
+            background-color: hsl(360, 100%, 55%);
+            box-shadow: 0px 0px 1rem 1rem hsl(360, 100%, 55%); 
+            transform: scale(1, 1.1);
+        transition: all 0.1s ease-in;
+            }
     }
 
-    &--regular {
+    &--short-release {
         background-color: #EEE;
-        transition: all 0.75s ease-out 0.2s;
+        transition: all 0s linear 0s;
+    }
+
+    &--medium-release {
+        background-color: #EEE;
+        transition: all 0.5s linear 0s;
+    }
+
+    &--long-release {
+        background-color: #EEE;
+        transition: all 2s linear 0s;
     }
 }

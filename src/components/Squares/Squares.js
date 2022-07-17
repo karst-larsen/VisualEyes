@@ -1,6 +1,27 @@
 import './Squares.scss'
 
-function Squares({notes, timeNode, claps}) {
+function Squares({notes, timeNode, bassRelease, bassAttack}) {
+
+
+    let releaseSpeed = ''
+
+    if (bassRelease < 0.5) {
+        releaseSpeed = '--short-release'
+    } else if (bassRelease >= 0.5 && bassRelease < 2) {
+        releaseSpeed = '--medium-release'
+    } else {
+        releaseSpeed = '--long-release'
+    }
+
+    let attackSpeed = ''
+
+    if (bassAttack < 0.03) {
+        attackSpeed = ''
+    } else if (bassAttack >= 0.03 && bassAttack < 0.07) {
+        attackSpeed = '--medium-attack'
+    } else {
+        attackSpeed = '--high-attack'
+    }
 
 
     let testContainer = []
@@ -72,14 +93,14 @@ function Squares({notes, timeNode, claps}) {
 
     return (
         <div className={`squares-container`}>
-            <div className={`squares squares__square-1 ${filteredContainer[0]?.id === timeNode || filteredContainer[8]?.id === timeNode || filteredContainer[16]?.id === timeNode || filteredContainer[24]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}` : 'squares--regular'}`}></div>
-            <div className={`squares squares__square-2 ${filteredContainer[1]?.id === timeNode || filteredContainer[9]?.id === timeNode || filteredContainer[17]?.id === timeNode || filteredContainer[25]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}` : 'squares--regular'}`}></div>
-            <div className={`squares squares__square-3 ${filteredContainer[2]?.id === timeNode || filteredContainer[10]?.id === timeNode || filteredContainer[18]?.id === timeNode || filteredContainer[26]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}` : 'squares--regular'}`}></div>
-            <div className={`squares squares__square-4 ${filteredContainer[3]?.id === timeNode || filteredContainer[11]?.id === timeNode || filteredContainer[19]?.id === timeNode || filteredContainer[27]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}` : 'squares--regular'}`}></div>
-            <div className={`squares squares__square-5 ${filteredContainer[4]?.id === timeNode || filteredContainer[12]?.id === timeNode || filteredContainer[20]?.id === timeNode || filteredContainer[28]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}` : 'squares--regular'}`}></div>
-            <div className={`squares squares__square-6 ${filteredContainer[5]?.id === timeNode || filteredContainer[13]?.id === timeNode || filteredContainer[21]?.id === timeNode || filteredContainer[29]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}` : 'squares--regular'}`}></div>
-            <div className={`squares squares__square-7 ${filteredContainer[6]?.id === timeNode || filteredContainer[14]?.id === timeNode || filteredContainer[22]?.id === timeNode || filteredContainer[30]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}` : 'squares--regular'}`}></div>
-            <div className={`squares squares__square-8 ${filteredContainer[7]?.id === timeNode || filteredContainer[15]?.id === timeNode || filteredContainer[23]?.id === timeNode || filteredContainer[31]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}` : 'squares--regular'}`}></div>
+            <div className={`squares squares__square-1 ${filteredContainer[0]?.id === timeNode || filteredContainer[8]?.id === timeNode || filteredContainer[16]?.id === timeNode || filteredContainer[24]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}${attackSpeed}` : `squares${releaseSpeed}`}`}></div>
+            <div className={`squares squares__square-2 ${filteredContainer[1]?.id === timeNode || filteredContainer[9]?.id === timeNode || filteredContainer[17]?.id === timeNode || filteredContainer[25]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}${attackSpeed}` : `squares${releaseSpeed}`}`}></div>
+            <div className={`squares squares__square-3 ${filteredContainer[2]?.id === timeNode || filteredContainer[10]?.id === timeNode || filteredContainer[18]?.id === timeNode || filteredContainer[26]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}${attackSpeed}` : `squares${releaseSpeed}`}`}></div>
+            <div className={`squares squares__square-4 ${filteredContainer[3]?.id === timeNode || filteredContainer[11]?.id === timeNode || filteredContainer[19]?.id === timeNode || filteredContainer[27]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}${attackSpeed}` : `squares${releaseSpeed}`}`}></div>
+            <div className={`squares squares__square-5 ${filteredContainer[4]?.id === timeNode || filteredContainer[12]?.id === timeNode || filteredContainer[20]?.id === timeNode || filteredContainer[28]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}${attackSpeed}` : `squares${releaseSpeed}`}`}></div>
+            <div className={`squares squares__square-6 ${filteredContainer[5]?.id === timeNode || filteredContainer[13]?.id === timeNode || filteredContainer[21]?.id === timeNode || filteredContainer[29]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}${attackSpeed}` : `squares${releaseSpeed}`}`}></div>
+            <div className={`squares squares__square-7 ${filteredContainer[6]?.id === timeNode || filteredContainer[14]?.id === timeNode || filteredContainer[22]?.id === timeNode || filteredContainer[30]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}${attackSpeed}` : `squares${releaseSpeed}`}`}></div>
+            <div className={`squares squares__square-8 ${filteredContainer[7]?.id === timeNode || filteredContainer[15]?.id === timeNode || filteredContainer[23]?.id === timeNode || filteredContainer[31]?.id === timeNode ? `squares--${colourContainer[timeNode]?.timedNote}${attackSpeed}` : `squares${releaseSpeed}`}`}></div>
         </div>
     );
 }

@@ -49,7 +49,8 @@
     }
 
     &__logo {
-      cursor: pointer;
+      // cursor: pointer;
+      user-select: none;
       margin-left: auto;
       font-size: 3rem;
       color: white;
@@ -132,11 +133,25 @@
   margin-bottom: 1rem;
   min-width: 34.5625rem;
   overflow-x: scroll;
-  transform: scale(0.75, 0.75);
-
+  transform: scale(0.6, 0.6);
+  transition: all 1s ease-in-out;
+  margin: -2rem 0 -2rem 0;
+  
+  &:nth-child(5) {
+    margin-top: -10rem;    
+    @media screen and (min-width: 660px) {
+      margin-top: 0;
+    }
+  }
+  
+  @media screen and (min-width: 460px) {
+    transform: scale(0.8, 0.8);
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+  
   @media screen and (min-width: 660px) {
     transform: scale(1, 1);
-    margin-bottom: 1rem;
   }
   
   &__time {
@@ -263,22 +278,24 @@
   }
   &__settings-input {
     -webkit-appearance: none;
-      width: 90%;
-      height: 0.3rem;
-      margin: 1rem 0;
-      background: #EEE;
+    // border: 1px solid black;
+    transform: rotateZ(-90deg);
+    width: 90%;
+    height: 0.3rem;
+    margin: 1rem 0;
+    background: #EEE;
     cursor: pointer;
   }
   &__settings-input::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
+    width: 0.5rem;
+    height: 1.5rem;
+    // border-radius: 50%;
     background: #999;
     cursor: pointer;
   }
-
+  
   &__settings-button {
     z-index: 50;
     display: flex;
@@ -301,22 +318,51 @@
       // transition: all 0.5s ease-in-out;
     }
   }
-
+  
   &__settings-icon {
     width: 70%;
     height: 100%;
     padding: 1rem 0.5rem;
-
+    
     &:hover {
       animation: rotate 2s linear infinite;
-
+      
     }
   }
 
+  &__envelopes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin: 0 auto;
+  }
+  
+  &__envelope-label {
+    font-family: "Open Sans";
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+  }
+
+  &__envelope {
+    width: 25%;
+    text-align: center;
+  }
+  
+  &__ADSR {
+      display: flex;
+      width: 80%;
+      margin-bottom: 5rem;
+  }
+  
   &__label {
     display: none;
     font-family: 'Open Sans';
     flex-direction: column;
+    // border: 1px solid black;
     align-items: center;
     text-align: left;
     width: 100%;
@@ -374,5 +420,6 @@ button {
       font-family: "Gadimon", sans-serif;
       font-weight: 400;
       padding-bottom: 2rem;
+      user-select: none;
   }
 }
