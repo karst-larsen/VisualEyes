@@ -24,17 +24,17 @@
 }
 
 .squares {
-    
-    
+    transform: scale(0.8, 0.8);
     height: 4rem;
     &__square-1, &__square-2, &__square-3, &__square-4,
     &__square-5, &__square-6, &__square-7, &__square-8 {
         background-color: #EEE;
-        padding: 2.4rem;
+        padding: 2.2rem;
         margin: 0 0.5rem;
 
         @media screen and (min-width: 660px) {
             margin: 0 1rem;
+            transform: scale(1, 1)
         }
     }
 
@@ -279,7 +279,6 @@
     margin-bottom: 1rem;
     display: flex;
     justify-content: space-evenly;
-    // width: 100%;
     transition: all 1s ease-in-out;
 
     &--active {

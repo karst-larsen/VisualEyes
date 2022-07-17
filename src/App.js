@@ -386,47 +386,29 @@ class App extends Component {
         <header className="App-header">
           <img src={playButton} alt='play button' className="App-header__button" onMouseDown={this.configPlayButton} />
           <img src={stopButton} alt='stop button' className="App-header__button" onMouseDown={this.stopPlay} />
-          {/* <button onClick={() => this.changeOscillator('sawtooth')}>Square</button> */}
           <span className="App-header__logo">VisualEyes</span>
-          {/* <div className="App-header__tempo-box"><span className="App-header__tempo">Tempo: {this.state.tempo}</span> <input className="App-header__tempo-range" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></div> */}
+          <div className="App-header__tempo-box"><span className="App-header__tempo">Tempo: {this.state.tempo}</span> <input className="App-header__tempo-range" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></div>
         </header>
 
         <section className={`visual-container`}>
-          <div className={`visual-container__settings ${this.state.isSettingsOpen ? 'visual-container__settings--open' : ''}`}>
+          {/* <div className={`visual-container__settings ${this.state.isSettingsOpen ? 'visual-container__settings--open' : ''}`}>
             <div onClick={this.openSettings} className={`visual-container__settings-button ${this.state.isSettingsOpen ? 'visual-container__settings-button--open' : ''}`}>
               <img src={settingsIcon} alt="settings" className="visual-container__settings-icon" />
             </div>
-              {/* <div className="visual-container__envelopes">
-                <div className="visual-container__envelope-label">
-                  <span className="visual-container__envelope">A</span>
-                  <span className="visual-container__envelope">D</span>
-                  <span className="visual-container__envelope">S</span>
-                  <span className="visual-container__envelope">R</span>
-                </div>
-                <div className="visual-container__ADSR">
-                  <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthOneADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-                  <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-                  <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-                  <input className="visual-container__settings-input" type="range" min="0.1" max="3" step="0.1" value={this.state.synthOneADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-                </div>
-              </div> */}
             <div className="visual-container__ADSR">
-           <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthTwoADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthTwoADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           <input className="visual-container__settings-input" type="range" min="0.1" max="1" step ="0.1" value={this.state.synthTwoADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           <input className="visual-container__settings-input" type="range" min="0.1" max="3" step="0.1" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+              <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthTwoADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+              <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthTwoADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+              <input className="visual-container__settings-input" type="range" min="0.1" max="1" step ="0.1" value={this.state.synthTwoADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+              <input className="visual-container__settings-input" type="range" min="0.1" max="3" step="0.1" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
            </div>
-            {/* <label className={`visual-container__label ${ this.state.isSettingsOpen ? 'visual-container__label--active' : ''}`}> Tempo: {this.state.tempo}
-            <input className="visual-container__settings-input" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></label> */}
-            {/* <input type="range" min="1" max="10" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} /> */}
-          </div>
+          </div> */}
           <div className="visual-container__middle">
-        <LeftSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack}/>
-        <VisualEye playing={this.state.playing} steps={this.state.kickDrumArray} timeNode={this.state.selectedTimeNode} openHatArray={this.state.openHatArray}/>
-        <RightSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack} />
+            <LeftSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack}/>
+            <VisualEye playing={this.state.playing} steps={this.state.kickDrumArray} timeNode={this.state.selectedTimeNode} openHatArray={this.state.openHatArray}/>
+            <RightSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack} />
           </div>
           <div className="visual-container__bottom">
-        <Squares notes={this.state.bassSynthArray} timeNode={this.state.selectedTimeNode} bassRelease={this.state.synthTwoADSR.release} bassAttack={this.state.synthTwoADSR.attack} />
+            <Squares notes={this.state.bassSynthArray} timeNode={this.state.selectedTimeNode} bassRelease={this.state.synthTwoADSR.release} bassAttack={this.state.synthTwoADSR.attack} />
           </div>
         </section>
         <div className="sequencer">
@@ -436,35 +418,35 @@ class App extends Component {
             })}
           </ul>
             <div className="sequencer__icon-box">
-            <img src={kickIcon} alt='kick icon' className="sequencer__icon" />
-          <ul className="sequencer__drum-map">
-            {this.state.kickSequencer.map((kick, kickIndex) => {
-              return <li key={kickIndex} className={`sequencer__note ${kick.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === kickIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.drumSequence(e, kickIndex, kick)}}>•</li>
-            })}
-          </ul>
+              <img src={kickIcon} alt='kick icon' className="sequencer__icon" />
+              <ul className="sequencer__drum-map">
+                {this.state.kickSequencer.map((kick, kickIndex) => {
+                  return <li key={kickIndex} className={`sequencer__note ${kick.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === kickIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.drumSequence(e, kickIndex, kick)}}>•</li>
+                })}
+              </ul>
           </div>
           <div className="sequencer__icon-box">
             <img src={clapIcon} alt='clap icon' className="sequencer__icon" />
-          <ul className="sequencer__drum-map">
-            {this.state.clapSequencer.map((clap, clapIndex) => {
-              return <li key={clapIndex} className={`sequencer__note ${clap.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === clapIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.clapSequence(e, clapIndex, clap)}}>•</li>
-            })}
-          </ul>
+            <ul className="sequencer__drum-map">
+              {this.state.clapSequencer.map((clap, clapIndex) => {
+                return <li key={clapIndex} className={`sequencer__note ${clap.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === clapIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.clapSequence(e, clapIndex, clap)}}>•</li>
+              })}
+            </ul>
           </div>
           <div className="sequencer__icon-box">
             <img src={hiHatIcon} alt='kick icon' className="sequencer__icon" />
-          <ul className="sequencer__drum-map">
-            {this.state.hiHatSequencer.map((hiHat, hiHatIndex) => {
-              return <li  key={hiHatIndex} className={`sequencer__note ${hiHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === hiHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.hiHatSequence(e, hiHatIndex, hiHat)}}>•</li>
-            })}
-          </ul>
+            <ul className="sequencer__drum-map">
+              {this.state.hiHatSequencer.map((hiHat, hiHatIndex) => {
+                return <li  key={hiHatIndex} className={`sequencer__note ${hiHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === hiHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.hiHatSequence(e, hiHatIndex, hiHat)}}>•</li>
+              })}
+            </ul>
           </div>
           <div className="sequencer__icon-box">
             <img src={openHatIcon} alt='kick icon' className="sequencer__icon" />
-          <ul className="sequencer__drum-map">
-            {this.state.openHatSequencer.map((openHat, openHatIndex) => {
-              return <li  key={openHatIndex} className={`sequencer__note ${openHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === openHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.openHatSequence(e, openHatIndex, openHat)}}>•</li>
-            })}
+            <ul className="sequencer__drum-map">
+              {this.state.openHatSequencer.map((openHat, openHatIndex) => {
+                return <li  key={openHatIndex} className={`sequencer__note ${openHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === openHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.openHatSequence(e, openHatIndex, openHat)}}>•</li>
+              })}
           </ul>
           </div>
         </div>
