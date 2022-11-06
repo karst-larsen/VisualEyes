@@ -1,7 +1,7 @@
 import React from 'react';
 import './RightSixth.scss'
 
-function RightSixth({notes, timeNode, leadRelease, leadAttack}) {
+function RightSixth({darkMode,notes, timeNode, leadRelease, leadAttack}) {
 
     //Logic determining how long the release transition effect should hold for 
 
@@ -24,7 +24,6 @@ function RightSixth({notes, timeNode, leadRelease, leadAttack}) {
     } else {
         attackSpeed = '--high-attack'
     }
-
 
     //Pushing all of the props notes into an array of objects correlated by note and id (index of note in array)
 
@@ -103,13 +102,13 @@ function RightSixth({notes, timeNode, leadRelease, leadAttack}) {
             <div className={`long-box__box-4 
             ${filteredContainer[4]?.id === timeNode || filteredContainer[12]?.id === timeNode || filteredContainer[20]?.id === timeNode || filteredContainer[28]?.id === timeNode 
             ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}`: 
-            `long-box${releaseSpeed}`}`}></div>
-            <div className={`long-box__box-5 ${filteredContainer[5]?.id === timeNode || filteredContainer[13]?.id === timeNode || filteredContainer[21]?.id === timeNode || filteredContainer[29]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}`: 
-            `long-box${releaseSpeed}`}`}></div>
+            `long-box${releaseSpeed}${darkMode ? "--dark-mode" : ""}`}`}></div>
+            <div className={`long-box__box-5 ${filteredContainer[5]?.id === timeNode || filteredContainer[13]?.id === timeNode || filteredContainer[21]?.id === timeNode || filteredContainer[29]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}${darkMode ? "" : ""}`: 
+            `long-box${releaseSpeed}${darkMode ? "--dark-mode" : ""}`}`}></div>
             <div className={`long-box__box-6 ${filteredContainer[6]?.id === timeNode || filteredContainer[14]?.id === timeNode || filteredContainer[22]?.id === timeNode || filteredContainer[30]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}`: 
-            `long-box${releaseSpeed}`}`}></div>
+            `long-box${releaseSpeed}${darkMode ? "--dark-mode" : ""}`}`}></div>
             <div className={`long-box__box-7 ${filteredContainer[7]?.id === timeNode || filteredContainer[15]?.id === timeNode || filteredContainer[23]?.id === timeNode || filteredContainer[31]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}`: 
-            `long-box${releaseSpeed}`}`}></div>
+            `long-box${releaseSpeed}${darkMode ? "--dark-mode" : ""}`}`}></div>
             
         </div>
     );

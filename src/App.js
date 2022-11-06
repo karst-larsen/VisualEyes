@@ -20,17 +20,11 @@ import kickIcon from './assets/images/icons/Kick.svg'
 import clapIcon from './assets/images/icons/Clap.svg'
 import hiHatIcon from './assets/images/icons/HiHat.svg'
 import openHatIcon from './assets/images/icons/OpenHat.svg'
-import settingsIcon from './assets/images/icons/SettingsIcon.svg'
+import SequenceList from './components/SequenceList/SequenceList';
 
 class App extends Component {
   constructor() {
     super(); 
-    const sequenceOne = new Tone.Sequence((time, note) => {
-      synthOne.triggerAttackRelease(note, 0.1, time)
-    }, [], '16n')
-    const sequenceTwo = new Tone.Sequence((time, note) => {
-      synthTwo.triggerAttackRelease(note, 0.1, time)
-    }, [], '16n')
 
     const drumSampler = new Tone.Players({
       kick: kickSound,
@@ -38,6 +32,7 @@ class App extends Component {
       hiHat: hiHatSound,
       openHat: openHatSound,
     }).toDestination()
+
 
     let kickSequence = new Tone.Sequence((time, note) => {
       this.state.drumSampler.player(note).start(time)
@@ -59,14 +54,18 @@ class App extends Component {
       playing: false,
       started: false,
       timerArray: new Array(32).fill(null), 
-      leadSynthArray: new Array(32).fill(null),
+      leadSynthArray: [new Array(32).fill(null), new Array(32).fill(null), new Array(32).fill(null), new Array(32).fill(null)],
       bassSynthArray: new Array(32).fill(null),
       kickDrumArray: new Array(32).fill(null),
       clapArray: new Array(32).fill(null),
       hiHatArray: new Array(32).fill(null),
       openHatArray: new Array(32).fill(null),
-      sequenceOne,
-      sequenceTwo,
+      sequenceOne : new Tone.Sequence((time, note) => {
+        synthOne.triggerAttackRelease(note, 0.1, time)
+      }, [], '16n'),
+      sequenceTwo: new Tone.Sequence((time, note) => {
+        synthTwo.triggerAttackRelease(note, 0.1, time)
+      }, [], '16n'),
       kickSequence,
       kickSequencer: drumSequencer(),
       clapSequence,
@@ -75,7 +74,7 @@ class App extends Component {
       hiHatSequencer: hiHatSequencer(),
       openHatSequence, 
       openHatSequencer: openHatSequencer(),
-      leadSynthSequencer: leadSynthNotes(),
+      leadSynthSequencer: [leadSynthNotes(), leadSynthNotes(), leadSynthNotes(), leadSynthNotes()],
       bassSynthSequencer: bassSynthNotes(),
       sequenceTimer: sequenceTimer(),
       drumSampler,
@@ -100,10 +99,82 @@ class App extends Component {
         sustain: 0.1,
         release: 1
       },
-      isSettingsOpen: false
+      isSettingsOpen: false,
+      sequenceButtons: [
+        {
+          id: 0,
+          name: "A",
+          isActive: true
+        },
+        {
+          id: 1,
+          name: "B",
+          isActive: false
+        },
+        {
+          id: 2, 
+          name: "C",
+          isActive: false
+        },
+        {
+          id: 3, 
+          name: "D",
+          isActive: false
+        }
+      ],
+      activeSequence: 0,
+      darkMode: false
     }
   }
 
+  //function to set the sequence button to active 
+
+  handleActiveButton = (id) => {
+    //To prevent this sequence from happening on every button, check the condition that the id matches the button that was clicked
+    if (this.state.sequenceButtons[id]) {
+      //spread the new array to manipulate
+      const newArray = [...this.state.sequenceButtons];
+      //find the button that was clicked and store it in a variable
+      const newActiveButton = newArray.find(button => button.id === id);
+
+      //clear each button from being active
+      newArray.forEach(button => button.isActive = false);
+      //set the clicked button to active
+      newActiveButton.isActive = true;
+      
+      //set the new state
+      this.setState({
+        sequenceButtons: newArray,
+        activeSequence: id
+      }, () => {
+        this.state.sequenceOne.set({
+          events: this.state.leadSynthArray[this.state.activeSequence]
+        })
+      });
+    }
+    this.changeNodes();
+  }
+
+  //function to clear and update the nodes based on which sequence is selected
+  changeNodes = () => {
+    const newSynthSequence = [...this.state.leadSynthSequencer]
+
+    newSynthSequence.forEach(sequenceStep => {
+      sequenceStep.forEach(sharedNode => {
+        sharedNode.forEach(note => {
+          console.log(note)
+        })
+      })
+    })
+    console.log(newSynthSequence)
+  }
+
+  //change the mode to dark and vice versa
+  changeDarkMode = () => {
+    this.setState({
+      darkMode: !this.state.darkMode
+    })
+  }
   //Clock for selecting index of 32 steps
   timerSequence = () => {
     Tone.Transport.scheduleRepeat(time => {
@@ -134,7 +205,7 @@ class App extends Component {
 
   configLoop = () => {
     this.state.sequenceOne.set({
-      events: this.state.leadSynthArray
+      events: this.state.leadSynthArray[this.state.activeSequence]
     })
 
     this.state.sequenceTwo.set({
@@ -179,8 +250,10 @@ class App extends Component {
   }
 
   drumSequence = (e, kickIndex, kick) => {
+    //Update the drum sequence: first spread the array held in state
     let updatedDrumSequence = [...this.state.kickDrumArray]
-
+    
+    //boolean for setting an active/inactive node based on it's active state at that index
     if (updatedDrumSequence[kickIndex]) {
       updatedDrumSequence[kickIndex] = null
       kick.isActive = false
@@ -264,21 +337,21 @@ class App extends Component {
       let updatedLeadArray = [...this.state.leadSynthArray];
   
       if(note.isActive) {
-        updatedLeadArray[columnId] = null
+        updatedLeadArray[this.state.activeSequence][columnId] = null
       } else {
         column.forEach(columnItem => {
           columnItem.forEach(note => {
             note.isActive = false
           })
         })
-        updatedLeadArray[columnId] = note.note
+        updatedLeadArray[this.state.activeSequence][columnId] = note.note
       }
       
       this.setState({
         leadSynthArray: updatedLeadArray
       }, () => {
         this.state.sequenceOne.set({
-          events: this.state.leadSynthArray
+          events: this.state.leadSynthArray[this.state.activeSequence]
         })
       })
       this.handleNoteClick(note, column)
@@ -296,7 +369,7 @@ class App extends Component {
         })
       })
       updatedBassArray[columnId] = note.note
-    }
+    };
     
     this.setState({
       bassSynthArray: updatedBassArray,
@@ -304,13 +377,14 @@ class App extends Component {
       this.state.sequenceTwo.set({
         events: this.state.bassSynthArray
       })
-    })
+    });
+
     this.handleNoteClick(note, column)
   }
   
   playArray = () => {
     this.state.sequenceOne.set({
-      events: this.state.leadSynthArray
+      events: this.state.leadSynthArray[this.state.activeSequence]
     })
     this.state.sequenceTwo.set({
       events: this.state.bassSynthArray
@@ -383,146 +457,146 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={playButton} alt='play button' className="App-header__button" onMouseDown={this.configPlayButton} />
-          <img src={stopButton} alt='stop button' className="App-header__button" onMouseDown={this.stopPlay} />
-          <span className="App-header__logo">VisualEyes</span>
-          <div className="App-header__tempo-box"><span className="App-header__tempo">Tempo: {this.state.tempo}</span> <input className="App-header__tempo-range" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></div>
-        </header>
-
-        <section className={`visual-container`}>
-          {/* <div className={`visual-container__settings ${this.state.isSettingsOpen ? 'visual-container__settings--open' : ''}`}>
-            <div onClick={this.openSettings} className={`visual-container__settings-button ${this.state.isSettingsOpen ? 'visual-container__settings-button--open' : ''}`}>
-              <img src={settingsIcon} alt="settings" className="visual-container__settings-icon" />
+          <header className={`App-header ${this.state.darkMode ? 'App-header--dark-mode' : ''}`}>
+            <img src={playButton} alt='play button' className="App-header__button" onMouseDown={this.configPlayButton} />
+            <img src={stopButton} alt='stop button' className="App-header__button" onMouseDown={this.stopPlay} />
+            <div className="App-header__right-nav">
+            <div className={`dark-toggle ${this.state.darkMode ? 'dark-toggle--active' : ''}`} onClick={() => this.changeDarkMode()}>
+              <div className={`dark-toggle__selector ${this.state.darkMode ? 'dark-toggle__selector--dark-mode' : ''}`}></div>
             </div>
-            <div className="visual-container__ADSR">
-              <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthTwoADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-              <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthTwoADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-              <input className="visual-container__settings-input" type="range" min="0.1" max="1" step ="0.1" value={this.state.synthTwoADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-              <input className="visual-container__settings-input" type="range" min="0.1" max="3" step="0.1" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           </div>
-          </div> */}
-          <div className="visual-container__middle">
-            <LeftSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack}/>
-            <VisualEye playing={this.state.playing} steps={this.state.kickDrumArray} timeNode={this.state.selectedTimeNode} openHatArray={this.state.openHatArray}/>
-            <RightSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack} />
-          </div>
-          <div className="visual-container__bottom">
-            <Squares notes={this.state.bassSynthArray} timeNode={this.state.selectedTimeNode} bassRelease={this.state.synthTwoADSR.release} bassAttack={this.state.synthTwoADSR.attack} />
-          </div>
-        </section>
-        <div className="sequencer">
-          <ul className="sequencer__time">
-            {this.state.sequenceTimer.map((timer, timerIndex) => {
-              return <li key={timerIndex} className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''} `}>{timer}</li>
-            })}
-          </ul>
-            <div className="sequencer__icon-box">
-              <img src={kickIcon} alt='kick icon' className="sequencer__icon" />
-              <ul className="sequencer__drum-map">
-                {this.state.kickSequencer.map((kick, kickIndex) => {
-                  return <li key={kickIndex} className={`sequencer__note ${kick.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === kickIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.drumSequence(e, kickIndex, kick)}}>•</li>
-                })}
-              </ul>
-          </div>
-          <div className="sequencer__icon-box">
-            <img src={clapIcon} alt='clap icon' className="sequencer__icon" />
-            <ul className="sequencer__drum-map">
-              {this.state.clapSequencer.map((clap, clapIndex) => {
-                return <li key={clapIndex} className={`sequencer__note ${clap.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === clapIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.clapSequence(e, clapIndex, clap)}}>•</li>
-              })}
-            </ul>
-          </div>
-          <div className="sequencer__icon-box">
-            <img src={hiHatIcon} alt='kick icon' className="sequencer__icon" />
-            <ul className="sequencer__drum-map">
-              {this.state.hiHatSequencer.map((hiHat, hiHatIndex) => {
-                return <li  key={hiHatIndex} className={`sequencer__note ${hiHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === hiHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.hiHatSequence(e, hiHatIndex, hiHat)}}>•</li>
-              })}
-            </ul>
-          </div>
-          <div className="sequencer__icon-box">
-            <img src={openHatIcon} alt='kick icon' className="sequencer__icon" />
-            <ul className="sequencer__drum-map">
-              {this.state.openHatSequencer.map((openHat, openHatIndex) => {
-                return <li  key={openHatIndex} className={`sequencer__note ${openHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === openHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.openHatSequence(e, openHatIndex, openHat)}}>•</li>
-              })}
-          </ul>
-          </div>
-        </div>
-        <div className="sequencer">
-          <ul className="sequencer__time">
-            {this.state.sequenceTimer.map((timer, timerIndex) => {
-              return <li key={timerIndex}className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''} `}>{timer}</li>
-            })}
-          </ul>
-          <div className="sequencer__piano-sequence">
-          <img src={pianoIcon} alt="Piano Display for Sequencers" className="sequencer__piano"/>
-          <ul className="sequencer__map">
-            {this.state.leadSynthSequencer.map((column, columnId) => {
-              return column.map((noteArray, noteArrayId) => {
-                return noteArray.map((note, noteId) => {
-                  return <li 
-                  key={noteId}
-                  className={`sequencer__note ${note.isActive ? 'sequencer__note--active' : ''} 
-                  ${this.state.selectedTimeNode === columnId ? 'sequencer__note--selected' : ''}`} 
-                  onMouseDown={(e) => this.leadArrayMelody(e, column, columnId, noteArrayId, note)}
-                  >•</li>
-                })
-              })
-            })}
-          </ul>
-          </div>
-          <div className="visual-container__envelopes">
-                <div className="visual-container__envelope-label">
-                  <span className="visual-container__envelope">A</span>
-                  <span className="visual-container__envelope">D</span>
-                  <span className="visual-container__envelope">S</span>
-                  <span className="visual-container__envelope">R</span>
-                </div>
-                <div className="visual-container__ADSR">
-                  <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthOneADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-                  <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-                  <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-                  <input className="visual-container__settings-input" type="range" min="0.1" max="3" step="0.1" value={this.state.synthOneADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+            <span className="App-header__logo">VisualEyes</span>
+            </div>
+            <div className="App-header__tempo-box"><span className="App-header__tempo">Tempo: {this.state.tempo}</span> <input className="App-header__tempo-range" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></div>
+          </header>
+
+          <section className={`visual-container`}>
+            <div className={`visual-container__middle ${this.state.darkMode ? 'visual-container__middle--dark-mode' : ''}`}>
+              <LeftSixth darkMode={this.state.darkMode} notes={this.state.leadSynthArray[this.state.activeSequence]} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack}/>
+              <div className="visual-container__hihats-eye">
+                <VisualEye darkMode={this.state.darkMode} playing={this.state.playing} steps={this.state.kickDrumArray} timeNode={this.state.selectedTimeNode} openHatArray={this.state.openHatArray}/>
+                <div className="visual-container__sequence-selection">
+                  <SequenceList sequenceButtons={this.state.sequenceButtons} handleActiveButton={this.handleActiveButton} />
                 </div>
               </div>
-        </div>
-        <div className="sequencer">
-        <ul className="sequencer__time">
-            {this.state.sequenceTimer.map((timer, timerIndex) => {
-              return <li key={timerIndex} className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''}`}>{timer}</li>
-            })}
-          </ul>
-          <div className="sequencer__piano-sequence">
-          <img src={pianoIcon} alt="Piano Display for Sequencers" className="sequencer__piano"/>
-          <ul className="sequencer__map">        
-            {this.state.bassSynthSequencer.map((column, columnId) => {
-              return column.map((noteArray, noteArrayId) => {
-                return noteArray.map((note, noteId) => <li key={noteId} className={`sequencer__note ${note.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === columnId ? 'sequencer__note--selected' : ''}`} onMouseDown={(e) => this.bassArrayMelody(e, column, columnId, noteArrayId, note)}>•</li>)
-              })
-          })}
-          </ul>
+
+              <RightSixth darkMode={this.state.darkMode} notes={this.state.leadSynthArray[this.state.activeSequence]} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack} />
+            </div>
+            <div className="visual-container__bottom">
+              <Squares darkMode={this.state.darkMode} notes={this.state.bassSynthArray} timeNode={this.state.selectedTimeNode} bassRelease={this.state.synthTwoADSR.release} bassAttack={this.state.synthTwoADSR.attack} />
+            </div>
+          </section>
+          <div className="sequencer">
+            <ul className="sequencer__time">
+              {this.state.sequenceTimer.map((timer, timerIndex) => {
+                return <li key={timerIndex} className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''} `}>{timer}</li>
+              })}
+            </ul>
+              <div className="sequencer__icon-box">
+                <img src={kickIcon} alt='kick icon' className="sequencer__icon" />
+                <ul className="sequencer__drum-map">
+                  {this.state.kickSequencer.map((kick, kickIndex) => {
+                    return <li key={kickIndex} className={`sequencer__note ${kick.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === kickIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.drumSequence(e, kickIndex, kick)}}>•</li>
+                  })}
+                </ul>
+            </div>
+            <div className="sequencer__icon-box">
+              <img src={clapIcon} alt='clap icon' className="sequencer__icon" />
+              <ul className="sequencer__drum-map">
+                {this.state.clapSequencer.map((clap, clapIndex) => {
+                  return <li key={clapIndex} className={`sequencer__note ${clap.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === clapIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.clapSequence(e, clapIndex, clap)}}>•</li>
+                })}
+              </ul>
+            </div>
+            <div className="sequencer__icon-box">
+              <img src={hiHatIcon} alt='kick icon' className="sequencer__icon" />
+              <ul className="sequencer__drum-map">
+                {this.state.hiHatSequencer.map((hiHat, hiHatIndex) => {
+                  return <li  key={hiHatIndex} className={`sequencer__note ${hiHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === hiHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.hiHatSequence(e, hiHatIndex, hiHat)}}>•</li>
+                })}
+              </ul>
+            </div>
+            <div className="sequencer__icon-box">
+              <img src={openHatIcon} alt='kick icon' className="sequencer__icon" />
+              <ul className="sequencer__drum-map">
+                {this.state.openHatSequencer.map((openHat, openHatIndex) => {
+                  return <li  key={openHatIndex} className={`sequencer__note ${openHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === openHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.openHatSequence(e, openHatIndex, openHat)}}>•</li>
+                })}
+            </ul>
+            </div>
           </div>
-          <div className="visual-container__envelopes">
-                <div className="visual-container__envelope-label">
-                  <span className="visual-container__envelope">A</span>
-                  <span className="visual-container__envelope">D</span>
-                  <span className="visual-container__envelope">S</span>
-                  <span className="visual-container__envelope">R</span>
+          <div className="sequencer">
+            <ul className="sequencer__time">
+              {this.state.sequenceTimer.map((timer, timerIndex) => {
+                return <li key={timerIndex}className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''} `}>{timer}</li>
+              })}
+            </ul>
+            <div className="sequencer__piano-sequence">
+            <img src={pianoIcon} alt="Piano Display for Sequencers" className="sequencer__piano"/>
+            <ul className="sequencer__map">
+              {this.state.leadSynthSequencer[this.state.activeSequence].map((column, columnId) => {
+                return column.map((noteArray, noteArrayId) => {
+                  return noteArray.map((note, noteId) => {
+                    return <li 
+                    key={noteId}
+                    className={`sequencer__note ${note.isActive ? 'sequencer__note--active' : ''} 
+                    ${this.state.selectedTimeNode === columnId ? 'sequencer__note--selected' : ''}`} 
+                    onMouseDown={(e) => this.leadArrayMelody(e, column, columnId, noteArrayId, note)}
+                    >•</li>
+                  })
+                })
+              })}
+            </ul>
+            </div>
+            <div className="visual-container__envelopes">
+                  <div className="visual-container__envelope-label">
+                    <span className="visual-container__envelope">A</span>
+                    <span className="visual-container__envelope">D</span>
+                    <span className="visual-container__envelope">S</span>
+                    <span className="visual-container__envelope">R</span>
+                  </div>
+                  <div className="visual-container__ADSR">
+                    <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthOneADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                    <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                    <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                    <input className="visual-container__settings-input" type="range" min="0.1" max="3" step="0.1" value={this.state.synthOneADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
+                  </div>
                 </div>
-          <div className="visual-container__ADSR">
-           <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthTwoADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthTwoADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           <input className="visual-container__settings-input" type="range" min="0.1" max="1" step ="0.1" value={this.state.synthTwoADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           <input className="visual-container__settings-input" type="range" min="0.1" max="5" step="0.1" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           </div>
-           </div>
+          </div>
+          <div className="sequencer">
+          <ul className="sequencer__time">
+              {this.state.sequenceTimer.map((timer, timerIndex) => {
+                return <li key={timerIndex} className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''}`}>{timer}</li>
+              })}
+            </ul>
+            <div className="sequencer__piano-sequence">
+            <img src={pianoIcon} alt="Piano Display for Sequencers" className="sequencer__piano"/>
+            <ul className="sequencer__map">        
+              {this.state.bassSynthSequencer.map((column, columnId) => {
+                return column.map((noteArray, noteArrayId) => {
+                  return noteArray.map((note, noteId) => <li key={noteId} className={`sequencer__note ${note.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === columnId ? 'sequencer__note--selected' : ''}`} onMouseDown={(e) => this.bassArrayMelody(e, column, columnId, noteArrayId, note)}>•</li>)
+                })
+            })}
+            </ul>
+            </div>
+            <div className="visual-container__envelopes">
+                  <div className="visual-container__envelope-label">
+                    <span className="visual-container__envelope">A</span>
+                    <span className="visual-container__envelope">D</span>
+                    <span className="visual-container__envelope">S</span>
+                    <span className="visual-container__envelope">R</span>
+                  </div>
+            <div className="visual-container__ADSR">
+            <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthTwoADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+            <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthTwoADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+            <input className="visual-container__settings-input" type="range" min="0.1" max="1" step ="0.1" value={this.state.synthTwoADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+            <input className="visual-container__settings-input" type="range" min="0.1" max="5" step="0.1" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
+            </div>
+            </div>
+          </div>
+          <div className="footer">
+          <span className="footer__logo">VisualEyes</span>
+          </div>
         </div>
-        <div className="footer">
-        <span className="footer__logo">VisualEyes</span>
-        </div>
-      </div>
     );
   }
 }
