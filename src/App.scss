@@ -78,6 +78,7 @@
       1px 1px 5px #000;
       font-family: "Gadimon", sans-serif;
       font-weight: 400;
+      width: 12rem;
     }
 
     &__tempo-box {
@@ -330,6 +331,7 @@
     &--active {
       background-color: black;
       color: white;
+      border: 2px solid white;
     }
   }
 

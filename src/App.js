@@ -21,6 +21,7 @@ import clapIcon from './assets/images/icons/Clap.svg'
 import hiHatIcon from './assets/images/icons/HiHat.svg'
 import openHatIcon from './assets/images/icons/OpenHat.svg'
 import SequenceList from './components/SequenceList/SequenceList';
+import visualEyesLogo from './assets/images/icons/spectrumVisualEyes.png'
 
 class App extends Component {
   constructor() {
@@ -123,7 +124,8 @@ class App extends Component {
         }
       ],
       activeSequence: 0,
-      darkMode: false
+      darkMode: false,
+      menuOpen: false
     }
   }
 
@@ -464,7 +466,7 @@ class App extends Component {
             <div className={`dark-toggle ${this.state.darkMode ? 'dark-toggle--active' : ''}`} onClick={() => this.changeDarkMode()}>
               <div className={`dark-toggle__selector ${this.state.darkMode ? 'dark-toggle__selector--dark-mode' : ''}`}></div>
             </div>
-            <span className="App-header__logo">VisualEyes</span>
+            <img src={visualEyesLogo} className="App-header__logo" alt="VisualEyes Logo" />
             </div>
             <div className="App-header__tempo-box"><span className="App-header__tempo">Tempo: {this.state.tempo}</span> <input className="App-header__tempo-range" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></div>
           </header>

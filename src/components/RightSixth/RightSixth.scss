@@ -281,8 +281,9 @@
 
     &--short-release {
         background-color: white;
-        transition: all 0s linear 0s;
+        transition: all 0.5s linear 0s;
         &--dark-mode {
+            transition: all 0.5s linear 0s;
             background-color: black
         }
     }
@@ -290,8 +291,9 @@
     &--medium-release {
         background-color: white;
         transition: all 0.5s linear 0s;
-
+        
         &--dark-mode {
+            transition: all 0.5s linear 0s;
             background-color: black
         }
     }
@@ -299,7 +301,9 @@
     &--long-release {
         background-color: white;
         transition: all 2s linear 0s;
+        
         &--dark-mode {
+            transition: all 2s linear 0s;
             background-color: black
         }
     }

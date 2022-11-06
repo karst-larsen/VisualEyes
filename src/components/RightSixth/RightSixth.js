@@ -103,7 +103,7 @@ function RightSixth({darkMode,notes, timeNode, leadRelease, leadAttack}) {
             ${filteredContainer[4]?.id === timeNode || filteredContainer[12]?.id === timeNode || filteredContainer[20]?.id === timeNode || filteredContainer[28]?.id === timeNode 
             ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}`: 
             `long-box${releaseSpeed}${darkMode ? "--dark-mode" : ""}`}`}></div>
-            <div className={`long-box__box-5 ${filteredContainer[5]?.id === timeNode || filteredContainer[13]?.id === timeNode || filteredContainer[21]?.id === timeNode || filteredContainer[29]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}${darkMode ? "" : ""}`: 
+            <div className={`long-box__box-5 ${filteredContainer[5]?.id === timeNode || filteredContainer[13]?.id === timeNode || filteredContainer[21]?.id === timeNode || filteredContainer[29]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}`: 
             `long-box${releaseSpeed}${darkMode ? "--dark-mode" : ""}`}`}></div>
             <div className={`long-box__box-6 ${filteredContainer[6]?.id === timeNode || filteredContainer[14]?.id === timeNode || filteredContainer[22]?.id === timeNode || filteredContainer[30]?.id === timeNode ? `long-box--${colourContainer[timeNode]?.timedNote}${attackSpeed}`: 
             `long-box${releaseSpeed}${darkMode ? "--dark-mode" : ""}`}`}></div>
