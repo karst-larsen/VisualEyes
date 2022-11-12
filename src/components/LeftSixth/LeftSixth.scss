@@ -41,8 +41,8 @@
     
     &__box-0 {
         position: relative;
-        animation: long-box-motion 2.8s ease-in-out infinite;
-        animation: idle 0.5s ease-in-out;
+        // animation: long-box-motion 2.8s ease-in-out infinite;
+        // animation: idle 0.5s ease-in-out;
         height: 100%;
         width: 100%;
         z-index: 6;
@@ -50,26 +50,26 @@
     }
     &__box-1 {
         position: relative;
-        animation: long-box-motion 2.8s ease-in-out infinite;
-        animation: idle 0.5s ease-in-out 0.25s;
+        // animation: long-box-motion 2.8s ease-in-out infinite;
+        // animation: idle 0.5s ease-in-out 0.25s;
         height: 100%;
         width: 100%;
         z-index: 6;
     }
     &__box-2 {
         position: relative;
-        animation: long-box-motion 3.7s ease-in-out infinite;
+        // animation: long-box-motion 3.7s ease-in-out infinite;
         height: 100%;
         width: 100%;
-        animation: idle 0.5s ease-in-out 0.35s;
+        // animation: idle 0.5s ease-in-out 0.35s;
         z-index: 7;
     }
     &__box-3 {
         position: relative;
-        animation: long-box-motion 4.5s ease-in-out infinite;
+        // animation: long-box-motion 4.5s ease-in-out infinite;
         height: 100%;
         width: 100%;
-        animation: idle 0.5s ease-in-out 0.45s;
+        // animation: idle 0.5s ease-in-out 0.45s;
         background-color: black;
         z-index: 8;
 

@@ -82,15 +82,19 @@
 
 @keyframes shake {
     0% {
-        right: 10rem
+        right: 0rem
+    }
+
+    25% {
+        right: -0.25rem
     }
 
     50% {
-        right: 12rem
+        right: 0.25rem
     }
 
     100% {
-        right: 10rem;
+        right: 0rem;
     }
 }
 
@@ -100,15 +104,15 @@
     animation: blink 0.46875s ease-in-out infinite;
     width: 20rem;
     height: 15rem;
-    transform: scale(0.8, 0.8);
     transition: all 1s ease-in-out;
     z-index: 500;
+    position: relative;
     
-    @media screen and (min-width: 900px) {
-        top: 4rem;
-        transform: scale(1, 1);
-        transition: all 1s ease-in-out;
-    }
+    // @media screen and (min-width: 900px) {
+    //     top: 4rem;
+    //     transform: scale(1, 1);
+    //     transition: all 1s ease-in-out;
+    // }
 
     &__spiral {
         position: relative;
@@ -119,7 +123,7 @@
         animation: spiralMotion 12s linear infinite forwards;
 
         &--active {
-            filter: drop-shadow(1px 1px 1px blue) drop-shadow(-1px -1px 1px red);
+            filter: drop-shadow(3px 3px 1px rgb(0, 255, 255)) drop-shadow(-3px -3px 1px rgb(255, 0, 230));
         }
 
         &--inactive {
@@ -147,7 +151,7 @@
         top: -0.5rem;
         z-index: 4;
         height: 24rem;
-
+        user-select: none;
         &--active {
             visibility: visible;
             animation: eyeSpiral 30s ease-in-out infinite;

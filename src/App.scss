@@ -185,6 +185,8 @@
   transform: scale(0.6, 0.6);
   transition: all 1s ease-in-out;
   margin: -2rem 0 -2rem 0;
+  position: relative;
+  z-index: 800;
   
   &:nth-child(5) {
     margin-top: -10rem;    
@@ -245,6 +247,7 @@
   }
 
   &__map {
+    border: 1px solid black;
     overflow-x: scroll;
     display: flex;
     align-items: center;
@@ -287,9 +290,20 @@
     border-radius: 8px;
     padding: 0;
 
+    &--dark-mode {
+      background-color: black;
+      color: white;
+      border: 1px solid white;
+    }
+
     &--active {
       background-color: black;
       color: white;
+    }
+
+    &--active-dark {
+      background-color: white; 
+      color: black;
     }
 
     &--selected {
@@ -297,11 +311,12 @@
       color: black;
       transition: 0.1s linear;
     }
+
+
   }
 }
 
 .visual-container {
-  // border: 2px solid black;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -309,10 +324,11 @@
   &__sequence-selection {
     display: flex;
     justify-content: center;
-    // width: 50%;
-    // border: 1px solid black;
     position: relative; 
     z-index: 1000;
+    flex-wrap: wrap; 
+    width: 60%;
+    margin: 0 auto;
   }
 
   &__sequence-button {
@@ -485,7 +501,11 @@
   }
 
   &__bottom {
-    // margin-bottom: 3rem;
+    background-color: white;
+
+    &--dark-mode {
+      background-color: black;
+    }
   }
 }
 
