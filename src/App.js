@@ -8,13 +8,7 @@ import Squares from "./components/Squares/Squares";
 import { synthOne, synthTwo } from "./utils/Synths";
 import { sequenceTimer } from "./utils/SequenceTimer";
 import { leadSynthNotes, bassSynthNotes } from "./utils/SynthOneNotes";
-import {
-  drumSequencer,
-  clapSequencer,
-  hiHatSequencer,
-  openHatSequencer,
-  allDrumSequencer,
-} from "./components/DrumSequencer/DrumSequencer";
+import { allDrumSequencer } from "./components/DrumSequencer/DrumSequencer";
 import pianoIcon from "./assets/images/icons/octavePiano.svg";
 import playButton from "./assets/images/icons/play-button.svg";
 import stopButton from "./assets/images/icons/stop-button.svg";
@@ -90,10 +84,30 @@ class App extends Component {
         new Array(32).fill(null),
       ],
       drumArray: [
-        new Array(32).fill(null),
-        new Array(32).fill(null),
-        new Array(32).fill(null),
-        new Array(32).fill(null),
+        [
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+        ],
+        [
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+        ],
+        [
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+        ],
+        [
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+        ],
       ],
       sequenceOne: new Tone.Sequence(
         (time, note) => {
@@ -126,7 +140,12 @@ class App extends Component {
           bassSynthNotes(),
           bassSynthNotes(),
         ],
-        allDrumSequencer: allDrumSequencer(),
+        allDrumSequencer: [
+          allDrumSequencer(),
+          allDrumSequencer(),
+          allDrumSequencer(),
+          allDrumSequencer(),
+        ],
       },
       sequenceTimer: sequenceTimer(),
       drumSampler,
@@ -246,8 +265,9 @@ class App extends Component {
 
   handleActiveButton = (buttonId, button, sequenceObject) => {
     //Only update the sequenceButton that matches the correct sequence
-    const newArray = [...this.state.sequenceButtons];
+    // console.log(buttonId, button, sequenceObject);
     const sequenceId = sequenceObject.sequence;
+    const newArray = [...this.state.sequenceButtons];
     const newActiveButton = newArray[sequenceId].buttons.find(
       (button) => button.id === buttonId
     );
@@ -287,6 +307,42 @@ class App extends Component {
               this.state.bassSynthArray[
                 this.state.activeSequence.activeBassSequence
               ],
+          });
+        }
+      );
+    } else if (sequenceId === 2) {
+      this.setState(
+        {
+          sequenceButtons: newArray,
+          activeSequence: {
+            ...this.state.activeSequence,
+            activeDrumSequence: buttonId,
+          },
+        },
+        () => {
+          this.state.kickSequence.set({
+            events:
+              this.state.drumArray[
+                this.state.activeSequence.activeDrumSequence
+              ][0],
+          });
+          this.state.clapSequence.set({
+            events:
+              this.state.drumArray[
+                this.state.activeSequence.activeDrumSequence
+              ][1],
+          });
+          this.state.hiHatSequence.set({
+            events:
+              this.state.drumArray[
+                this.state.activeSequence.activeDrumSequence
+              ][2],
+          });
+          this.state.openHatSequence.set({
+            events:
+              this.state.drumArray[
+                this.state.activeSequence.activeDrumSequence
+              ][3],
           });
         }
       );
@@ -389,10 +445,12 @@ class App extends Component {
     const sequences = [...this.state.drumArray];
 
     //Retrieve the copied array to be manipulated
-    const arrayToUpdate = sequences[sequenceId];
-    console.log("Sequences:", sequences, "Array to update:", arrayToUpdate);
 
-    sequences[sequenceId][noteId] = sequences[sequenceId][noteId]
+    sequences[this.state.activeSequence.activeDrumSequence][sequenceId][
+      noteId
+    ] = sequences[this.state.activeSequence.activeDrumSequence][sequenceId][
+      noteId
+    ]
       ? null
       : note.note;
     note.isActive = !note.isActive;
@@ -404,7 +462,10 @@ class App extends Component {
         },
         () => {
           this.state.kickSequence.set({
-            events: sequences[sequenceId],
+            events:
+              sequences[this.state.activeSequence.activeDrumSequence][
+                sequenceId
+              ],
           });
         }
       );
@@ -415,7 +476,10 @@ class App extends Component {
         },
         () => {
           this.state.clapSequence.set({
-            events: sequences[sequenceId],
+            events:
+              sequences[this.state.activeSequence.activeDrumSequence][
+                sequenceId
+              ],
           });
         }
       );
@@ -426,7 +490,10 @@ class App extends Component {
         },
         () => {
           this.state.hiHatSequence.set({
-            events: sequences[sequenceId],
+            events:
+              sequences[this.state.activeSequence.activeDrumSequence][
+                sequenceId
+              ],
           });
         }
       );
@@ -437,17 +504,14 @@ class App extends Component {
         },
         () => {
           this.state.openHatSequence.set({
-            events: sequences[sequenceId],
+            events:
+              sequences[this.state.activeSequence.activeDrumSequence][
+                sequenceId
+              ],
           });
         }
       );
     }
-
-    //Toggle the note of the array to be updated
-
-    //Set the state of the allDrumSequence to the array that was retrieved
-
-    // console.log(arrayToUpdate[noteId]);
   };
 
   leadArrayMelody = (e, column, columnId, noteArrayId, note) => {
@@ -567,6 +631,7 @@ class App extends Component {
     });
   };
 
+  //Update the type of oscillator used
   changeOscillator = (type) => {
     let updatedOscillator = {
       type: `${type}`,
@@ -786,10 +851,22 @@ class App extends Component {
               <VisualEye
                 darkMode={this.state.darkMode}
                 playing={this.state.playing}
-                steps={this.state.drumArray[0]}
-                claps={this.state.drumArray[1]}
+                steps={
+                  this.state.drumArray[
+                    this.state.activeSequence.activeDrumSequence
+                  ][0]
+                }
+                claps={
+                  this.state.drumArray[
+                    this.state.activeSequence.activeDrumSequence
+                  ][1]
+                }
                 timeNode={this.state.selectedTimeNode}
-                hiHatArray={this.state.drumArray[2]}
+                hiHatArray={
+                  this.state.drumArray[
+                    this.state.activeSequence.activeDrumSequence
+                  ][2]
+                }
               />
               <div className="visual-container__sequence-selection">
                 <SequenceList
@@ -935,42 +1012,42 @@ class App extends Component {
           >
             {this.state.menuOpen ? (
               <section className="sequencer">
-                {this.state.sequences.allDrumSequencer.map(
-                  (sequence, sequenceId) => {
-                    return (
-                      <ul className="sequencer__drum-map" key={sequenceId}>
-                        {sequence.map((note, noteId) => {
-                          return (
-                            <li
-                              key={noteId}
-                              className={`sequencer__note ${
-                                this.state.darkMode
-                                  ? "sequencer__note--dark-mode"
-                                  : ""
-                              }${
-                                note.isActive ? "sequencer__note--active" : ""
-                              } ${
-                                this.state.selectedTimeNode === noteId
-                                  ? "sequencer__note--selected"
-                                  : ""
-                              }`}
-                              onClick={() =>
-                                this.handleUpdatedDrumSequence(
-                                  sequenceId,
-                                  sequence,
-                                  noteId,
-                                  note
-                                )
-                              }
-                            >
-                              •
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    );
-                  }
-                )}
+                {this.state.sequences.allDrumSequencer[
+                  this.state.activeSequence.activeDrumSequence
+                ].map((sequence, sequenceId) => {
+                  return (
+                    <ul className="sequencer__drum-map" key={sequenceId}>
+                      {sequence.map((note, noteId) => {
+                        return (
+                          <li
+                            key={noteId}
+                            className={`sequencer__note ${
+                              this.state.darkMode
+                                ? "sequencer__note--dark-mode"
+                                : ""
+                            }${
+                              note.isActive ? "sequencer__note--active" : ""
+                            } ${
+                              this.state.selectedTimeNode === noteId
+                                ? "sequencer__note--selected"
+                                : ""
+                            }`}
+                            onClick={() =>
+                              this.handleUpdatedDrumSequence(
+                                sequenceId,
+                                sequence,
+                                noteId,
+                                note
+                              )
+                            }
+                          >
+                            •
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  );
+                })}
               </section>
             ) : (
               <Squares

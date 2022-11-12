@@ -1,5 +1,4 @@
 function SequenceButton({ button, handleActiveButton, sequence }) {
-  // console.log(button, sequence);
   return (
     <button
       className={`visual-container__sequence-button ${
