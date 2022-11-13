@@ -25,13 +25,15 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100vh;
+  border: 2px solid black;
+}
+
 .App {
-  border: 1px solid black;
   background-color: white;
   display: flex;
   flex-direction: column;
-  // align-items: center;
-  // z-index: 10;
 
   &--dark-mode {
     background-color: black;
@@ -112,8 +114,9 @@
       margin-left: 1rem;
 
     }
+
     &__tempo-range::-webkit-slider-thumb {
-      -webkit-appearance: none;
+      // -webkit-appearance: none;
       appearance: none;
       width: 1rem;
       height: 1rem;
@@ -176,15 +179,13 @@
 }
 
 .sequencer {
-  width: 70%;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
-  min-width: 34.5625rem;
-  overflow-x: scroll;
+  justify-content: center;
   transform: scale(0.6, 0.6);
   transition: all 1s ease-in-out;
-  margin: -2rem 0 -2rem 0;
   position: relative;
   z-index: 800;
   
@@ -197,8 +198,6 @@
   
   @media screen and (min-width: 460px) {
     transform: scale(0.8, 0.8);
-    margin-top: 1rem;
-    margin-bottom: 2rem;
   }
   
   @media screen and (min-width: 660px) {
@@ -206,13 +205,12 @@
   }
   
   &__time {
-    min-width: 34.5625rem;
     overflow-x: scroll;
     display: flex;
     list-style: none;
-    padding: 0 0 0 2.5rem;
+    padding: 0;
+    width: 100%;
     justify-content: space-around;
-    margin: 0 0 1rem 0;
   }
 
   &__time-node {
@@ -232,8 +230,11 @@
   }
 
   &__piano-sequence {
+    border: 2px solid black;
     display: flex;
-    height: 300px;
+    flex-direction: column;
+    height: 14.25rem;
+    overflow-x: scroll;
 
     @media screen and (min-width: 660px) {
       margin-bottom: 1rem;
@@ -247,25 +248,38 @@
   }
 
   &__map {
-    border: 1px solid black;
-    overflow-x: scroll;
     display: flex;
     align-items: center;
     flex-direction: column-reverse;
     list-style: none;
     padding: 0 0 2px 0;
-    height: 100%;
+    height: 14rem;
     width: 100%;
     flex-wrap: wrap;
+    border: 2px solid black;
+
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+    }
+
+    &::-webkit-scrollbar:horizontal {
+      height: 1rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 1rem;
+      border: 2px solid black;
+      background-color: black;
+    }
   }
 
   &__drum-map {
     display: flex;
     flex-direction: row;
     padding: 0;
+    align-self: center;
     align-items: center;
     list-style: none;
-    width: 100%;
     justify-content: space-around;
   }
   
@@ -283,36 +297,37 @@
     text-align: center;
     padding-bottom: 1rem;
     cursor: pointer;
-    border: 1px solid black;
+    border: 2px solid black;
     width: 1rem;
-    height: 1.04rem;
-    margin: 3px 0;
-    border-radius: 8px;
-    padding: 0;
-
+    height: 1.5rem;
+    margin: 0.1rem 0.2rem;
+    border-radius: 1rem;
+    
+    
+    
     &--dark-mode {
       background-color: black;
       color: white;
       border: 1px solid white;
     }
-
+    
     &--active {
-      background-color: black;
       color: white;
-    }
+      transition: background-color 0.5s ease-in-out;
+      background-color: black;
 
+    }
+    
     &--active-dark {
       background-color: white; 
       color: black;
+      border: 1px solid white;
     }
-
     &--selected {
       background-color: rgba(251, 255, 185, 1);
       color: black;
-      transition: 0.1s linear;
+      transition: all 0.1s ease-in-out;
     }
-
-
   }
 }
 
@@ -325,15 +340,16 @@
     display: flex;
     justify-content: center;
     position: relative; 
-    z-index: 1000;
+    z-index: 900;
     flex-wrap: wrap; 
-    width: 60%;
+    width: 40%;
+    height: 6.25rem;
     margin: 0 auto;
   }
 
   &__sequence-button {
     cursor: pointer;
-    margin: 0.5rem;
+    // margin: 0.5rem;
     background-color: white;
     color: black;
     padding: 0.75rem 0.5rem;
@@ -352,8 +368,12 @@
   }
 
   &__hihats-eye {
-    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
+
   &__settings {
     position: fixed;
     visibility: hidden;
@@ -378,20 +398,37 @@
       visibility: visible;
     }
   }
+
+  &__menu-button {
+    position: relative;
+    z-index: 10;
+    width: 50%;
+    height: 100%;
+    border: 0;
+    background-color: black;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    border-radius: 1rem;
+
+    &--dark-mode {
+      background-color: white;
+      color: black;
+    }
+  }
   &__settings-input {
     -webkit-appearance: none;
-    transform: rotateZ(-90deg);
-    width: 90%;
-    height: 0.3rem;
-    margin: 1rem 0;
+    width: 0.5rem;
+    height: 4rem;
+    margin: 1rem;
     background: #EEE;
     cursor: pointer;
   }
   &__settings-input::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 0.5rem;
-    height: 1.5rem;
+    width: 2rem;
+    height: 0.5rem;
     background: #999;
     cursor: pointer;
   }
@@ -430,7 +467,7 @@
   &__envelopes {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    border: 1px solid black;
     width: 50%;
     margin: 0 auto;
   }
@@ -438,21 +475,22 @@
   &__envelope-label {
     font-family: "Open Sans";
     display: flex;
-    width: 80%;
+    width: 100%;
     justify-content: space-between;
-    margin-bottom: 2rem;
-    margin-top: 2rem;
+    border: 1px solid black;
   }
 
   &__envelope {
-    width: 25%;
+    width: 100%;
+    border: 1px solid black;
     text-align: center;
   }
   
   &__ADSR {
       display: flex;
-      width: 80%;
-      margin-bottom: 5rem;
+      justify-content: space-evenly;
+      width: 100%;
+      height: 8rem;
   }
   
   &__label {
@@ -469,31 +507,17 @@
     }
   }
 
+  &__scale-input {
+    text-align: center;
+  }
+
   &__middle {
-    
-    // transform: scale(0.8, 0.8);
-    margin-top: 4rem;
+    margin-top: 4.25rem;
     display: flex;
     width: 100%;
-    // flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 500px;
-    // transition: all 1s ease-in-out;
-    // border: 2px solid black;
-
-    // @media screen and (min-width: 660px) {
-    //   transform: scale(1, 1);
-    //   margin-top: 2rem;
-    // }
-  
-    // @media screen and (min-width: 900px) {
-    //   margin: 2rem auto 0 auto;
-    //   flex-direction: row;
-    //   height: 500px;
-    //   margin-top: 3rem;
-    //   transition: all 1s ease-in-out;
-    // }
+    height: 25rem;
   
     &--dark-mode {
       background-color: black;
@@ -501,6 +525,11 @@
   }
 
   &__bottom {
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 10rem;
     background-color: white;
 
     &--dark-mode {
@@ -514,6 +543,10 @@ button {
 }
 
 .footer {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+  
   &__logo {
     font-size: 2rem;
       color: white;
@@ -524,7 +557,6 @@ button {
       1px 1px 5px #000;
       font-family: "Gadimon", sans-serif;
       font-weight: 400;
-      padding-bottom: 2rem;
       user-select: none;
   }
 }

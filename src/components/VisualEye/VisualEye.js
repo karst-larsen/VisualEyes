@@ -8,7 +8,6 @@ import "./VisualEye.scss";
 
 function VisualEye({ darkMode, steps, playing, timeNode, hiHatArray, claps }) {
   //Pushes filtered notes into hatContainer to show visual effects on selected nodes
-  console.log("kick array:", steps);
   let hatContainer = [];
 
   for (let i = 0; i < hiHatArray.length; i++) {

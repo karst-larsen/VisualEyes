@@ -1,0 +1,25 @@
+.slider {
+    .MuiSlider-thumb {
+        color: black;
+        border-radius: 0;
+        width: 1.5rem;
+        height: 0.5rem;
+    }
+
+    .MuiSlider-rail, .MuiSlider-track {
+        color: rgb(175, 175, 175);
+    }
+
+    &--dark-mode {
+        .MuiSlider-thumb {
+            color: white;
+            border-radius: 0;
+            width: 1.5rem;
+            height: 0.5rem;
+        }
+
+    .MuiSlider-rail, .MuiSlider-track {
+        color: rgb(220, 220, 220);
+    }
+    }
+}

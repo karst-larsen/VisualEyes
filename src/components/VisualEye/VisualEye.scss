@@ -7,6 +7,15 @@
     }
 }
 
+@keyframes dropShadowTick {
+    0% {
+        filter: drop-shadow(3px 3px 1px rgb(0, 255, 255)) drop-shadow(-3px -3px 1px rgb(255, 0, 230));
+    }
+    100% {
+        filter: drop-shadow(1px 1px 1px black)
+    }
+}
+
 @keyframes motion {
     0% {
         transform: translateY(0)
@@ -45,12 +54,12 @@
 
     50% {
         transform: scale(2, 2);
-        opacity: 0.05;
+        opacity: 0.5;
     }
 
     75% {
         transform: scale(1.5, 1.5) rotate(0deg);
-        opacity: 0.05;
+        opacity: 0.75;
         
     }
 
@@ -90,7 +99,7 @@
     }
 
     50% {
-        right: 0.25rem
+        right: 0.5rem
     }
 
     100% {
@@ -101,18 +110,12 @@
 .visual-eye {
     display: flex;
     align-items: center;
-    animation: blink 0.46875s ease-in-out infinite;
+    // animation: blink 0.46875s ease-in-out infinite;
     width: 20rem;
     height: 15rem;
     transition: all 1s ease-in-out;
     z-index: 500;
     position: relative;
-    
-    // @media screen and (min-width: 900px) {
-    //     top: 4rem;
-    //     transform: scale(1, 1);
-    //     transition: all 1s ease-in-out;
-    // }
 
     &__spiral {
         position: relative;
@@ -123,7 +126,8 @@
         animation: spiralMotion 12s linear infinite forwards;
 
         &--active {
-            filter: drop-shadow(3px 3px 1px rgb(0, 255, 255)) drop-shadow(-3px -3px 1px rgb(255, 0, 230));
+            // filter: drop-shadow(3px 3px 1px rgb(0, 255, 255)) drop-shadow(-3px -3px 1px rgb(255, 0, 230));
+            animation: dropShadowTick 0.046875s ease-in-out infinite;
         }
 
         &--inactive {
@@ -139,7 +143,7 @@
     }
 
     &--active {
-        animation: shake 0.005s linear infinite;
+        animation: shake 0.0025s linear infinite;
     }
 
     
@@ -147,14 +151,16 @@
         visibility: hidden;
         opacity: 0.01;
         position: relative;
-        right: 33rem;
+        right: 36rem;
         top: -0.5rem;
         z-index: 4;
         height: 24rem;
         user-select: none;
+
         &--active {
             visibility: visible;
-            animation: eyeSpiral 30s ease-in-out infinite;
+            // animation: eyeSpiral 20s ease-in-out infinite;
+            filter: drop-shadow(3px 3px 1px rgb(0, 255, 255)) drop-shadow(-3px -3px 1px rgb(255, 0, 230));
         }
     }
 
