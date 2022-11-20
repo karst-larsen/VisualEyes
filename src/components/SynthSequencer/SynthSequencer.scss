@@ -1,13 +1,13 @@
 .slider {
     .MuiSlider-thumb {
-        color: black;
-        border-radius: 0;
+        color: white;
+        border-radius: 0.5rem;
         width: 1.5rem;
         height: 0.5rem;
     }
 
     .MuiSlider-rail, .MuiSlider-track {
-        color: rgb(175, 175, 175);
+        color: rgb(222, 222, 222);
     }
 
     &--dark-mode {

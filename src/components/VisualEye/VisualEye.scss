@@ -9,10 +9,10 @@
 
 @keyframes dropShadowTick {
     0% {
-        filter: drop-shadow(3px 3px 1px rgb(0, 255, 255)) drop-shadow(-3px -3px 1px rgb(255, 0, 230));
+        
     }
     100% {
-        filter: drop-shadow(1px 1px 1px black)
+        
     }
 }
 
@@ -49,23 +49,19 @@
 @keyframes eyeSpiral {
     0% {
         transform: scale(0.5, 0.5);
-        opacity: 0;
     }
 
     50% {
         transform: scale(2, 2);
-        opacity: 0.5;
     }
 
     75% {
         transform: scale(1.5, 1.5) rotate(0deg);
-        opacity: 0.75;
         
     }
 
     100% {
         transform: scale(0.3, 0.3) rotate(180deg);
-        opacity: 0;
     }
 }
 
@@ -110,10 +106,9 @@
 .visual-eye {
     display: flex;
     align-items: center;
-    // animation: blink 0.46875s ease-in-out infinite;
     width: 20rem;
     height: 15rem;
-    transition: all 1s ease-in-out;
+    transition: all 0.05s ease-in-out;
     z-index: 500;
     position: relative;
 
@@ -123,11 +118,11 @@
         left: 3.75rem;
         height: 12rem;
         z-index: 1;
+        filter: drop-shadow(1px 1px 1px black);
         animation: spiralMotion 12s linear infinite forwards;
-
+        
         &--active {
-            // filter: drop-shadow(3px 3px 1px rgb(0, 255, 255)) drop-shadow(-3px -3px 1px rgb(255, 0, 230));
-            animation: dropShadowTick 0.046875s ease-in-out infinite;
+            filter: drop-shadow(3px 3px 1px rgb(0, 255, 255)) drop-shadow(-3px -3px 1px rgb(255, 0, 230));
         }
 
         &--inactive {
@@ -143,24 +138,33 @@
     }
 
     &--active {
+        transform: scale(1.1, 1.1);
+        transition: all 0.05s ease-in-out;
         animation: shake 0.0025s linear infinite;
     }
 
     
     &__transparent-eye {
         visibility: hidden;
-        opacity: 0.01;
+        opacity: 0.05;
         position: relative;
         right: 36rem;
         top: -0.5rem;
-        z-index: 4;
+        z-index: -1;
         height: 24rem;
         user-select: none;
-
+        animation: eyeSpiral 50s ease-in-out infinite;
+        transition: all 2s ease-in-out;
+        
+        
         &--active {
             visibility: visible;
-            // animation: eyeSpiral 20s ease-in-out infinite;
             filter: drop-shadow(3px 3px 1px rgb(0, 255, 255)) drop-shadow(-3px -3px 1px rgb(255, 0, 230));
+        }
+        
+        &--active-note {
+            opacity: 0.5;
+            transition: all 0.5s ease-in-out;
         }
     }
 

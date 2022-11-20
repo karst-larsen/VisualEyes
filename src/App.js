@@ -9,17 +9,12 @@ import { synthOne, synthTwo } from "./utils/Synths";
 import { sequenceTimer } from "./utils/SequenceTimer";
 import { leadSynthNotes, bassSynthNotes } from "./utils/SynthOneNotes";
 import { allDrumSequencer } from "./components/DrumSequencer/DrumSequencer";
-// import pianoIcon from "./assets/images/icons/octavePiano.svg";
 import playButton from "./assets/images/icons/play-button.svg";
 import stopButton from "./assets/images/icons/stop-button.svg";
 import kickSound from "./assets/sounds/kick/kick (16).wav";
 import clapSound from "./assets/sounds/clap/clap(1).wav";
 import hiHatSound from "./assets/sounds/hihat/hihat(1).WAV";
 import openHatSound from "./assets/sounds/openhat/hi hat (36).wav";
-// import kickIcon from "./assets/images/icons/Kick.svg";
-// import clapIcon from "./assets/images/icons/Clap.svg";
-// import hiHatIcon from "./assets/images/icons/HiHat.svg";
-// import openHatIcon from "./assets/images/icons/OpenHat.svg";
 import SequenceList from "./components/SequenceList/SequenceList";
 import visualEyesLogo from "./assets/images/icons/spectrumVisualEyes.png";
 import { scales, scalesLibrary } from "./utils/scales";
@@ -130,16 +125,16 @@ class App extends Component {
       openHatSequence,
       sequences: {
         leadSynthSequencer: [
-          leadSynthNotes(scalesLibrary(0)),
-          leadSynthNotes(scalesLibrary(0)),
-          leadSynthNotes(scalesLibrary(0)),
-          leadSynthNotes(scalesLibrary(0)),
+          leadSynthNotes(scalesLibrary(1)),
+          leadSynthNotes(scalesLibrary(1)),
+          leadSynthNotes(scalesLibrary(1)),
+          leadSynthNotes(scalesLibrary(1)),
         ],
         bassSynthSequencer: [
-          bassSynthNotes(scalesLibrary(0)),
-          bassSynthNotes(scalesLibrary(0)),
-          bassSynthNotes(scalesLibrary(0)),
-          bassSynthNotes(scalesLibrary(0)),
+          bassSynthNotes(scalesLibrary(1)),
+          bassSynthNotes(scalesLibrary(1)),
+          bassSynthNotes(scalesLibrary(1)),
+          bassSynthNotes(scalesLibrary(1)),
         ],
         allDrumSequencer: JSON.parse(
           localStorage.getItem("allDrumSequencer")
@@ -349,6 +344,66 @@ class App extends Component {
         }
       );
     }
+  };
+
+  changeScale = () => {
+    const newSequences = { ...this.state.sequences };
+
+    console.log(newSequences.leadSynthSequencer);
+
+    // newSequences.leadSynthSequencer = [
+    //   leadSynthNotes(scalesLibrary(0)),
+    //   leadSynthNotes(scalesLibrary(0)),
+    //   leadSynthNotes(scalesLibrary(0)),
+    //   leadSynthNotes(scalesLibrary(0)),
+    // ];
+    // newSequences.bassSynthSequencer = [
+    //   bassSynthNotes(scalesLibrary(0)),
+    //   bassSynthNotes(scalesLibrary(0)),
+    //   bassSynthNotes(scalesLibrary(0)),
+    //   bassSynthNotes(scalesLibrary(0)),
+    // ];
+
+    this.setState(
+      {
+        sequences: newSequences,
+      },
+      () => {
+        console.log("scales updated?");
+      }
+    );
+  };
+
+  runSequence = () => {
+    Tone.Transport.scheduleRepeat((time) => {
+      if (Math.ceil(Tone.Transport.getTicksAtTime(time) / 48) % 8 === 0) {
+        const newSequences = { ...this.state.activeSequence };
+        const newSequenceButtons = { ...this.state.sequenceButtons };
+        console.log(newSequenceButtons.button);
+        const keys = Object.keys(newSequences);
+
+        for (let sequence of keys) {
+          if (newSequences[sequence] === 3) {
+            newSequences[sequence] = 0;
+          } else {
+            newSequences[sequence]++;
+          }
+        }
+        this.setState(
+          {
+            activeSequence: newSequences,
+          },
+          () => {
+            this.state.sequenceOne.set({
+              events:
+                this.state.leadSynthArray[
+                  this.state.activeSequence.activeLeadSequence
+                ],
+            });
+          }
+        );
+      }
+    }, "16n");
   };
 
   //dark mode toggle
@@ -792,6 +847,11 @@ class App extends Component {
                     this.state.activeSequence.activeDrumSequence
                   ][2]
                 }
+                openHatArray={
+                  this.state.drumArray[
+                    this.state.activeSequence.activeDrumSequence
+                  ][3]
+                }
               />
               <div className="visual-container__sequence-selection">
                 <SequenceList
@@ -799,12 +859,26 @@ class App extends Component {
                   handleActiveButton={this.handleActiveButton}
                 />
               </div>
-              <button
-                className="visual-container__menu-button"
-                onClick={() => this.handleMenu()}
-              >
-                Menu
-              </button>
+              <div className="button-section">
+                <button
+                  className="visual-container__menu-button"
+                  onClick={() => this.handleMenu()}
+                >
+                  Menu
+                </button>
+                <button
+                  className="visual-container__menu-button"
+                  onClick={() => this.runSequence()}
+                >
+                  Run
+                </button>
+                <button
+                  className="visual-container__menu-button"
+                  onClick={() => this.changeScale()}
+                >
+                  Scale
+                </button>
+              </div>
             </div>
             {this.state.menuOpen ? (
               <SynthSequencer
@@ -855,8 +929,12 @@ class App extends Component {
                               this.state.darkMode
                                 ? "sequencer__note--dark-mode"
                                 : ""
-                            }${
-                              note.isActive ? "sequencer__note--active" : ""
+                            } ${
+                              note.isActive
+                                ? this.state.darkMode
+                                  ? "sequencer__note--active-dark"
+                                  : "sequencer__note--active"
+                                : ""
                             } ${
                               this.state.selectedTimeNode === noteId
                                 ? "sequencer__note--selected"

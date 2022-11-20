@@ -6,8 +6,30 @@ import transparentEye from "../../assets/images/icons/visualeyes-pump.png";
 import transparentEyeInvert from "../../assets/images/icons/visualeyes-pump-invert.png";
 import "./VisualEye.scss";
 
-function VisualEye({ darkMode, steps, playing, timeNode, hiHatArray, claps }) {
+function VisualEye({
+  darkMode,
+  steps,
+  playing,
+  timeNode,
+  hiHatArray,
+  claps,
+  openHatArray,
+}) {
   //Pushes filtered notes into hatContainer to show visual effects on selected nodes
+
+  const openHatContainer = [];
+
+  for (let i = 0; i < openHatArray.length; i++) {
+    if (openHatArray[i] !== null) {
+      let newStep = {
+        id: i,
+      };
+      openHatContainer.push(newStep);
+    } else {
+      openHatContainer.push(null);
+    }
+  }
+
   let hatContainer = [];
 
   for (let i = 0; i < hiHatArray.length; i++) {
@@ -74,6 +96,10 @@ function VisualEye({ darkMode, steps, playing, timeNode, hiHatArray, claps }) {
         alt="visual-eye"
         className={`visual-eye__transparent-eye ${
           playing ? "visual-eye__transparent-eye--active" : ""
+        } ${
+          openHatContainer[timeNode]?.id === timeNode
+            ? "visual-eye__transparent-eye--active-note"
+            : ""
         }`}
       />
       <img

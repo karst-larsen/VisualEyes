@@ -16,11 +16,6 @@ function SynthSequencer({
   return (
     <div className="sequencer">
       <div className="sequencer__piano-sequence">
-        {/* <img
-            src={pianoIcon}
-            alt="Piano Display for Sequencers"
-            className="sequencer__piano"
-          /> */}
         <ul className="sequencer__map">
           {synthSequence[activeSequence].map((column, columnId) => {
             return column.map((noteArray, noteArrayId) => {
@@ -30,7 +25,7 @@ function SynthSequencer({
                     key={noteId}
                     className={`sequencer__note ${
                       darkMode ? "sequencer__note--dark-mode" : ""
-                    }${
+                    } ${
                       note.isActive
                         ? darkMode
                           ? "sequencer__note--active-dark"
@@ -58,17 +53,6 @@ function SynthSequencer({
           <span className="visual-container__envelope">R</span>
         </div>
         <div className="visual-container__ADSR">
-          {/* <input
-            className="visual-container__settings-input"
-            type="range"
-            min="0"
-            max="0.1"
-            step="0.01"
-            value={envelopes.attack}
-            name="attack"
-            onChange={(e) => editEnvelope(e, "synthOne")}
-            orient="vertical"
-          /> */}
           <Slider
             sx={{
               '& input[type="range"]': {
@@ -86,17 +70,6 @@ function SynthSequencer({
             onChange={(e) => editEnvelope(e, synth)}
             className={darkMode ? "slider--dark-mode" : "slider"}
           />
-          {/* <input
-            className="visual-container__settings-input"
-            type="range"
-            min="0.1"
-            max="1"
-            step="0.1"
-            value={envelopes.decay}
-            name="decay"
-            onChange={(e) => editEnvelope(e, "synthOne")}
-            orient="vertical"
-          /> */}
           <Slider
             sx={{
               '& input[type="range"]': {
@@ -114,17 +87,6 @@ function SynthSequencer({
             onChange={(e) => editEnvelope(e, synth)}
             className={darkMode ? "slider--dark-mode" : "slider"}
           />
-          {/* <input
-            className="visual-container__settings-input"
-            type="range"
-            min="0.1"
-            max="1"
-            step="0.1"
-            value={envelopes.sustain}
-            name="sustain"
-            onChange={(e) => editEnvelope(e, "synthOne")}
-            orient="vertical"
-          /> */}
           <Slider
             sx={{
               '& input[type="range"]': {
@@ -142,17 +104,6 @@ function SynthSequencer({
             onChange={(e) => editEnvelope(e, synth)}
             className={darkMode ? "slider--dark-mode" : "slider"}
           />
-          {/* <input
-            className="visual-container__settings-input"
-            type="range"
-            min="0.1"
-            max="3"
-            step="0.1"
-            value={envelopes.release}
-            name="release"
-            onChange={(e) => editEnvelope(e, "synthOne")}
-            orient="vertical"
-          /> */}
           <Slider
             sx={{
               '& input[type="range"]': {
@@ -164,7 +115,7 @@ function SynthSequencer({
             }}
             orientation="vertical"
             min={0.1}
-            max={5}
+            max={3}
             aria-label="Temperature"
             valueLabelDisplay="auto"
             value={envelopes.release}
