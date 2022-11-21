@@ -1,14 +1,4 @@
-@keyframes long-box-motion {
-    0% {
-        top: 0;
-    }
-    50% {
-        top: 0.25rem
-    }
-    100% {
-        top: 0;
-    }
-}
+@use '../../partials/color-modifier' as *;
 
 @keyframes idle {
     0% {
@@ -22,130 +12,36 @@
 .sixth {
     display: flex;
     align-items: center;
+    width: 100%;
+    height: 100%;
     position: relative;
-    transform: rotateZ(90deg);
-    
-    @media screen and (min-width: 900px) {
-        transform: rotateZ(0deg);
-        transition: all 0.5s;
-    }
 }
 
 .long-box {
     position: relative;
     display: flex;
-    background-color: white;
     
     &__box-0 {
-        position: relative;
-        animation: long-box-motion 2.8s ease-in-out infinite;
-        animation: idle 0.5s ease-in-out;
-        height: 10.5rem;
-        width: 1.5rem;
-        margin-right: 1rem;
+        background-color: blue;
+        height: 100%;
+        width: 100%;
         z-index: 6;
-        
     }
     &__box-1 {
-        position: relative;
-        animation: long-box-motion 2.8s ease-in-out infinite;
-        animation: idle 0.5s ease-in-out 0.25s;
-        height: 15.5rem;
-        width: 2rem;
-        margin-right: 1rem;
+        height: 100%;
+        width: 100%;
         z-index: 6;
     }
     &__box-2 {
-        position: relative;
-        animation: long-box-motion 3.7s ease-in-out infinite;
-        height: 20.5rem;
-        width: 2.5rem;
-        animation: idle 0.5s ease-in-out 0.35s;
-        margin-right: 1rem;
+        height: 100%;
+        width: 100%;
         z-index: 7;
     }
     &__box-3 {
-        position: relative;
-        animation: long-box-motion 4.5s ease-in-out infinite;
-        height: 25rem;
-        width: 3rem;
-        animation: idle 0.5s ease-in-out 0.45s;
-        margin-right: -9rem;
-        background-color: white;
+        height: 100%;
+        width: 100%;
         z-index: 8;
-
-        @media screen and (min-width: 900px) {
-            margin-right: 6rem;
-        }
     }
 
-    &--30 {
-        background-color: hsl(30, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-    }
-
-    &--60 {
-        background-color: hsl(60, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-    }
-
-    &--90 {
-        background-color: hsl(90, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-    }
-    &--120 {
-        background-color: hsl(120, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-    }
-    &--150 {
-        background-color: hsl(150, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-    }
-    &--180 {
-        background-color: hsl(180, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-    }
-    &--210 {
-        background-color: hsl(210, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-    }
-    &--240 {
-        background-color: hsl(240, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-
-    }
-    &--270 {
-        background-color: hsl(270, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-    }
-    &--300 {
-        background-color: hsl(300, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-    }
-    &--330 {
-        background-color: hsl(330, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-    }
-
-    &--359 {
-        background-color: hsl(360, 100%, 50%);
-        transform: scale(1, 1.1);
-        transition: all 0.1s ease-in;
-    }
-
-    &--regular {
-        background-color: #EEE;
-        // transition: all 0.75s ease-out 0.2s;
-    }
+    @include color-modifier;
 }

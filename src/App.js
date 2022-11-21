@@ -1,527 +1,816 @@
-import './App.scss';
-import { Component } from 'react'
-import * as Tone from 'tone'
-import VisualEye from './components/VisualEye/VisualEye';
-import LeftSixth from './components/LeftSixth/LeftSixth'
-import RightSixth from  './components/RightSixth/RightSixth'
-import Squares from './components/Squares/Squares'
-import { synthOne, synthTwo } from './utils/Synths'
-import { sequenceTimer } from './utils/SequenceTimer'
-import { leadSynthNotes, bassSynthNotes } from './utils/SynthOneNotes'
-import { drumSequencer, clapSequencer, hiHatSequencer, openHatSequencer } from './components/DrumSequencer/DrumSequencer'
-import pianoIcon from './assets/images/icons/octavePiano.svg'
-import playButton from './assets/images/icons/play-button.svg'
-import stopButton from './assets/images/icons/stop-button.svg'
-import kickSound from './assets/sounds/kick/kick (16).wav'
-import clapSound from './assets/sounds/clap/clap(1).wav'
-import hiHatSound from './assets/sounds/hihat/hihat(1).WAV'
-import openHatSound from './assets/sounds/openhat/hi hat (36).wav'
-import kickIcon from './assets/images/icons/Kick.svg'
-import clapIcon from './assets/images/icons/Clap.svg'
-import hiHatIcon from './assets/images/icons/HiHat.svg'
-import openHatIcon from './assets/images/icons/OpenHat.svg'
-import settingsIcon from './assets/images/icons/SettingsIcon.svg'
+import "./App.scss";
+import { Component } from "react";
+import * as Tone from "tone";
+import VisualEye from "./components/VisualEye/VisualEye";
+import LeftSixth from "./components/LeftSixth/LeftSixth";
+import RightSixth from "./components/RightSixth/RightSixth";
+import Squares from "./components/Squares/Squares";
+import { synthOne, synthTwo } from "./utils/Synths";
+import { sequenceTimer } from "./utils/SequenceTimer";
+import { leadSynthNotes, bassSynthNotes } from "./utils/SynthOneNotes";
+import { allDrumSequencer } from "./components/DrumSequencer/DrumSequencer";
+import playButton from "./assets/images/icons/play-button.svg";
+import stopButton from "./assets/images/icons/stop-button.svg";
+import kickSound from "./assets/sounds/kick/kick (16).wav";
+import clapSound from "./assets/sounds/clap/clap(1).wav";
+import hiHatSound from "./assets/sounds/hihat/hihat(1).WAV";
+import openHatSound from "./assets/sounds/openhat/hi hat (36).wav";
+import SequenceList from "./components/SequenceList/SequenceList";
+import visualEyesLogo from "./assets/images/icons/spectrumVisualEyes.png";
+import { scales, scalesLibrary } from "./utils/scales";
+import SynthSequencer from "./components/SynthSequencer/SynthSequencer";
+import Header from "./components/Header/Header";
+import DrumSection from "./components/DrumSection/DrumSection";
 
 class App extends Component {
   constructor() {
-    super(); 
-    const sequenceOne = new Tone.Sequence((time, note) => {
-      synthOne.triggerAttackRelease(note, 0.1, time)
-    }, [], '16n')
-    const sequenceTwo = new Tone.Sequence((time, note) => {
-      synthTwo.triggerAttackRelease(note, 0.1, time)
-    }, [], '16n')
+    super();
 
     const drumSampler = new Tone.Players({
       kick: kickSound,
       clap: clapSound,
       hiHat: hiHatSound,
       openHat: openHatSound,
-    }).toDestination()
+    }).toDestination();
 
-    let kickSequence = new Tone.Sequence((time, note) => {
-      this.state.drumSampler.player(note).start(time)
-    }, [], '16n')
+    const kickSequence = new Tone.Sequence(
+      (time, note) => {
+        this.state.drumSampler.player(note).start(time);
+      },
+      [],
+      "16n"
+    );
 
-    let clapSequence = new Tone.Sequence((time, note) => {
-      this.state.drumSampler.player(note).start(time)
-    }, [], '16n')
+    const clapSequence = new Tone.Sequence(
+      (time, note) => {
+        this.state.drumSampler.player(note).start(time);
+      },
+      [],
+      "16n"
+    );
 
-    let hiHatSequence = new Tone.Sequence((time, note) => {
-      this.state.drumSampler.player(note).start(time)
-    }, [], '16n')
+    const hiHatSequence = new Tone.Sequence(
+      (time, note) => {
+        this.state.drumSampler.player(note).start(time);
+      },
+      [],
+      "16n"
+    );
 
-    let openHatSequence = new Tone.Sequence((time, note) => {
-      this.state.drumSampler.player(note).start(time)
-    }, [], '16n')
+    const openHatSequence = new Tone.Sequence(
+      (time, note) => {
+        this.state.drumSampler.player(note).start(time);
+      },
+      [],
+      "16n"
+    );
 
     this.state = {
       playing: false,
       started: false,
-      timerArray: new Array(32).fill(null), 
-      leadSynthArray: new Array(32).fill(null),
-      bassSynthArray: new Array(32).fill(null),
-      kickDrumArray: new Array(32).fill(null),
-      clapArray: new Array(32).fill(null),
-      hiHatArray: new Array(32).fill(null),
-      openHatArray: new Array(32).fill(null),
-      sequenceOne,
-      sequenceTwo,
+      timerArray: new Array(32).fill(null),
+      leadSynthArray: [
+        new Array(32).fill(null),
+        new Array(32).fill(null),
+        new Array(32).fill(null),
+        new Array(32).fill(null),
+      ],
+      bassSynthArray: [
+        new Array(32).fill(null),
+        new Array(32).fill(null),
+        new Array(32).fill(null),
+        new Array(32).fill(null),
+      ],
+      drumArray: JSON.parse(localStorage.getItem("drumArray")) || [
+        [
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+        ],
+        [
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+        ],
+        [
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+        ],
+        [
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+          new Array(32).fill(null),
+        ],
+      ],
+      sequenceOne: new Tone.Sequence(
+        (time, note) => {
+          synthOne.triggerAttackRelease(note, 0.1, time);
+        },
+        [],
+        "16n"
+      ),
+      sequenceTwo: new Tone.Sequence(
+        (time, note) => {
+          synthTwo.triggerAttackRelease(note, 0.1, time);
+        },
+        [],
+        "16n"
+      ),
       kickSequence,
-      kickSequencer: drumSequencer(),
       clapSequence,
-      clapSequencer: clapSequencer(),
       hiHatSequence,
-      hiHatSequencer: hiHatSequencer(),
-      openHatSequence, 
-      openHatSequencer: openHatSequencer(),
-      leadSynthSequencer: leadSynthNotes(),
-      bassSynthSequencer: bassSynthNotes(),
+      openHatSequence,
+      sequences: {
+        leadSynthSequencer: [
+          leadSynthNotes(scalesLibrary[1]),
+          leadSynthNotes(scalesLibrary[1]),
+          leadSynthNotes(scalesLibrary[1]),
+          leadSynthNotes(scalesLibrary[1]),
+        ],
+        bassSynthSequencer: [
+          bassSynthNotes(scalesLibrary[1]),
+          bassSynthNotes(scalesLibrary[1]),
+          bassSynthNotes(scalesLibrary[1]),
+          bassSynthNotes(scalesLibrary[1]),
+        ],
+        allDrumSequencer: JSON.parse(
+          localStorage.getItem("allDrumSequencer")
+        ) || [
+          allDrumSequencer(),
+          allDrumSequencer(),
+          allDrumSequencer(),
+          allDrumSequencer(),
+        ],
+      },
       sequenceTimer: sequenceTimer(),
       drumSampler,
       isActive: false,
       tempo: 120,
       selectedTimeNode: null,
       synthOneOscillator: {
-        type: 'sawtooth',
+        type: "sawtooth",
       },
       synthOneADSR: {
         attack: 0,
-        decay: 0.5, 
+        decay: 0.5,
         sustain: 0.5,
-        release: 1
+        release: 1,
       },
       synthTwoOscillator: {
-        type: 'sawtooth'
+        type: "sawtooth",
       },
       synthTwoADSR: {
         attack: 0,
-        decay: 0.1, 
-        sustain: 0.1,
-        release: 1
+        decay: 0.5,
+        sustain: 0.5,
+        release: 1,
       },
-      isSettingsOpen: false
-    }
+      isSettingsOpen: false,
+      sequenceButtons: [
+        {
+          sequence: 0,
+          name: "sequenceOne",
+          buttons: [
+            {
+              id: 0,
+              name: "A",
+              isActive: true,
+            },
+            {
+              id: 1,
+              name: "B",
+              isActive: false,
+            },
+            {
+              id: 2,
+              name: "C",
+              isActive: false,
+            },
+            {
+              id: 3,
+              name: "D",
+              isActive: false,
+            },
+          ],
+        },
+        {
+          sequence: 1,
+          name: "sequenceTwo",
+          buttons: [
+            {
+              id: 0,
+              name: "A",
+              isActive: true,
+            },
+            {
+              id: 1,
+              name: "B",
+              isActive: false,
+            },
+            {
+              id: 2,
+              name: "C",
+              isActive: false,
+            },
+            {
+              id: 3,
+              name: "D",
+              isActive: false,
+            },
+          ],
+        },
+        {
+          sequence: 2,
+          name: "sequenceThree",
+          buttons: [
+            {
+              id: 0,
+              name: "A",
+              isActive: true,
+            },
+            {
+              id: 1,
+              name: "B",
+              isActive: false,
+            },
+            {
+              id: 2,
+              name: "C",
+              isActive: false,
+            },
+            {
+              id: 3,
+              name: "D",
+              isActive: false,
+            },
+          ],
+        },
+      ],
+      activeSequence: {
+        activeLeadSequence: 0,
+        activeBassSequence: 0,
+        activeDrumSequence: 0,
+      },
+      darkMode: false,
+      menuOpen: true,
+    };
   }
+
+  //function to set the sequence button to active
+
+  handleActiveButton = (buttonId, button, sequenceObject) => {
+    //Only update the sequenceButton that matches the correct sequence
+    const sequenceId = sequenceObject.sequence;
+    const newArray = [...this.state.sequenceButtons];
+    const newActiveButton = newArray[sequenceId].buttons.find(
+      (button) => button.id === buttonId
+    );
+    newArray[sequenceId].buttons.forEach((button) => (button.isActive = false));
+    newActiveButton.isActive = true;
+
+    if (sequenceId === 0) {
+      this.setState(
+        {
+          sequenceButtons: newArray,
+          activeSequence: {
+            ...this.state.activeSequence,
+            activeLeadSequence: buttonId,
+          },
+        },
+        () => {
+          this.state.sequenceOne.set({
+            events:
+              this.state.leadSynthArray[
+                this.state.activeSequence.activeLeadSequence
+              ],
+          });
+        }
+      );
+    } else if (sequenceId === 1) {
+      this.setState(
+        {
+          sequenceButtons: newArray,
+          activeSequence: {
+            ...this.state.activeSequence,
+            activeBassSequence: buttonId,
+          },
+        },
+        () => {
+          this.state.sequenceTwo.set({
+            events:
+              this.state.bassSynthArray[
+                this.state.activeSequence.activeBassSequence
+              ],
+          });
+        }
+      );
+    } else if (sequenceId === 2) {
+      this.setState(
+        {
+          sequenceButtons: newArray,
+          activeSequence: {
+            ...this.state.activeSequence,
+            activeDrumSequence: buttonId,
+          },
+        },
+        () => {
+          this.state.kickSequence.set({
+            events:
+              this.state.drumArray[
+                this.state.activeSequence.activeDrumSequence
+              ][0],
+          });
+          this.state.clapSequence.set({
+            events:
+              this.state.drumArray[
+                this.state.activeSequence.activeDrumSequence
+              ][1],
+          });
+          this.state.hiHatSequence.set({
+            events:
+              this.state.drumArray[
+                this.state.activeSequence.activeDrumSequence
+              ][2],
+          });
+          this.state.openHatSequence.set({
+            events:
+              this.state.drumArray[
+                this.state.activeSequence.activeDrumSequence
+              ][3],
+          });
+        }
+      );
+    }
+  };
+
+  //dark mode toggle
+  changeDarkMode = () => {
+    this.setState({
+      darkMode: !this.state.darkMode,
+    });
+  };
+
+  //Toggle menu
+
+  handleMenu = () => {
+    this.setState({
+      menuOpen: !this.state.menuOpen,
+    });
+  };
 
   //Clock for selecting index of 32 steps
   timerSequence = () => {
-    Tone.Transport.scheduleRepeat(time => {
+    Tone.Transport.scheduleRepeat((time) => {
       this.setState({
-        selectedTimeNode: Tone.Transport.getTicksAtTime(time) / 48
-      })
-    }, "16n")
-  }
+        selectedTimeNode: Tone.Transport.getTicksAtTime(time) / 48,
+      });
+    }, "16n");
+  };
 
   //Changes node colour based on user select
   handleNoteClick = (note, column) => {
-    column.forEach(noteItem => {
+    column.forEach(() => {
       this.setState({
-        isActive: false
-      })
-    })
-
-    note.isActive = !note.isActive
-    this.setState({
-      isActive: note.isActive
+        isActive: false,
+      });
     });
-  }
+
+    note.isActive = !note.isActive;
+    this.setState({
+      isActive: note.isActive,
+    });
+  };
 
   //Starts loop sequence
   startLoop = (sequence) => {
-    sequence.start()
-  }
+    sequence.start();
+  };
 
   configLoop = () => {
     this.state.sequenceOne.set({
-      events: this.state.leadSynthArray
-    })
+      events:
+        this.state.leadSynthArray[this.state.activeSequence.activeLeadSequence],
+    });
 
     this.state.sequenceTwo.set({
-      events: this.state.bassSynthArray
-    })
+      events:
+        this.state.bassSynthArray[this.state.activeSequence.activeBassSequence],
+    });
 
-    this.state.sequenceOne.start()
-    this.state.sequenceTwo.start()
-    this.state.kickSequence.start()
-    this.state.clapSequence.start()
-    this.state.hiHatSequence.start()
-    this.state.openHatSequence.start()
+    this.state.sequenceOne.start();
+    this.state.sequenceTwo.start();
+    this.state.kickSequence.start();
+    this.state.clapSequence.start();
+    this.state.hiHatSequence.start();
+    this.state.openHatSequence.start();
 
     Tone.Transport.bpm.value = this.state.tempo;
     Tone.Transport.loop = true;
     Tone.Transport.loopStart = 0;
-    Tone.Transport.loopEnd = "2:0:0"
+    Tone.Transport.loopEnd = "2:0:0";
     Tone.Transport.start();
 
     this.timerSequence();
-  } 
+  };
 
-  configPlayButton = () => {
+  handlePlayButton = () => {
     if (!this.state.started) {
       Tone.start().then(() => {
         Tone.getDestination();
         this.configLoop();
         this.setState({
           started: true,
-          playing: true
-        })
-      })
+          playing: true,
+        });
+      });
     }
-  }
+  };
 
   stopPlay = () => {
     Tone.Transport.stop();
     this.setState({
       started: false,
-      playing: false
-    })
-  }
+      playing: false,
+    });
+  };
 
-  drumSequence = (e, kickIndex, kick) => {
-    let updatedDrumSequence = [...this.state.kickDrumArray]
+  handleUpdatedDrumSequence = (sequenceId, sequence, noteId, note) => {
+    //Spread the array of all the drum sequences
+    const sequences = [...this.state.drumArray];
+    //Retrieve the copied array to be manipulated
 
-    if (updatedDrumSequence[kickIndex]) {
-      updatedDrumSequence[kickIndex] = null
-      kick.isActive = false
-    } else {
-      updatedDrumSequence[kickIndex] = kick.note
-      kick.isActive = true
+    sequences[this.state.activeSequence.activeDrumSequence][sequenceId][
+      noteId
+    ] = sequences[this.state.activeSequence.activeDrumSequence][sequenceId][
+      noteId
+    ]
+      ? null
+      : note.note;
+    note.isActive = !note.isActive;
+
+    if (sequenceId === 0) {
+      this.setState(
+        {
+          drumArray: sequences,
+        },
+        () => {
+          this.state.kickSequence.set({
+            events:
+              sequences[this.state.activeSequence.activeDrumSequence][
+                sequenceId
+              ],
+          });
+        }
+      );
+    } else if (sequenceId === 1) {
+      this.setState(
+        {
+          drumArray: sequences,
+        },
+        () => {
+          this.state.clapSequence.set({
+            events:
+              sequences[this.state.activeSequence.activeDrumSequence][
+                sequenceId
+              ],
+          });
+        }
+      );
+    } else if (sequenceId === 2) {
+      this.setState(
+        {
+          drumArray: sequences,
+        },
+        () => {
+          this.state.hiHatSequence.set({
+            events:
+              sequences[this.state.activeSequence.activeDrumSequence][
+                sequenceId
+              ],
+          });
+        }
+      );
+    } else if (sequenceId === 3) {
+      this.setState(
+        {
+          drumArray: sequences,
+        },
+        () => {
+          this.state.openHatSequence.set({
+            events:
+              sequences[this.state.activeSequence.activeDrumSequence][
+                sequenceId
+              ],
+          });
+        }
+      );
     }
-
-    this.setState({
-      kickDrumArray: updatedDrumSequence
-    }, () => {
-      this.state.kickSequence.set({
-        events: updatedDrumSequence
-      })
-    })
-  }
-
-  clapSequence = (e, clapIndex, clap) => {
-    let updatedDrumSequence = [...this.state.clapArray]
-
-    if (updatedDrumSequence[clapIndex]) {
-      updatedDrumSequence[clapIndex] = null
-      clap.isActive = false
-    } else {
-      updatedDrumSequence[clapIndex] = clap.note
-      clap.isActive = true
-    }
-    
-    this.setState({
-      clapArray: updatedDrumSequence
-    }, () => {
-      this.state.clapSequence.set({
-        events: updatedDrumSequence
-      })
-    })
-  }
-
-  hiHatSequence = (e, hiHatIndex, hiHat) => {
-    let updatedDrumSequence = [...this.state.hiHatArray]
-
-    if (updatedDrumSequence[hiHatIndex]) {
-      updatedDrumSequence[hiHatIndex] = null
-      hiHat.isActive = false
-    } else {
-      updatedDrumSequence[hiHatIndex] = hiHat.note
-      hiHat.isActive = true
-    }
-    
-
-    this.setState({
-      hiHatArray: updatedDrumSequence
-    }, () => {
-      this.state.hiHatSequence.set({
-        events: updatedDrumSequence
-      })
-    })
-  }
-
-  openHatSequence = (e, openHatIndex, openHat) => {
-    let updatedDrumSequence = [...this.state.openHatArray]
-
-    if (updatedDrumSequence[openHatIndex]) {
-      updatedDrumSequence[openHatIndex] = null
-      openHat.isActive = false
-    } else {
-      updatedDrumSequence[openHatIndex] = openHat.note
-      openHat.isActive = true
-    }
-    
-
-    this.setState({
-      openHatArray: updatedDrumSequence
-    }, () => {
-      this.state.openHatSequence.set({
-        events: updatedDrumSequence
-      })
-    })
-  }
+  };
 
   leadArrayMelody = (e, column, columnId, noteArrayId, note) => {
-      let updatedLeadArray = [...this.state.leadSynthArray];
-  
-      if(note.isActive) {
-        updatedLeadArray[columnId] = null
-      } else {
-        column.forEach(columnItem => {
-          columnItem.forEach(note => {
-            note.isActive = false
-          })
-        })
-        updatedLeadArray[columnId] = note.note
-      }
-      
-      this.setState({
-        leadSynthArray: updatedLeadArray
-      }, () => {
+    let updatedLeadArray = [...this.state.leadSynthArray];
+
+    if (note.isActive) {
+      updatedLeadArray[this.state.activeSequence.activeLeadSequence][columnId] =
+        null;
+    } else {
+      column.forEach((columnItem) => {
+        columnItem.forEach((note) => {
+          note.isActive = false;
+        });
+      });
+      updatedLeadArray[this.state.activeSequence.activeLeadSequence][columnId] =
+        note.note;
+    }
+
+    this.setState(
+      {
+        leadSynthArray: updatedLeadArray,
+      },
+      () => {
         this.state.sequenceOne.set({
-          events: this.state.leadSynthArray
-        })
-      })
-      this.handleNoteClick(note, column)
-  }
+          events:
+            this.state.leadSynthArray[
+              this.state.activeSequence.activeLeadSequence
+            ],
+        });
+      }
+    );
+    this.handleNoteClick(note, column);
+  };
 
   bassArrayMelody = (e, column, columnId, noteArrayId, note) => {
     let updatedBassArray = [...this.state.bassSynthArray];
 
-    if(note.isActive) {
-      updatedBassArray[columnId] = null
+    if (note.isActive) {
+      updatedBassArray[this.state.activeSequence.activeBassSequence][columnId] =
+        null;
     } else {
-        column.forEach(columnItem => {
-        columnItem.forEach(note => {
-          note.isActive = false
-        })
-      })
-      updatedBassArray[columnId] = note.note
+      column.forEach((columnItem) => {
+        columnItem.forEach((note) => {
+          note.isActive = false;
+        });
+      });
+      updatedBassArray[this.state.activeSequence.activeBassSequence][columnId] =
+        note.note;
     }
-    
-    this.setState({
-      bassSynthArray: updatedBassArray,
-    }, () => {
-      this.state.sequenceTwo.set({
-        events: this.state.bassSynthArray
-      })
-    })
-    this.handleNoteClick(note, column)
-  }
-  
+
+    this.setState(
+      {
+        bassSynthArray: updatedBassArray,
+      },
+      () => {
+        this.state.sequenceTwo.set({
+          events:
+            this.state.bassSynthArray[
+              this.state.activeSequence.activeBassSequence
+            ],
+        });
+      }
+    );
+
+    this.handleNoteClick(note, column);
+  };
+
   playArray = () => {
     this.state.sequenceOne.set({
-      events: this.state.leadSynthArray
-    })
+      events:
+        this.state.leadSynthArray[this.state.activeSequence.activeLeadSequence],
+    });
     this.state.sequenceTwo.set({
-      events: this.state.bassSynthArray
-    })
-  }
-  
+      events:
+        this.state.bassSynthArray[this.state.activeSequence.activeBassSequence],
+    });
+  };
+
   changeTempo = (e) => {
-    this.setState({
-      tempo: e.target.value
-    }, () => {
-      Tone.Transport.bpm.value = this.state.tempo
-    })
-  }
+    this.setState(
+      {
+        tempo: e.target.value,
+      },
+      () => {
+        Tone.Transport.bpm.value = this.state.tempo;
+      }
+    );
+  };
 
   editEnvelope = (e, synth) => {
-    if (synth === 'synthOne') {
-
-      let updatedSynthOneADSR = {
-        ...this.state.synthOneADSR
-      }
+    if (synth === "synthOne") {
+      const updatedSynthOneADSR = {
+        ...this.state.synthOneADSR,
+      };
 
       updatedSynthOneADSR[e.target.name] = Number(e.target.value);
 
       this.setState({
-        synthOneADSR: updatedSynthOneADSR
-      }, () => {
-        console.log(updatedSynthOneADSR.attack)
-      })
-    } else if (synth === 'synthTwo') {
+        synthOneADSR: updatedSynthOneADSR,
+      });
+    } else if (synth === "synthTwo") {
+      const updatedSynthTwoADSR = {
+        ...this.state.synthTwoADSR,
+      };
 
-      let updatedSynthTwoADSR = {
-        ...this.state.synthTwoADSR
-      }
-
-      updatedSynthTwoADSR[e.target.name] = Number(e.target.value)
+      updatedSynthTwoADSR[e.target.name] = Number(e.target.value);
 
       this.setState({
-        synthTwoADSR: updatedSynthTwoADSR
-    })
-  }}
+        synthTwoADSR: updatedSynthTwoADSR,
+      });
+    }
+  };
 
   openSettings = () => {
     this.setState({
-      isSettingsOpen: !this.state.isSettingsOpen
-    })
-  }
+      isSettingsOpen: !this.state.isSettingsOpen,
+    });
+  };
 
+  handleScaleChange = (e) => {};
+
+  //Update the type of oscillator used
   changeOscillator = (type) => {
-    let updatedOscillator = {
-      type: `${type}`
-    }
-    this.setState({
-      synthOneOscillator: updatedOscillator
-    },() => {
-      synthOne.set({
-        oscillator: this.state.synthOneOscillator
-      })
-    })
-  }
-  
+    const updatedOscillator = {
+      type: `${type}`,
+    };
+    this.setState(
+      {
+        synthOneOscillator: updatedOscillator,
+      },
+      () => {
+        synthOne.set({
+          oscillator: this.state.synthOneOscillator,
+        });
+      }
+    );
+  };
+
   render() {
     synthOne.set({
       oscillator: this.state.synthOneOscillator,
       envelope: this.state.synthOneADSR,
-    })
+    });
     synthTwo.set({
       oscillator: this.state.synthTwoOscillator,
       envelope: this.state.synthTwoADSR,
-    })
+    });
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={playButton} alt='play button' className="App-header__button" onMouseDown={this.configPlayButton} />
-          <img src={stopButton} alt='stop button' className="App-header__button" onMouseDown={this.stopPlay} />
-          <span className="App-header__logo">VisualEyes</span>
-          <div className="App-header__tempo-box"><span className="App-header__tempo">Tempo: {this.state.tempo}</span> <input className="App-header__tempo-range" type="range" min="60" max="180" value={this.state.tempo} onChange={(e) => this.changeTempo(e)}/></div>
-        </header>
-
+      <div className={`App ${this.state.darkMode ? "App--dark-mode" : ""}`}>
+        <Header
+          handlePlayButton={this.handlePlayButton}
+          stopPlay={this.stopPlay}
+          darkMode={this.state.darkMode}
+          changeDarkMode={this.changeDarkMode}
+          tempo={this.state.tempo}
+          changeTempo={this.changeTempo}
+        />
         <section className={`visual-container`}>
-          {/* <div className={`visual-container__settings ${this.state.isSettingsOpen ? 'visual-container__settings--open' : ''}`}>
-            <div onClick={this.openSettings} className={`visual-container__settings-button ${this.state.isSettingsOpen ? 'visual-container__settings-button--open' : ''}`}>
-              <img src={settingsIcon} alt="settings" className="visual-container__settings-icon" />
-            </div>
-            <div className="visual-container__ADSR">
-              <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthTwoADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-              <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthTwoADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-              <input className="visual-container__settings-input" type="range" min="0.1" max="1" step ="0.1" value={this.state.synthTwoADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-              <input className="visual-container__settings-input" type="range" min="0.1" max="3" step="0.1" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           </div>
-          </div> */}
-          <div className="visual-container__middle">
-            <LeftSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack}/>
-            <VisualEye playing={this.state.playing} steps={this.state.kickDrumArray} timeNode={this.state.selectedTimeNode} openHatArray={this.state.openHatArray}/>
-            <RightSixth notes={this.state.leadSynthArray} timeNode={this.state.selectedTimeNode} leadRelease={this.state.synthOneADSR.release} leadAttack={this.state.synthOneADSR.attack} />
-          </div>
-          <div className="visual-container__bottom">
-            <Squares notes={this.state.bassSynthArray} timeNode={this.state.selectedTimeNode} bassRelease={this.state.synthTwoADSR.release} bassAttack={this.state.synthTwoADSR.attack} />
-          </div>
-        </section>
-        <div className="sequencer">
-          <ul className="sequencer__time">
-            {this.state.sequenceTimer.map((timer, timerIndex) => {
-              return <li key={timerIndex} className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''} `}>{timer}</li>
-            })}
-          </ul>
-            <div className="sequencer__icon-box">
-              <img src={kickIcon} alt='kick icon' className="sequencer__icon" />
-              <ul className="sequencer__drum-map">
-                {this.state.kickSequencer.map((kick, kickIndex) => {
-                  return <li key={kickIndex} className={`sequencer__note ${kick.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === kickIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.drumSequence(e, kickIndex, kick)}}>•</li>
+          <div className={`visual-container__middle`}>
+            {this.state.menuOpen ? (
+              <SynthSequencer
+                timer={this.state.sequenceTimer}
+                timeNode={this.state.selectedTimeNode}
+                synthSequence={this.state.sequences.leadSynthSequencer}
+                envelopes={this.state.synthOneADSR}
+                activeSequence={this.state.activeSequence.activeLeadSequence}
+                darkMode={this.state.darkMode}
+                arrayMelody={this.leadArrayMelody}
+                editEnvelope={this.editEnvelope}
+                scaleChange={this.handleScaleChange}
+                synth="synthOne"
+              />
+            ) : (
+              <LeftSixth
+                darkMode={this.state.darkMode}
+                notes={
+                  this.state.leadSynthArray[
+                    this.state.activeSequence.activeLeadSequence
+                  ]
+                }
+                timeNode={this.state.selectedTimeNode}
+                leadRelease={this.state.synthOneADSR.release}
+                leadAttack={this.state.synthOneADSR.attack}
+                sequenceTimer={this.state.sequenceTimer}
+                selectedTimeNode={this.state.selectedTimeNode}
+              />
+            )}
+
+            <div className="visual-container__hihats-eye">
+              <ul className="sequencer__time">
+                {this.state.sequenceTimer.map((timer, timerIndex) => {
+                  return (
+                    <li
+                      key={timerIndex}
+                      className={`sequencer__time-node ${
+                        this.state.selectedTimeNode === timerIndex
+                          ? "sequencer__time-node--selected"
+                          : ""
+                      }`}
+                    >
+                      {timer}
+                    </li>
+                  );
                 })}
               </ul>
-          </div>
-          <div className="sequencer__icon-box">
-            <img src={clapIcon} alt='clap icon' className="sequencer__icon" />
-            <ul className="sequencer__drum-map">
-              {this.state.clapSequencer.map((clap, clapIndex) => {
-                return <li key={clapIndex} className={`sequencer__note ${clap.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === clapIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.clapSequence(e, clapIndex, clap)}}>•</li>
-              })}
-            </ul>
-          </div>
-          <div className="sequencer__icon-box">
-            <img src={hiHatIcon} alt='kick icon' className="sequencer__icon" />
-            <ul className="sequencer__drum-map">
-              {this.state.hiHatSequencer.map((hiHat, hiHatIndex) => {
-                return <li  key={hiHatIndex} className={`sequencer__note ${hiHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === hiHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.hiHatSequence(e, hiHatIndex, hiHat)}}>•</li>
-              })}
-            </ul>
-          </div>
-          <div className="sequencer__icon-box">
-            <img src={openHatIcon} alt='kick icon' className="sequencer__icon" />
-            <ul className="sequencer__drum-map">
-              {this.state.openHatSequencer.map((openHat, openHatIndex) => {
-                return <li  key={openHatIndex} className={`sequencer__note ${openHat.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === openHatIndex ? 'sequencer__note--selected' : ''}`} onClick={(e) => {this.openHatSequence(e, openHatIndex, openHat)}}>•</li>
-              })}
-          </ul>
-          </div>
-        </div>
-        <div className="sequencer">
-          <ul className="sequencer__time">
-            {this.state.sequenceTimer.map((timer, timerIndex) => {
-              return <li key={timerIndex}className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''} `}>{timer}</li>
-            })}
-          </ul>
-          <div className="sequencer__piano-sequence">
-          <img src={pianoIcon} alt="Piano Display for Sequencers" className="sequencer__piano"/>
-          <ul className="sequencer__map">
-            {this.state.leadSynthSequencer.map((column, columnId) => {
-              return column.map((noteArray, noteArrayId) => {
-                return noteArray.map((note, noteId) => {
-                  return <li 
-                  key={noteId}
-                  className={`sequencer__note ${note.isActive ? 'sequencer__note--active' : ''} 
-                  ${this.state.selectedTimeNode === columnId ? 'sequencer__note--selected' : ''}`} 
-                  onMouseDown={(e) => this.leadArrayMelody(e, column, columnId, noteArrayId, note)}
-                  >•</li>
-                })
-              })
-            })}
-          </ul>
-          </div>
-          <div className="visual-container__envelopes">
-                <div className="visual-container__envelope-label">
-                  <span className="visual-container__envelope">A</span>
-                  <span className="visual-container__envelope">D</span>
-                  <span className="visual-container__envelope">S</span>
-                  <span className="visual-container__envelope">R</span>
-                </div>
-                <div className="visual-container__ADSR">
-                  <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthOneADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-                  <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-                  <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthOneADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-                  <input className="visual-container__settings-input" type="range" min="0.1" max="3" step="0.1" value={this.state.synthOneADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthOne')} />
-                </div>
+              <VisualEye
+                darkMode={this.state.darkMode}
+                playing={this.state.playing}
+                steps={
+                  this.state.drumArray[
+                    this.state.activeSequence.activeDrumSequence
+                  ][0]
+                }
+                claps={
+                  this.state.drumArray[
+                    this.state.activeSequence.activeDrumSequence
+                  ][1]
+                }
+                timeNode={this.state.selectedTimeNode}
+                hiHatArray={
+                  this.state.drumArray[
+                    this.state.activeSequence.activeDrumSequence
+                  ][2]
+                }
+                openHatArray={
+                  this.state.drumArray[
+                    this.state.activeSequence.activeDrumSequence
+                  ][3]
+                }
+              />
+              <div className="visual-container__sequence-selection">
+                <SequenceList
+                  sequences={this.state.sequenceButtons}
+                  handleActiveButton={this.handleActiveButton}
+                />
               </div>
-        </div>
-        <div className="sequencer">
-        <ul className="sequencer__time">
-            {this.state.sequenceTimer.map((timer, timerIndex) => {
-              return <li key={timerIndex} className={`sequencer__time-node ${this.state.selectedTimeNode === timerIndex ? 'sequencer__time-node--selected' : ''}`}>{timer}</li>
-            })}
-          </ul>
-          <div className="sequencer__piano-sequence">
-          <img src={pianoIcon} alt="Piano Display for Sequencers" className="sequencer__piano"/>
-          <ul className="sequencer__map">        
-            {this.state.bassSynthSequencer.map((column, columnId) => {
-              return column.map((noteArray, noteArrayId) => {
-                return noteArray.map((note, noteId) => <li key={noteId} className={`sequencer__note ${note.isActive ? 'sequencer__note--active' : ''} ${this.state.selectedTimeNode === columnId ? 'sequencer__note--selected' : ''}`} onMouseDown={(e) => this.bassArrayMelody(e, column, columnId, noteArrayId, note)}>•</li>)
-              })
-          })}
-          </ul>
+              <div className="button-section">
+                <button
+                  className="visual-container__menu-button"
+                  onClick={() => this.handleMenu()}
+                >
+                  {this.state.menuOpen ? "Scene" : "Settings"}
+                </button>
+              </div>
+            </div>
+            {this.state.menuOpen ? (
+              <SynthSequencer
+                timer={this.state.sequenceTimer}
+                timeNode={this.state.selectedTimeNode}
+                synthSequence={this.state.sequences.bassSynthSequencer}
+                envelopes={this.state.synthTwoADSR}
+                activeSequence={this.state.activeSequence.activeBassSequence}
+                darkMode={this.state.darkMode}
+                arrayMelody={this.bassArrayMelody}
+                editEnvelope={this.editEnvelope}
+                scaleChange={this.handleScaleChange}
+                synth="synthTwo"
+                scale={this.state.scale}
+              />
+            ) : (
+              <RightSixth
+                darkMode={this.state.darkMode}
+                notes={
+                  this.state.leadSynthArray[
+                    this.state.activeSequence.activeLeadSequence
+                  ]
+                }
+                timeNode={this.state.selectedTimeNode}
+                leadRelease={this.state.synthOneADSR.release}
+                leadAttack={this.state.synthOneADSR.attack}
+              />
+            )}
           </div>
-          <div className="visual-container__envelopes">
-                <div className="visual-container__envelope-label">
-                  <span className="visual-container__envelope">A</span>
-                  <span className="visual-container__envelope">D</span>
-                  <span className="visual-container__envelope">S</span>
-                  <span className="visual-container__envelope">R</span>
-                </div>
-          <div className="visual-container__ADSR">
-           <input className="visual-container__settings-input" type="range" min="0" max="0.1" step="0.01" value={this.state.synthTwoADSR.attack} name="attack" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           <input className="visual-container__settings-input" type="range" min="0.1" max="1" step="0.1" value={this.state.synthTwoADSR.decay} name="decay" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           <input className="visual-container__settings-input" type="range" min="0.1" max="1" step ="0.1" value={this.state.synthTwoADSR.sustain} name="sustain" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           <input className="visual-container__settings-input" type="range" min="0.1" max="5" step="0.1" value={this.state.synthTwoADSR.release} name="release" onChange={(e) => this.editEnvelope(e, 'synthTwo')} />
-           </div>
-           </div>
-        </div>
-        <div className="footer">
-        <span className="footer__logo">VisualEyes</span>
-        </div>
+          <div className={`visual-container__bottom`}>
+            {this.state.menuOpen ? (
+              <DrumSection
+                sequences={this.state.sequences}
+                activeSequence={this.state.activeSequence}
+                darkMode={this.state.darkMode}
+                selectedTimeNode={this.state.selectedTimeNode}
+                handleUpdatedDrumSequence={this.handleUpdatedDrumSequence}
+              />
+            ) : (
+              <Squares
+                darkMode={this.state.darkMode}
+                notes={
+                  this.state.bassSynthArray[
+                    this.state.activeSequence.activeBassSequence
+                  ]
+                }
+                timeNode={this.state.selectedTimeNode}
+                bassRelease={this.state.synthTwoADSR.release}
+                bassAttack={this.state.synthTwoADSR.attack}
+              />
+            )}
+          </div>
+        </section>
+        {/* <div className="footer">
+          <span className="footer__logo">VisualEyes</span>
+        </div> */}
       </div>
     );
   }

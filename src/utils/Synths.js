@@ -1,6 +1,5 @@
 import * as Tone from 'tone'
 
-
 let synthOne = new Tone.PolySynth({
     polyphony: 16,
     detune: 400,

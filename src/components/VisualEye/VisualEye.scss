@@ -7,6 +7,15 @@
     }
 }
 
+@keyframes dropShadowTick {
+    0% {
+        
+    }
+    100% {
+        
+    }
+}
+
 @keyframes motion {
     0% {
         transform: translateY(0)
@@ -39,24 +48,20 @@
 
 @keyframes eyeSpiral {
     0% {
-        transform: scale(0.5, 0.5);
-        opacity: 0;
+        transform: scale(0.7, 0.7);
     }
 
     50% {
-        transform: scale(2, 2);
-        opacity: 0.05;
+        transform: scale(0.9, 0.9);
     }
 
     75% {
-        transform: scale(1.5, 1.5) rotate(0deg);
-        opacity: 0.05;
+        transform: scale(0.8, 0.8);
         
     }
 
     100% {
-        transform: scale(0.3, 0.3) rotate(180deg);
-        opacity: 0;
+        transform: scale(0.7, 0.7);
     }
 }
 
@@ -82,90 +87,94 @@
 
 @keyframes shake {
     0% {
-        right: 0.1rem
+        right: 0rem
+    }
+
+    25% {
+        right: -0.25rem
     }
 
     50% {
-        right: -0.1rem
+        right: 0.5rem
     }
 
     100% {
-        right: 0.1rem;
+        right: 0rem;
     }
 }
 
 .visual-eye {
     display: flex;
-    position: relative;
     align-items: center;
-    animation: blink 0.46875s ease-in-out infinite;
-    width: 15rem;
-    height: 12rem;
-    top: 2.5rem;
-    transform: scale(0.8, 0.8);
-    transition: all 1s ease-in-out;
-    
-    @media screen and (min-width: 900px) {
-        margin-top: 10rem;
-        margin-bottom: 10rem;
-        top: 4rem;
-        transform: scale(1, 1);
-        transition: all 1s ease-in-out;
-    }
+    width: 20rem;
+    height: 15rem;
+    transition: all 0.05s ease-in-out;
+    z-index: 500;
+    position: relative;
 
     &__spiral {
         position: relative;
-        top: -3.5rem;
-        left: -2rem;
-        height: 19rem;
+        top: 0rem;
+        left: 3.75rem;
+        height: 12rem;
         z-index: 1;
+        filter: drop-shadow(1px 1px 1px black);
         animation: spiralMotion 12s linear infinite forwards;
-
+        
         &--active {
-            filter: drop-shadow(1px 1px 1px blue) drop-shadow(-1px -1px 1px red);
-            transition: all 0.3s ease-out;
+            filter: drop-shadow(3px 3px 1px rgb(0, 255, 255)) drop-shadow(-3px -3px 1px rgb(255, 0, 230));
         }
 
         &--inactive {
             transition: all 5s ease-in;
         }
-
     }
 
     &__eye {
         position: relative;
-        right: 21rem;
-        top: -3.5rem;
-        height: 20rem;
+        right: 11rem;
+        height: 16rem;
         z-index: 3;
+    }
 
-    }
     &--active {
-        animation: shake 0.005s linear infinite;
+        transform: scale(1.05, 1.05);
+        transition: all 0.05s ease-in-out;
+        animation: shake 0.0025s linear infinite;
     }
+
     
     &__transparent-eye {
         visibility: hidden;
         opacity: 0.01;
         position: relative;
-        right: 42.5rem;
-        top: -4rem;
-        z-index: 4;
+        right: 36rem;
+        top: -0.5rem;
+        z-index: -1;
         height: 24rem;
-
+        user-select: none;
+        animation: eyeSpiral 50s ease-in-out infinite;
+        transition: all 1s ease-in-out;
+        
+        
         &--active {
             visibility: visible;
-            animation: eyeSpiral 30s ease-in-out infinite;
+            filter: drop-shadow(3px 3px 1px rgb(0, 255, 255)) drop-shadow(-3px -3px 1px rgb(255, 0, 230));
+        }
+        
+        &--active-note {
+            opacity: 0.2;
+            transition: all 0.3s ease-in-out;
         }
     }
 
     &__transparent-eye-pulse {
         opacity: 0;
         position: relative;
-        right: 66rem;
-        top: -4rem;
+        right: 65rem;
+        top: -1rem;
         height: 22rem;
-        z-index: 5;
+        z-index: 2000;
 
         &--active {
             visibility: visible;
@@ -175,7 +184,6 @@
         }
 
         &--inactive {
-            opacity: 0;
             transition: all 0.0875s linear;
         }
     }
