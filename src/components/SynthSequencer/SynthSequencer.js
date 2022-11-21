@@ -14,6 +14,9 @@ function SynthSequencer({
 }) {
   return (
     <div className="sequencer">
+      <h1 className="sequencer__label">
+        {synth === "synthOne" ? "Lead Sequencer" : "Bass Sequencer"}
+      </h1>
       <div className="sequencer__piano-sequence">
         <ul className="sequencer__map">
           {synthSequence[activeSequence].map((column, columnId) => {

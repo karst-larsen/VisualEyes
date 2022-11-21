@@ -1,17 +1,5 @@
 @use './partials/color-modifier' as *;
-
-@font-face {
-  font-family: "Gadimon";
-  src: local(Gadimon),
-  url('./assets/fonts/gadimon-font/Gadimon-ZV2rK.ttf') format('truetype');
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: "Open Sans";
-  src: url('./assets/fonts/open-sans/OpenSans-VariableFont_wdth,wght.ttf') format('truetype');
-  font-weight: 400;
-}
+@use './partials/fonts' as *;
 
 @keyframes rotate {
   0% {
@@ -202,6 +190,11 @@ html {
   z-index: 800;
   padding: 1rem;
 
+  &__label {
+    font-family: "Open Sans", sans-serif;
+    text-align: center;
+  }
+
   
   &__time {
     display: flex;
@@ -307,7 +300,7 @@ html {
     border-radius: 1rem;
     box-shadow: 0px 2px 1px black;
     background-color: white;
-    // transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
     
     &--dark-mode {
       background-color: black;
@@ -329,13 +322,11 @@ html {
       background-color: white; 
       color: black;
       border: 1px solid white;
-      // transition: all 0.5s ease-in-out;
     }
     &--selected {
       background-color: rgba(251, 255, 185, 1);
       color: black;
-      // transition: all 0.1s ease-in-out;
-    }
+        }
   }
 }
 
@@ -418,7 +409,7 @@ html {
   &__menu-button {
     position: relative;
     z-index: 600;
-    width: 5rem;
+    width: 6rem;
     height: 2rem;
     text-transform: uppercase;
     border: 0;
@@ -506,12 +497,10 @@ html {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    // border: 1px solid black;
   }
 
   &__envelope {
     width: 100%;
-    // border: 1px solid #ccc;
     text-align: center;
   }
   
@@ -558,7 +547,6 @@ html {
   }
 
   &__bottom {
-    // border: 1px solid black;
     display: flex;
     justify-content: center;
     width: 100%;

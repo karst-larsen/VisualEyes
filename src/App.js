@@ -19,6 +19,8 @@ import SequenceList from "./components/SequenceList/SequenceList";
 import visualEyesLogo from "./assets/images/icons/spectrumVisualEyes.png";
 import { scales, scalesLibrary } from "./utils/scales";
 import SynthSequencer from "./components/SynthSequencer/SynthSequencer";
+import Header from "./components/Header/Header";
+import DrumSection from "./components/DrumSection/DrumSection";
 
 class App extends Component {
   constructor() {
@@ -346,79 +348,6 @@ class App extends Component {
     }
   };
 
-  changeScale = () => {
-    const newSequences = { ...this.state.sequences };
-    newSequences.leadSynthSequencer = [
-      leadSynthNotes(scalesLibrary[1]),
-      leadSynthNotes(scalesLibrary[1]),
-      leadSynthNotes(scalesLibrary[1]),
-      leadSynthNotes(scalesLibrary[1]),
-    ];
-    newSequences.bassSynthSequencer = [
-      bassSynthNotes(scalesLibrary[1]),
-      bassSynthNotes(scalesLibrary[1]),
-      bassSynthNotes(scalesLibrary[1]),
-      bassSynthNotes(scalesLibrary[1]),
-    ];
-
-    this.setState(
-      {
-        sequences: newSequences,
-      },
-      () => {
-        console.log("scales updated?");
-      }
-    );
-  };
-
-  runSequence = () => {
-    //When pressed, A/B/C/D note sequences run sequentially
-    Tone.Transport.scheduleRepeat((time) => {
-      if (Math.ceil(Tone.Transport.getTicksAtTime(time) / 48) % 16 === 0) {
-        const newSequences = { ...this.state.activeSequence };
-        const newSequenceButtons = [...this.state.sequenceButtons];
-        const keys = Object.keys(newSequences);
-
-        for (let sequence of keys) {
-          if (newSequences[sequence] === 3) {
-            newSequences[sequence] = 0;
-          } else {
-            newSequences[sequence]++;
-          }
-          newSequenceButtons.forEach((sequence) => {
-            const activeButton = sequence.buttons.find(
-              (button) => (button.isActive = true)
-            );
-            const nextButton = sequence.buttons.find((button) => {
-              if (activeButton.id === 3) {
-                return button.id === 0;
-              } else return button.id === activeButton.id + 1;
-            });
-
-            activeButton.isActive = false;
-            nextButton.isActive = true;
-            this.setState({
-              sequenceButtons: newSequenceButtons,
-            });
-          });
-        }
-        this.setState(
-          {
-            activeSequence: newSequences,
-          },
-          () => {
-            this.state.sequenceOne.set({
-              events:
-                this.state.leadSynthArray[
-                  this.state.activeSequence.activeLeadSequence
-                ],
-            });
-          }
-        );
-      }
-    }, "16n");
-  };
-
   //dark mode toggle
   changeDarkMode = () => {
     this.setState({
@@ -489,7 +418,7 @@ class App extends Component {
     this.timerSequence();
   };
 
-  configPlayButton = () => {
+  handlePlayButton = () => {
     if (!this.state.started) {
       Tone.start().then(() => {
         Tone.getDestination();
@@ -581,13 +510,6 @@ class App extends Component {
         }
       );
     }
-
-    // localStorage.setItem(
-    //   "allDrumSequencer",
-    //   JSON.stringify(this.state.sequences.allDrumSequencer)
-    // );
-
-    // localStorage.setItem("drumArray", JSON.stringify(this.state.drumArray));
   };
 
   leadArrayMelody = (e, column, columnId, noteArrayId, note) => {
@@ -726,11 +648,6 @@ class App extends Component {
     );
   };
 
-  loadActiveNotes = (drumArray, array2, array3) => {
-    const activeDrumArray =
-      drumArray[0][this.state.activeSequence.activeDrumSequence];
-  };
-
   render() {
     synthOne.set({
       oscillator: this.state.synthOneOscillator,
@@ -743,50 +660,14 @@ class App extends Component {
 
     return (
       <div className={`App ${this.state.darkMode ? "App--dark-mode" : ""}`}>
-        <header className={`App-header`}>
-          <img
-            src={playButton}
-            alt="play button"
-            className="App-header__button"
-            onMouseDown={this.configPlayButton}
-          />
-          <img
-            src={stopButton}
-            alt="stop button"
-            className="App-header__button"
-            onMouseDown={this.stopPlay}
-          />
-          <div className="App-header__right-nav">
-            <div
-              className={`dark-toggle ${
-                this.state.darkMode ? "dark-toggle--active" : ""
-              }`}
-              onClick={() => this.changeDarkMode()}
-            >
-              <div
-                className={`dark-toggle__selector ${
-                  this.state.darkMode ? "dark-toggle__selector--dark-mode" : ""
-                }`}
-              ></div>
-            </div>
-            <img
-              src={visualEyesLogo}
-              className="App-header__logo"
-              alt="VisualEyes Logo"
-            />
-          </div>
-          <div className="App-header__tempo-box">
-            <span className="App-header__tempo">Tempo: {this.state.tempo}</span>{" "}
-            <input
-              className="App-header__tempo-range"
-              type="range"
-              min="60"
-              max="180"
-              value={this.state.tempo}
-              onChange={(e) => this.changeTempo(e)}
-            />
-          </div>
-        </header>
+        <Header
+          handlePlayButton={this.handlePlayButton}
+          stopPlay={this.stopPlay}
+          darkMode={this.state.darkMode}
+          changeDarkMode={this.changeDarkMode}
+          tempo={this.state.tempo}
+          changeTempo={this.changeTempo}
+        />
         <section className={`visual-container`}>
           <div className={`visual-container__middle`}>
             {this.state.menuOpen ? (
@@ -871,19 +752,7 @@ class App extends Component {
                   className="visual-container__menu-button"
                   onClick={() => this.handleMenu()}
                 >
-                  Menu
-                </button>
-                <button
-                  className="visual-container__menu-button"
-                  onClick={() => this.runSequence()}
-                >
-                  Run
-                </button>
-                <button
-                  className="visual-container__menu-button"
-                  onClick={() => this.changeScale()}
-                >
-                  Scale
+                  {this.state.menuOpen ? "Scene" : "Settings"}
                 </button>
               </div>
             </div>
@@ -915,51 +784,15 @@ class App extends Component {
               />
             )}
           </div>
-
           <div className={`visual-container__bottom`}>
             {this.state.menuOpen ? (
-              <section className="sequencer">
-                {this.state.sequences.allDrumSequencer[
-                  this.state.activeSequence.activeDrumSequence
-                ].map((sequence, sequenceId) => {
-                  return (
-                    <ul className="sequencer__drum-map" key={sequenceId}>
-                      {sequence.map((note, noteId) => {
-                        return (
-                          <li
-                            key={noteId}
-                            className={`sequencer__note ${
-                              this.state.darkMode
-                                ? "sequencer__note--dark-mode"
-                                : ""
-                            } ${
-                              note.isActive
-                                ? this.state.darkMode
-                                  ? "sequencer__note--active-dark"
-                                  : "sequencer__note--active"
-                                : ""
-                            } ${
-                              this.state.selectedTimeNode === noteId
-                                ? "sequencer__note--selected"
-                                : ""
-                            }`}
-                            onClick={() =>
-                              this.handleUpdatedDrumSequence(
-                                sequenceId,
-                                sequence,
-                                noteId,
-                                note
-                              )
-                            }
-                          >
-                            •
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  );
-                })}
-              </section>
+              <DrumSection
+                sequences={this.state.sequences}
+                activeSequence={this.state.activeSequence}
+                darkMode={this.state.darkMode}
+                selectedTimeNode={this.state.selectedTimeNode}
+                handleUpdatedDrumSequence={this.handleUpdatedDrumSequence}
+              />
             ) : (
               <Squares
                 darkMode={this.state.darkMode}
