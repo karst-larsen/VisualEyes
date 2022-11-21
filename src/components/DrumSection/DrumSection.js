@@ -9,7 +9,13 @@ function DrumSection({
 }) {
   return (
     <section className="sequencer">
-      <h2 className="sequencer__label">Drum Sequencer</h2>
+      <h2
+        className={`sequencer__label ${
+          darkMode ? "sequencer__label--dark-mode" : ""
+        }`}
+      >
+        Drum Sequencer
+      </h2>
       {sequences.allDrumSequencer[activeSequence.activeDrumSequence].map(
         (sequence, sequenceId) => {
           return (

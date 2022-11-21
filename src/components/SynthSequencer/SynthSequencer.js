@@ -14,7 +14,11 @@ function SynthSequencer({
 }) {
   return (
     <div className="sequencer">
-      <h1 className="sequencer__label">
+      <h1
+        className={`sequencer__label ${
+          darkMode ? "sequencer__label--dark-mode" : ""
+        }`}
+      >
         {synth === "synthOne" ? "Lead Sequencer" : "Bass Sequencer"}
       </h1>
       <div className="sequencer__piano-sequence">

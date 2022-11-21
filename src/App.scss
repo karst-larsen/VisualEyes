@@ -193,6 +193,10 @@ html {
   &__label {
     font-family: "Open Sans", sans-serif;
     text-align: center;
+
+    &--dark-mode {
+      color: white;
+    }
   }
 
   
