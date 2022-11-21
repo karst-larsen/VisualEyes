@@ -194,28 +194,28 @@
     
     &--short-release {
         background-color: transparent;;
-        transition: all 0s linear 0s;
+        transition: all 0s ease-in 0s;
         &--dark-mode {
-            transition: all 0s linear 0s;
+            transition: all 0s ease-in 0s;
             background-color: transparent;
         }
     }
     
     &--medium-release {
         background-color: transparent;;
-        transition: all 0.5s linear 0s;
+        transition: all 0.5s ease-in 0s;
         &--dark-mode {
             background-color: transparent;
-            transition: all 0.5s linear 0s;
+            transition: all 0.5s ease-in 0s;
         }
     }
     
     &--long-release {
         background-color: transparent;;
-        transition: all 2s linear 0s;
+        transition: all 2s ease-in 0s;
         &--dark-mode {
             background-color: transparent;;
-            transition: all 2s linear 0s;
+            transition: all 2s ease-in 0s;
         }
     }
 }

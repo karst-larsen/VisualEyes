@@ -48,20 +48,20 @@
 
 @keyframes eyeSpiral {
     0% {
-        transform: scale(0.5, 0.5);
+        transform: scale(0.7, 0.7);
     }
 
     50% {
-        transform: scale(2, 2);
+        transform: scale(0.9, 0.9);
     }
 
     75% {
-        transform: scale(1.5, 1.5) rotate(0deg);
+        transform: scale(0.8, 0.8);
         
     }
 
     100% {
-        transform: scale(0.3, 0.3) rotate(180deg);
+        transform: scale(0.7, 0.7);
     }
 }
 
@@ -138,7 +138,7 @@
     }
 
     &--active {
-        transform: scale(1.1, 1.1);
+        transform: scale(1.05, 1.05);
         transition: all 0.05s ease-in-out;
         animation: shake 0.0025s linear infinite;
     }
@@ -146,7 +146,7 @@
     
     &__transparent-eye {
         visibility: hidden;
-        opacity: 0.05;
+        opacity: 0.01;
         position: relative;
         right: 36rem;
         top: -0.5rem;
@@ -154,7 +154,7 @@
         height: 24rem;
         user-select: none;
         animation: eyeSpiral 50s ease-in-out infinite;
-        transition: all 2s ease-in-out;
+        transition: all 1s ease-in-out;
         
         
         &--active {
@@ -163,8 +163,8 @@
         }
         
         &--active-note {
-            opacity: 0.5;
-            transition: all 0.5s ease-in-out;
+            opacity: 0.2;
+            transition: all 0.3s ease-in-out;
         }
     }
 

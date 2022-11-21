@@ -1,8 +1,8 @@
+import Tooltip from "@mui/material/Tooltip";
 import Slider from "@mui/material/Slider";
 import "./SynthSequencer.scss";
 
 function SynthSequencer({
-  timer,
   envelopes,
   timeNode,
   synthSequence,
@@ -10,7 +10,6 @@ function SynthSequencer({
   darkMode,
   arrayMelody,
   editEnvelope,
-  scaleChange,
   synth,
 }) {
   return (
@@ -21,24 +20,32 @@ function SynthSequencer({
             return column.map((noteArray, noteArrayId) => {
               return noteArray.map((note, noteId) => {
                 return (
-                  <li
+                  <Tooltip
                     key={noteId}
-                    className={`sequencer__note ${
-                      darkMode ? "sequencer__note--dark-mode" : ""
-                    } ${
-                      note.isActive
-                        ? darkMode
-                          ? "sequencer__note--active-dark"
-                          : "sequencer__note--active"
-                        : ""
-                    } 
-              ${timeNode === columnId ? "sequencer__note--selected" : ""}`}
-                    onMouseDown={(e) =>
-                      arrayMelody(e, column, columnId, noteArrayId, note)
-                    }
+                    title={`Column: ${columnId + 1} Note: ${note.note}`}
+                    placement="right"
+                    disableInteractive
                   >
-                    •
-                  </li>
+                    <li
+                      className={`sequencer__note ${
+                        darkMode ? "sequencer__note--dark-mode" : ""
+                      } ${
+                        note.isActive
+                          ? darkMode
+                            ? "sequencer__note--active-dark"
+                            : "sequencer__note--active"
+                          : ""
+                      } 
+                    ${
+                      timeNode === columnId ? "sequencer__note--selected" : ""
+                    }`}
+                      onMouseDown={(e) =>
+                        arrayMelody(e, column, columnId, noteArrayId, note)
+                      }
+                    >
+                      •
+                    </li>
+                  </Tooltip>
                 );
               });
             });

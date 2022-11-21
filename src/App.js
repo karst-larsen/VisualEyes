@@ -125,16 +125,16 @@ class App extends Component {
       openHatSequence,
       sequences: {
         leadSynthSequencer: [
-          leadSynthNotes(scalesLibrary(1)),
-          leadSynthNotes(scalesLibrary(1)),
-          leadSynthNotes(scalesLibrary(1)),
-          leadSynthNotes(scalesLibrary(1)),
+          leadSynthNotes(scalesLibrary[1]),
+          leadSynthNotes(scalesLibrary[1]),
+          leadSynthNotes(scalesLibrary[1]),
+          leadSynthNotes(scalesLibrary[1]),
         ],
         bassSynthSequencer: [
-          bassSynthNotes(scalesLibrary(1)),
-          bassSynthNotes(scalesLibrary(1)),
-          bassSynthNotes(scalesLibrary(1)),
-          bassSynthNotes(scalesLibrary(1)),
+          bassSynthNotes(scalesLibrary[1]),
+          bassSynthNotes(scalesLibrary[1]),
+          bassSynthNotes(scalesLibrary[1]),
+          bassSynthNotes(scalesLibrary[1]),
         ],
         allDrumSequencer: JSON.parse(
           localStorage.getItem("allDrumSequencer")
@@ -348,21 +348,18 @@ class App extends Component {
 
   changeScale = () => {
     const newSequences = { ...this.state.sequences };
-
-    console.log(newSequences.leadSynthSequencer);
-
-    // newSequences.leadSynthSequencer = [
-    //   leadSynthNotes(scalesLibrary(0)),
-    //   leadSynthNotes(scalesLibrary(0)),
-    //   leadSynthNotes(scalesLibrary(0)),
-    //   leadSynthNotes(scalesLibrary(0)),
-    // ];
-    // newSequences.bassSynthSequencer = [
-    //   bassSynthNotes(scalesLibrary(0)),
-    //   bassSynthNotes(scalesLibrary(0)),
-    //   bassSynthNotes(scalesLibrary(0)),
-    //   bassSynthNotes(scalesLibrary(0)),
-    // ];
+    newSequences.leadSynthSequencer = [
+      leadSynthNotes(scalesLibrary[1]),
+      leadSynthNotes(scalesLibrary[1]),
+      leadSynthNotes(scalesLibrary[1]),
+      leadSynthNotes(scalesLibrary[1]),
+    ];
+    newSequences.bassSynthSequencer = [
+      bassSynthNotes(scalesLibrary[1]),
+      bassSynthNotes(scalesLibrary[1]),
+      bassSynthNotes(scalesLibrary[1]),
+      bassSynthNotes(scalesLibrary[1]),
+    ];
 
     this.setState(
       {
@@ -375,11 +372,11 @@ class App extends Component {
   };
 
   runSequence = () => {
+    //When pressed, A/B/C/D note sequences run sequentially
     Tone.Transport.scheduleRepeat((time) => {
-      if (Math.ceil(Tone.Transport.getTicksAtTime(time) / 48) % 8 === 0) {
+      if (Math.ceil(Tone.Transport.getTicksAtTime(time) / 48) % 16 === 0) {
         const newSequences = { ...this.state.activeSequence };
-        const newSequenceButtons = { ...this.state.sequenceButtons };
-        console.log(newSequenceButtons.button);
+        const newSequenceButtons = [...this.state.sequenceButtons];
         const keys = Object.keys(newSequences);
 
         for (let sequence of keys) {
@@ -388,6 +385,22 @@ class App extends Component {
           } else {
             newSequences[sequence]++;
           }
+          newSequenceButtons.forEach((sequence) => {
+            const activeButton = sequence.buttons.find(
+              (button) => (button.isActive = true)
+            );
+            const nextButton = sequence.buttons.find((button) => {
+              if (activeButton.id === 3) {
+                return button.id === 0;
+              } else return button.id === activeButton.id + 1;
+            });
+
+            activeButton.isActive = false;
+            nextButton.isActive = true;
+            this.setState({
+              sequenceButtons: newSequenceButtons,
+            });
+          });
         }
         this.setState(
           {
@@ -729,12 +742,8 @@ class App extends Component {
     });
 
     return (
-      <div className="App">
-        <header
-          className={`App-header ${
-            this.state.darkMode ? "App-header--dark-mode" : ""
-          }`}
-        >
+      <div className={`App ${this.state.darkMode ? "App--dark-mode" : ""}`}>
+        <header className={`App-header`}>
           <img
             src={playButton}
             alt="play button"
@@ -779,11 +788,7 @@ class App extends Component {
           </div>
         </header>
         <section className={`visual-container`}>
-          <div
-            className={`visual-container__middle ${
-              this.state.darkMode ? "visual-container__middle--dark-mode" : ""
-            }`}
-          >
+          <div className={`visual-container__middle`}>
             {this.state.menuOpen ? (
               <SynthSequencer
                 timer={this.state.sequenceTimer}
@@ -808,6 +813,8 @@ class App extends Component {
                 timeNode={this.state.selectedTimeNode}
                 leadRelease={this.state.synthOneADSR.release}
                 leadAttack={this.state.synthOneADSR.attack}
+                sequenceTimer={this.state.sequenceTimer}
+                selectedTimeNode={this.state.selectedTimeNode}
               />
             )}
 
@@ -909,11 +916,7 @@ class App extends Component {
             )}
           </div>
 
-          <div
-            className={`visual-container__bottom ${
-              this.state.darkMode ? "visual-container__bottom--dark-mode" : ""
-            }`}
-          >
+          <div className={`visual-container__bottom`}>
             {this.state.menuOpen ? (
               <section className="sequencer">
                 {this.state.sequences.allDrumSequencer[
@@ -972,9 +975,9 @@ class App extends Component {
             )}
           </div>
         </section>
-        <div className="footer">
+        {/* <div className="footer">
           <span className="footer__logo">VisualEyes</span>
-        </div>
+        </div> */}
       </div>
     );
   }
