@@ -9,15 +9,12 @@ import { synthOne, synthTwo } from "./utils/Synths";
 import { sequenceTimer } from "./utils/SequenceTimer";
 import { leadSynthNotes, bassSynthNotes } from "./utils/SynthOneNotes";
 import { allDrumSequencer } from "./components/DrumSequencer/DrumSequencer";
-import playButton from "./assets/images/icons/play-button.svg";
-import stopButton from "./assets/images/icons/stop-button.svg";
 import kickSound from "./assets/sounds/kick/kick (16).wav";
 import clapSound from "./assets/sounds/clap/clap(1).wav";
 import hiHatSound from "./assets/sounds/hihat/hihat(1).WAV";
 import openHatSound from "./assets/sounds/openhat/hi hat (36).wav";
 import SequenceList from "./components/SequenceList/SequenceList";
-import visualEyesLogo from "./assets/images/icons/spectrumVisualEyes.png";
-import { scales, scalesLibrary } from "./utils/scales";
+import { scalesLibrary } from "./utils/scales";
 import SynthSequencer from "./components/SynthSequencer/SynthSequencer";
 import Header from "./components/Header/Header";
 import DrumSection from "./components/DrumSection/DrumSection";
@@ -808,9 +805,6 @@ class App extends Component {
             )}
           </div>
         </section>
-        {/* <div className="footer">
-          <span className="footer__logo">VisualEyes</span>
-        </div> */}
       </div>
     );
   }
